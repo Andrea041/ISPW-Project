@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class SignupApplicativeController {
     public int signupUser(SignupBean userBean) throws SQLException {
-        Connection conn;
         User user = null;
         int result = -1;
 

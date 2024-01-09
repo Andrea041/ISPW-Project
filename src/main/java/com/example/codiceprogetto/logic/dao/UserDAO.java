@@ -38,7 +38,7 @@ public class UserDAO {
     }
 
     public User findUser(String email) throws SQLException {
-        Connection conn = DBsingleton.getDBSingletonInstance().getConn();;
+        Connection conn = DBsingleton.getDBSingletonInstance().getConn();
         ResultSet rs = null;
         User user = null;
         PreparedStatement stmt = null;
