@@ -2,56 +2,70 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeController;
 import com.example.codiceprogetto.logic.bean.SignupBean;
+import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
+import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 
-import com.example.codiceprogetto.logic.view.HomePageView;
-import com.example.codiceprogetto.logic.view.LoginView;
-import javafx.event.ActionEvent;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class SignupGraphicController {
+import java.sql.SQLException;
+
+public class SignupGraphicController extends GraphicTool{
     @FXML
     private TextField emailField;
     @FXML
     private PasswordField passTextField;
     @FXML
     private PasswordField passTextFieldConfirm;
-    public void loginGUI(MouseEvent mouseEvent) throws Exception {
-        Parent loginView = new LoginView().getLoginView();
-        GraphicTool.navigateTo(mouseEvent, loginView);
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField surname;
+
+    public void loginGUI(MouseEvent mouseEvent) {
+        GraphicTool.navigateTo(mouseEvent, "LOGIN");
     }
-    public void signUp(MouseEvent mouseEvent) throws Exception {
+    public void signUp(MouseEvent mouseEvent) {
         Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         int ret;
+        String errorToDisplay = "Sign up error";
 
-        if(passTextFieldConfirm.getText().equals(passTextField.getText()) && !passTextField.getText().isEmpty() && !passTextFieldConfirm.getText().isEmpty()){
-            SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText());
+        if(passTextFieldConfirm.getText().equals(passTextField.getText())){
+            SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
             SignupApplicativeController signup = new SignupApplicativeController();
 
-            // check for user type by the email
-            int startIndex = emailField.getText().indexOf('@');
-            int endIndex = emailField.getText().indexOf('.', startIndex);
-            if(startIndex == -1 || endIndex == -1) {
-                GraphicTool.alert("Wrong email format (****@****.com)", rootToDisplay);
-                cleanUpField();
-            }
-            else {
-                ret = signup.signupUser(signBean);
-                if(ret == -1) {
-                    GraphicTool.alert("User alredy exist", rootToDisplay);
-                } else {
-                    Parent homeView = new HomePageView().getHomeView();
-                    GraphicTool.navigateTo(mouseEvent, homeView);
+            // check form field syntax
+            if(!emailField.getText().isEmpty()) {
+                int startIndex = emailField.getText().indexOf('@');
+                int endIndex = emailField.getText().indexOf('.', startIndex);
+                if(startIndex == -1 || endIndex == -1) {
+                    GraphicTool.alert("Wrong email format (****@****.com)", rootToDisplay);
+                    cleanUpField();
                 }
             }
-        } else if(passTextField.getText().isEmpty() || passTextFieldConfirm.getText().isEmpty() || emailField.getText().isEmpty()) {
-            GraphicTool.alert("Fields must not be empty", rootToDisplay);
+
+            try {
+                ret = signup.signupUser(signBean);
+                if (ret == -1) {
+                    GraphicTool.alert(errorToDisplay, rootToDisplay);
+                } else if (ret == 1){
+                    SessionUser.getInstance().setPage(mouseEvent);
+                } else {
+                    GraphicTool.alert(errorToDisplay, rootToDisplay);
+                }
+            } catch (SQLException e) {
+                GraphicTool.alert(errorToDisplay, rootToDisplay);
+            } catch (EmptyInputException e) {
+                GraphicTool.alert(e.getMessage(), rootToDisplay);
+            } catch (AlreadyLoggedUserException e) {
+                GraphicTool.alert(errorToDisplay, rootToDisplay);
+            }
         } else {
             GraphicTool.alert("Inserted passwords doesn't match", rootToDisplay);
             cleanUpField();

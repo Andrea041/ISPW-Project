@@ -23,57 +23,67 @@
             <Font name="Arial" size="36.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="48.0" arcWidth="48.0" fill="#d9d9d9" height="476.0" layoutX="416.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="368.0" />
-      <Label layoutX="505.0" layoutY="247.0" text="Create an account">
+      <Rectangle arcHeight="48.0" arcWidth="48.0" fill="#d9d9d9" height="570.0" layoutX="416.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="368.0" />
+      <Label layoutX="505.0" layoutY="210.0" text="Create an account">
          <font>
             <Font name="Arial Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="460.0" layoutY="295.0" prefHeight="39.0" prefWidth="284.0" promptText="Email" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+      <TextField fx:id="emailField" layoutX="462.0" layoutY="320.0" prefHeight="39.0" prefWidth="284.0" promptText="Email" style="-fx-border-radius: 16; -fx-background-radius: 16;">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="passTextField" layoutX="460.0" layoutY="347.0" prefHeight="39.0" prefWidth="284.0" promptText="Create password" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+      <PasswordField fx:id="passTextField" layoutX="460.0" layoutY="379.0" prefHeight="39.0" prefWidth="284.0" promptText="Create password" style="-fx-border-radius: 16; -fx-background-radius: 16;">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </PasswordField>
-      <Button fx:id="signUpButton" layoutX="460.0" layoutY="460.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="284.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Signup" textFill="WHITE" onMouseClicked="#signUp">
+      <Button fx:id="signUpButton" layoutX="460.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#signUp" prefHeight="41.0" prefWidth="284.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Signup" textFill="WHITE">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Line endX="21.66668701171875" layoutX="563.0" layoutY="534.0" startX="-100.0" />
-      <Label layoutX="592.0" layoutY="526.0" text="Or">
+      <Line endX="21.66668701171875" layoutX="563.0" layoutY="580.0" startX="-100.0" />
+      <Label layoutX="592.0" layoutY="572.0" text="Or">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Line endX="25.0" layoutX="715.0" layoutY="534.0" startX="-100.0" />
-      <Button layoutX="460.0" layoutY="565.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="284.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: black; -fx-border-radius: 16; -fx-border-width: 0.5;" text="Singup with Google">
+      <Line endX="25.0" layoutX="715.0" layoutY="582.0" startX="-100.0" />
+      <Button layoutX="460.0" layoutY="608.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="284.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: black; -fx-border-radius: 16; -fx-border-width: 0.5;" text="Singup with Google">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <SVGPath content="M14.9 8.161c0-.476-.039-.954-.121-1.422h-6.64v2.695h3.802a3.24 3.24 0 01-1.407 2.127v1.75h2.269c1.332-1.22 2.097-3.02 2.097-5.15z" fill="#4285f4" layoutX="481.0" layoutY="577.0" scaleX="1.5" scaleY="1.5" />
-      <SVGPath content="M8.14 15c1.898 0 3.499-.62 4.665-1.69l-2.268-1.749c-.631.427-1.446.669-2.395.669-1.836 0-3.393-1.232-3.952-2.888H1.85v1.803A7.044 7.044 0 008.14 15z" fill="#34a853" layoutX="479.0" layoutY="578.0" scaleX="1.5" scaleY="1.5" />
-      <SVGPath content="M4.187 9.342a4.17 4.17 0 010-2.68V4.859H1.849a6.97 6.97 0 000 6.286l2.338-1.803z" fill="#fbbc04" layoutX="477.0" layoutY="576.0" scaleX="1.5" scaleY="1.5" />
-      <SVGPath content="M8.14 3.77a3.837 3.837 0 012.7 1.05l2.01-1.999a6.786 6.786 0 00-4.71-1.82 7.042 7.042 0 00-6.29 3.858L4.186 6.66c.556-1.658 2.116-2.89 3.952-2.89z" fill="#ea4335" layoutX="479.0" layoutY="574.0" rotate="-4.4" scaleX="1.5" scaleY="1.5" />
-      <Label layoutX="498.0" layoutY="677.0" text="Already have an account?">
+      <SVGPath content="M14.9 8.161c0-.476-.039-.954-.121-1.422h-6.64v2.695h3.802a3.24 3.24 0 01-1.407 2.127v1.75h2.269c1.332-1.22 2.097-3.02 2.097-5.15z" fill="#4285f4" layoutX="481.0" layoutY="622.0" scaleX="1.5" scaleY="1.5" />
+      <SVGPath content="M8.14 15c1.898 0 3.499-.62 4.665-1.69l-2.268-1.749c-.631.427-1.446.669-2.395.669-1.836 0-3.393-1.232-3.952-2.888H1.85v1.803A7.044 7.044 0 008.14 15z" fill="#34a853" layoutX="479.0" layoutY="623.0" scaleX="1.5" scaleY="1.5" />
+      <SVGPath content="M4.187 9.342a4.17 4.17 0 010-2.68V4.859H1.849a6.97 6.97 0 000 6.286l2.338-1.803z" fill="#fbbc04" layoutX="477.0" layoutY="622.0" scaleX="1.5" scaleY="1.5" />
+      <SVGPath content="M8.14 3.77a3.837 3.837 0 012.7 1.05l2.01-1.999a6.786 6.786 0 00-4.71-1.82 7.042 7.042 0 00-6.29 3.858L4.186 6.66c.556-1.658 2.116-2.89 3.952-2.89z" fill="#ea4335" layoutX="479.0" layoutY="620.0" rotate="-4.4" scaleX="1.5" scaleY="1.5" />
+      <Label layoutX="498.0" layoutY="741.0" text="Already have an account?">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="Login" layoutX="638.0" layoutY="677.0" onMouseClicked="#loginGUI" text="Login now" textFill="#0071f5">
+      <Label fx:id="Login" layoutX="639.0" layoutY="741.0" onMouseClicked="#loginGUI" text="Login now" textFill="#0071f5">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <PasswordField fx:id="passTextFieldConfirm" layoutX="460.0" layoutY="399.0" prefHeight="39.0" prefWidth="284.0" promptText="Confirm password" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+      <PasswordField fx:id="passTextFieldConfirm" layoutX="460.0" layoutY="439.0" prefHeight="39.0" prefWidth="284.0" promptText="Confirm password" style="-fx-border-radius: 16; -fx-background-radius: 16;">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </PasswordField>
+      <TextField fx:id="name" layoutX="459.0" layoutY="263.0" prefHeight="39.0" prefWidth="132.0" promptText="Name" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="surname" layoutX="612.0" layoutY="263.0" prefHeight="39.0" prefWidth="132.0" promptText="Surname" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

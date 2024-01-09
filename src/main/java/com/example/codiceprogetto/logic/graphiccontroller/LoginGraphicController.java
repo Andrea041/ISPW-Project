@@ -22,7 +22,6 @@ public class LoginGraphicController {
     }
 
     public void singupGUI(MouseEvent mouseEvent) throws Exception {
-        Parent signupView = new SignupView().getSignupView();
-        GraphicTool.navigateTo(mouseEvent, signupView);
+        GraphicTool.navigateTo(mouseEvent, "SIGNUP");
     }
 }
