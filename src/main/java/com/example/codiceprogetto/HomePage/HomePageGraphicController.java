@@ -1,98 +1,96 @@
-package com.example.codiceprogetto;
+package com.example.codiceprogetto.HomePage;
 
-import javafx.application.Application;
+import com.example.codiceprogetto.BrowseProduct.BrowseAccessoriesView;
+import com.example.codiceprogetto.ShoppingCart.ShoppingCartView;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.io.IOException;
-
-public class HomePageGraphicController extends Application {
-    private Parent root;
-    @Override
-    public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/codiceprogetto/FXML/HomePage/HomePage.fxml"));
-        stage.setTitle("Bubble Shop");
-        stage.setScene(new Scene(root));
-        stage.show();
-        contentPane.setCenter(new HomePageGraphicController().getHomeView());
-    }
-
-    public Parent getHomeView(){
-        return this.root;
-    }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
+public class HomePageGraphicController{
+    private Stage stage;
+    private Scene scene;
     @FXML
-    BorderPane contentPane;
-
-    @FXML
-    private Label manSwimWear;
+    private ImageView manImage;
     public void manSwimGUI(MouseEvent mouseEvent) {
         System.out.println("try");
     }
     public void manZoomEnter(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomIN(manImage);
     }
     public void manZoomExit(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomOUT(manImage);
     }
 
     @FXML
-    private Label womanSwimWear;
+    private ImageView womanPic;
     public void womSwimGUI(MouseEvent mouseEvent) {
         System.out.println("try");
     }
     public void womZoomEnter(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomIN(womanPic);
     }
     public void womZoomExit(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomOUT(womanPic);
     }
 
     @FXML
-    private Label accessories;
-    public void accessorGUI(MouseEvent mouseEvent) {
-        contentPane.setCenter(new BrowseAccessoriesGraphicController().getView());
+    private ImageView accImage;
+    public void accessorGUI(MouseEvent mouseEvent) throws Exception {
+        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(new BrowseAccessoriesView().getAccessoriesView());
+        stage.setScene(scene);
+        stage.show();
     }
+
     public void accZoomEnter(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomIN(accImage);
     }
     public void accZoomExit(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomOUT(accImage);
     }
 
     @FXML
-    private Label magazineText;
+    private ImageView magazinePic;
     public void magZoomEnter(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomIN(magazinePic);
     }
     public void magZoomExit(MouseEvent mouseEvent) {
-        System.out.println("try");
+        zoomOUT(magazinePic);
     }
 
-    @FXML
-    private Label myAccount;
     public void accountGUI(MouseEvent mouseEvent){
         System.out.println("try");
     }
 
-    @FXML
-    private Rectangle CartRec;
-    @FXML
-    private Label Cart;
-    @FXML
-    private Label itemInCart;
-    public void cartGUI(MouseEvent mouseEvent) {
-        System.out.println("try");
+    public void cartGUI(MouseEvent mouseEvent) throws Exception{
+        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(new ShoppingCartView().getShoppingView());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void zoomIN(ImageView photo){
+        ScaleTransition transition = new ScaleTransition(Duration.millis(500), photo);
+        transition.setFromX(1.0);
+        transition.setFromY(1.0);
+        transition.setToX(1.1);
+        transition.setToY(1.1);
+
+        transition.playFromStart();
+    }
+
+    public void zoomOUT(ImageView photo){
+        ScaleTransition transition = new ScaleTransition(Duration.millis(500), photo);
+        transition.setFromX(1.1);
+        transition.setFromY(1.1);
+        transition.setToX(1.0);
+        transition.setToY(1.0);
+
+        transition.playFromStart();
     }
 }

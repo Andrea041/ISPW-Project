@@ -14,11 +14,11 @@ public class DBsingleton {
             FileInputStream file = new FileInputStream("com/example/codiceprogetto/utils/configuration.config");
 
             prop.load(file);
-            String URL = prop.getProperty("URL");
-            String USER = prop.getProperty("USER");
-            String PASSWORD = prop.getProperty("PASSWORD");
+            String url = prop.getProperty("URL");
+            String user = prop.getProperty("USER");
+            String password = prop.getProperty("PASSWORD");
 
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException | IOException e){
             e.printStackTrace();
         }
