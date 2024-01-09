@@ -1,9 +1,9 @@
-package com.example.codiceprogetto.loggingform;
+package com.example.codiceprogetto.logic.bean;
 
-public class LoginBean {
+public class SignupBean {
     private String email;
     private String password;
-    public LoginBean(String mail, String pass){
+    public SignupBean(String mail, String pass){
         this.email = mail;
         this.password = pass;
     }

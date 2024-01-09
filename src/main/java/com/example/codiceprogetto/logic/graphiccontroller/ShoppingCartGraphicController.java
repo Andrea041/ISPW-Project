@@ -1,6 +1,7 @@
-package com.example.codiceprogetto.shoppingcart;
+package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.homepage.HomePageView;
+import com.example.codiceprogetto.logic.view.HomePageView;
+import com.example.codiceprogetto.logic.view.ShoppingCartView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;

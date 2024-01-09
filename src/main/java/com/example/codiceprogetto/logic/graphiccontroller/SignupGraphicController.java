@@ -1,7 +1,11 @@
-package com.example.codiceprogetto.loggingform;
+package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.utils.GraphicTool;
+import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeController;
+import com.example.codiceprogetto.logic.bean.SignupBean;
+import com.example.codiceprogetto.logic.utils.GraphicTool;
 
+import com.example.codiceprogetto.logic.view.HomePageView;
+import com.example.codiceprogetto.logic.view.LoginView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,31 +26,29 @@ public class SignupGraphicController {
         Parent loginView = new LoginView().getLoginView();
         GraphicTool.navigateTo(mouseEvent, loginView);
     }
-    public void signUp(ActionEvent actionEvent) {
-        Stage rootToDisplay = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+    public void signUp(MouseEvent mouseEvent) throws Exception {
+        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        int ret;
 
         if(passTextFieldConfirm.getText().equals(passTextField.getText()) && !passTextField.getText().isEmpty() && !passTextFieldConfirm.getText().isEmpty()){
             SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText());
-            SignupApplicativeController signup = new SignupApplicativeController(signBean);
+            SignupApplicativeController signup = new SignupApplicativeController();
 
-            // check for user type by the email ****@customer.com or ****@seller.com
+            // check for user type by the email
             int startIndex = emailField.getText().indexOf('@');
             int endIndex = emailField.getText().indexOf('.', startIndex);
             if(startIndex == -1 || endIndex == -1) {
-                GraphicTool.alert("Wrong email format (****@customer/seller.com)", rootToDisplay);
+                GraphicTool.alert("Wrong email format (****@****.com)", rootToDisplay);
                 cleanUpField();
             }
             else {
-                String substring = emailField.getText().substring(startIndex + 1, endIndex);
-                if (substring.equals("customer"))
-                    signBean.setUserType("CUSTOMER");
-                else if (substring.equals("seller"))
-                    signBean.setUserType("SELLER");
-                else {
-                    GraphicTool.alert("Wrong email format (****@customer/seller.com)", rootToDisplay);
-                    cleanUpField();
+                ret = signup.signupUser(signBean);
+                if(ret == -1) {
+                    GraphicTool.alert("User alredy exist", rootToDisplay);
+                } else {
+                    Parent homeView = new HomePageView().getHomeView();
+                    GraphicTool.navigateTo(mouseEvent, homeView);
                 }
-                signup.signupUser();
             }
         } else if(passTextField.getText().isEmpty() || passTextFieldConfirm.getText().isEmpty() || emailField.getText().isEmpty()) {
             GraphicTool.alert("Fields must not be empty", rootToDisplay);

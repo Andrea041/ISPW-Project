@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.loggingform.LoginGraphicController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.LoginGraphicController">
    <children>
       <Label layoutX="29.0" layoutY="25.0" text="Bubble Shop" textFill="#0071f5">
          <font>
@@ -44,7 +44,7 @@
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="loginButton" layoutX="460.0" layoutY="431.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="284.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Login" textFill="WHITE" onAction="#redirectGUI">
+      <Button fx:id="loginButton" layoutX="460.0" layoutY="431.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="284.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Login" textFill="WHITE"  onMouseClicked="#redirectGUI">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

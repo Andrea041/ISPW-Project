@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.utils;
+package com.example.codiceprogetto.logic.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ public class DBsingleton {
     protected DBsingleton() {
         try{
             Properties prop = new Properties();
-            FileInputStream file = new FileInputStream("com/example/codiceprogetto/utils/configuration.config");
+            FileInputStream file = new FileInputStream("src/main/java/com/example/codiceprogetto/logic/utils/configuration.properties");
 
             prop.load(file);
             String url = prop.getProperty("URL");
@@ -23,7 +23,7 @@ public class DBsingleton {
             e.printStackTrace();
         }
     }
-   public synchronized static DBsingleton getDBSingleton() {
+   public synchronized static DBsingleton getDBSingletonInstance() {
         if(DBsingleton.instance == null)
             DBsingleton.instance = new DBsingleton();
         return instance;

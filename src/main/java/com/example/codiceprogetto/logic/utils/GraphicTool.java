@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.utils;
+package com.example.codiceprogetto.logic.utils;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;

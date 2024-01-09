@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.shoppingcart;
+package com.example.codiceprogetto.logic.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

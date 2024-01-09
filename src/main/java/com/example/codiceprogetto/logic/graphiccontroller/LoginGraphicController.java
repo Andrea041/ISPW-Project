@@ -1,6 +1,9 @@
-package com.example.codiceprogetto.loggingform;
+package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.utils.GraphicTool;
+import com.example.codiceprogetto.logic.bean.LoginBean;
+import com.example.codiceprogetto.logic.appcontroller.LoginApplicativeController;
+import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.view.SignupView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -13,7 +16,7 @@ public class LoginGraphicController {
     private TextField emailField;
     @FXML
     private PasswordField passTextField;
-    public void redirectGUI(ActionEvent actionEvent) {
+    public void redirectGUI(MouseEvent mouseEvent) {
         LoginBean passLogArg = new LoginBean(emailField.getText(), passTextField.getText());
         LoginApplicativeController loginApp = new LoginApplicativeController(passLogArg);
     }

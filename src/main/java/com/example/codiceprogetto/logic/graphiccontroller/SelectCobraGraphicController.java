@@ -1,7 +1,7 @@
-package com.example.codiceprogetto.selectcobra;
+package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.browseProduct.BrowseAccessoriesView;
-import com.example.codiceprogetto.shoppingcart.ShoppingCartView;
+import com.example.codiceprogetto.logic.view.BrowseAccessoriesView;
+import com.example.codiceprogetto.logic.view.ShoppingCartView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
