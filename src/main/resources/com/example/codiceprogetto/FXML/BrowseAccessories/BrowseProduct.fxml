@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.BrowseProduct.BrowseAccessoriesGraphicController">
+   <children>
+      <SVGPath fx:id="backHomePage" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#backHomePage" scaleX="0.025" scaleY="0.025" />
+      <Label layoutX="770.0" layoutY="32.0" text="Customer Service">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="929.0" layoutY="32.0" text="Store">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="myAccount" layoutX="998.0" layoutY="32.0" onMouseClicked="#accountGUI" text="My account">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
+      <Label fx:id="Cart" layoutX="1110.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="itemInCart" layoutX="1149.0" layoutY="32.0" onMouseClicked="#cartGUI" text="0" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="25.0" text="Bubble Shop" textFill="#0071f5">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Line endX="1037.0" layoutX="131.0" layoutY="159.0" startX="-100.0" stroke="#bcbcbc" />
+      <Label layoutX="66.0" layoutY="100.0" text="Accessories">
+         <font>
+            <Font name="Arial" size="36.0" />
+         </font>
+      </Label>
+      <ScrollBar layoutX="1159.0" layoutY="160.0" orientation="VERTICAL" prefHeight="640.0" prefWidth="15.0" style="-fx-background-color: transparent;" />
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="147.0" layoutX="642.0" layoutY="388.0" stroke="BLACK" strokeType="INSIDE" width="418.0" />
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="147.0" layoutX="29.0" layoutY="388.0" stroke="BLACK" strokeType="INSIDE" width="418.0" />
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="147.0" layoutX="642.0" layoutY="203.0" stroke="BLACK" strokeType="INSIDE" width="418.0" />
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="147.0" layoutX="29.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" width="418.0" />
+      <ImageView fitHeight="141.0" fitWidth="171.0" layoutX="33.0" layoutY="203.0">
+         <image>
+            <Image url="@Occhialini.png"/>
+         </image>
+      </ImageView>
+      <Label fx:id="myAccount1" layoutX="221.0" layoutY="209.0" onMouseClicked="#accountGUI" text="Cobra ultra swipe mirror">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="221.0" layoutY="237.0" text="74.90€">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="221.0" layoutY="263.0" prefHeight="23.0" prefWidth="186.0" text="Swipe technology - Hydrodynamic">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="221.0" layoutY="281.0" text="design">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="cobraButton" layoutX="221.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#selectProduct" prefHeight="30.0" prefWidth="77.0" style="-fx-background-radius: 16; -fx-background-color: #0071f5;" text="Select" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
