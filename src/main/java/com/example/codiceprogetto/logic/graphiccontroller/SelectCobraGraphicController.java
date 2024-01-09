@@ -98,7 +98,7 @@ public class SelectCobraGraphicController{
     }
 
     public void textFieldHandler(String toDo){
-        if(toDo.equals("textUpdate"))
+        if(toDo.equals(ACTION))
             displayUnits.setText(Integer.toString(unitsCounter));
         else if(toDo.equals("alert")){
             alert.setText("Max 10 units per customer");
