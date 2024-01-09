@@ -1,8 +1,8 @@
-package com.example.codiceprogetto.BrowseProduct;
+package com.example.codiceprogetto.browseProduct;
 
-import com.example.codiceprogetto.HomePage.HomePageView;
-import com.example.codiceprogetto.SelectCobra.SelectCobraView;
-import com.example.codiceprogetto.ShoppingCart.ShoppingCartView;
+import com.example.codiceprogetto.homepage.HomePageView;
+import com.example.codiceprogetto.selectcobra.SelectCobraView;
+import com.example.codiceprogetto.shoppingcart.ShoppingCartView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;

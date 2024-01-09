@@ -1,6 +1,6 @@
-package com.example.codiceprogetto.LoggingForm;
+package com.example.codiceprogetto.loggingform;
 
-import com.example.codiceprogetto.Entities.User;
+import com.example.codiceprogetto.entities.User;
 import com.example.codiceprogetto.queries.Queries;
 import com.example.codiceprogetto.utils.DBsingleton;
 

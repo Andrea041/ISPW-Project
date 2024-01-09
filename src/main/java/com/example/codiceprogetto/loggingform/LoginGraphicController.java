@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.LoggingForm;
+package com.example.codiceprogetto.loggingform;
 
 import com.example.codiceprogetto.utils.GraphicTool;
 import javafx.event.ActionEvent;

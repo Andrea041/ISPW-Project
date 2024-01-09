@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.LoggingForm;
+package com.example.codiceprogetto.loggingform;
 
 public class LoginApplicativeController {
     private LoginBean userLogged;

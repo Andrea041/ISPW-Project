@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.SelectCobra;
+package com.example.codiceprogetto.selectcobra;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

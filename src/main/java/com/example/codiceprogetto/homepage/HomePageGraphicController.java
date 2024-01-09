@@ -1,7 +1,7 @@
-package com.example.codiceprogetto.HomePage;
+package com.example.codiceprogetto.homepage;
 
-import com.example.codiceprogetto.BrowseProduct.BrowseAccessoriesView;
-import com.example.codiceprogetto.ShoppingCart.ShoppingCartView;
+import com.example.codiceprogetto.browseProduct.BrowseAccessoriesView;
+import com.example.codiceprogetto.shoppingcart.ShoppingCartView;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

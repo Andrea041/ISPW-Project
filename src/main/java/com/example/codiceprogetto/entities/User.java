@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.Entities;
+package com.example.codiceprogetto.entities;
 
 public class User {
     private String email;

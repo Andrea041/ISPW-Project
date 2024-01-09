@@ -1,6 +1,6 @@
-package com.example.codiceprogetto.LoggingForm;
+package com.example.codiceprogetto.loggingform;
 
-import com.example.codiceprogetto.Entities.User;
+import com.example.codiceprogetto.entities.User;
 
 public class SignupApplicativeController {
     private SignupBean userBean;

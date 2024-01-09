@@ -1,8 +1,7 @@
-package com.example.codiceprogetto.ShoppingCart;
+package com.example.codiceprogetto.shoppingcart;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 public class ShoppingCartView {
     private Parent root;

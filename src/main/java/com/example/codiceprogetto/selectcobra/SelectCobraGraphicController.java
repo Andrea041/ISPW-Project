@@ -1,13 +1,11 @@
-package com.example.codiceprogetto.SelectCobra;
+package com.example.codiceprogetto.selectcobra;
 
-import com.example.codiceprogetto.BrowseProduct.BrowseAccessoriesView;
-import com.example.codiceprogetto.HomePage.HomePageView;
-import com.example.codiceprogetto.ShoppingCart.ShoppingCartView;
+import com.example.codiceprogetto.browseProduct.BrowseAccessoriesView;
+import com.example.codiceprogetto.shoppingcart.ShoppingCartView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;

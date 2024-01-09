@@ -1,4 +1,4 @@
-package com.example.codiceprogetto.LoggingForm;
+package com.example.codiceprogetto.loggingform;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
