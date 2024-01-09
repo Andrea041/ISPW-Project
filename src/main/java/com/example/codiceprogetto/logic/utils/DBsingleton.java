@@ -23,7 +23,7 @@ public class DBsingleton {
             e.printStackTrace();
         }
     }
-   public synchronized static DBsingleton getDBSingletonInstance() {
+   public static synchronized DBsingleton getDBSingletonInstance() {
         if(DBsingleton.instance == null)
             DBsingleton.instance = new DBsingleton();
         return instance;

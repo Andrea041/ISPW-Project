@@ -32,6 +32,7 @@ public class SelectCobraGraphicController{
     private ImageView occhialini1;
     @FXML
     private ImageView occhialini2;
+    private static final String ACTION = "textUpdate";
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
 
     @FXML
@@ -68,7 +69,7 @@ public class SelectCobraGraphicController{
             textFieldHandler("alert");
         }
         else
-            textFieldHandler("textUpdate");
+            textFieldHandler(ACTION);
     }
 
     public void removeProductUnits(MouseEvent mouseEvent) {
@@ -76,7 +77,7 @@ public class SelectCobraGraphicController{
         if(unitsCounter < 1)
             unitsCounter = 1;
         else
-            textFieldHandler("textUpdate");
+            textFieldHandler(ACTION);
     }
 
     public void backBrowseProduct(MouseEvent mouseEvent) throws Exception{

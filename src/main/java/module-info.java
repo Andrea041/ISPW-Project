@@ -20,6 +20,4 @@ module com.example.codiceprogetto {
     opens com.example.codiceprogetto.logic.appcontroller;
     exports com.example.codiceprogetto.logic.entities;
     opens com.example.codiceprogetto.logic.entities;
-    exports com.example.codiceprogetto.logic.queries;
-    opens com.example.codiceprogetto.logic.queries;
 }

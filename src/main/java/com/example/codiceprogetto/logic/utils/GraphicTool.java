@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 public class GraphicTool {
     private static Stage stage;
     private static Scene scene;
+    private GraphicTool() {}
     public static void navigateTo(MouseEvent e, Parent root){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
