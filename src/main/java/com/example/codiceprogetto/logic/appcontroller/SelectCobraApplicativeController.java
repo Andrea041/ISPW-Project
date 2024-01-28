@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.ProductBean;
+import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.dao.ProductDAO;
 import com.example.codiceprogetto.logic.entities.Product;
 
@@ -13,6 +14,7 @@ public class SelectCobraApplicativeController {
 
         product = new ProductDAO().retrieveProduct(prod.getID());
 
+        ret = new CartDAO().updateCart(product);
 
         return ret;
     }

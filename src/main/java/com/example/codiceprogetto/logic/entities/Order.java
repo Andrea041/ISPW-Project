@@ -2,24 +2,22 @@ package com.example.codiceprogetto.logic.entities;
 
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 
-import java.util.List;
-
 public class Order {
-    private List<Product> products;
+    private Cart cart;
     private DeliveryAddress address;
     private String coupon;
     private String orderID;
     private OrderStatus status;
 
-    public Order(List<Product> products, DeliveryAddress address, String coupon, String orderID, OrderStatus status) {
-        this.products = products;
+    public Order(Cart cart, DeliveryAddress address, String coupon, String orderID, OrderStatus status) {
+        this.cart = cart;
         this.address = address;
         this.coupon = coupon;
         this.orderID = orderID;
         this.status = status;
     }
-    public List<Product> getProducts() {
-        return products;
+    public Cart getCart() {
+        return cart;
     }
     public String getOrderID() {
         return orderID;
@@ -30,14 +28,20 @@ public class Order {
     public OrderStatus getStatus() {
         return status;
     }
+    public DeliveryAddress getAddress() {
+        return address;
+    }
+    public void setAddress(DeliveryAddress address) {
+        this.address = address;
+    }
     public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
     public void setCoupon(String coupon) {
         this.coupon = coupon;
     }
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
     public void setStatus(OrderStatus status) {
         this.status = status;

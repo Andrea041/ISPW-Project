@@ -1,8 +1,12 @@
 package com.example.codiceprogetto.logic.utils;
 
+import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.User;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import javafx.scene.input.MouseEvent;
+
+import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class SessionUser {
     private static SessionUser instance = null;
@@ -15,19 +19,19 @@ public class SessionUser {
             SessionUser.instance = new SessionUser();
         return instance;
     }
-    public synchronized void setPage(MouseEvent mouseEvent) {
-        switch(SessionUser.getInstance().getThisUser().getUserType()) {
-            case "CUSTOMER":
-                GraphicTool.navigateTo(mouseEvent, "HOME");
-                break;
-            case "SELLER":
-                //GraphicTool.navigateTo(mouseEvent, "INBOX");
-                break;
+    public synchronized void cart() {
+        int ret;
+        try {
+            ret = new CartDAO().createCustomerCart(thisUser.getEmail());
+            if(ret == 0)
+                Logger.getLogger(thisUser.getName(), "Unknown error");
+        } catch(SQLException e) {
+            Logger.getLogger(thisUser.getName(), "Unknown error");
         }
     }
     public synchronized void login(User user) throws AlreadyLoggedUserException {
         if(thisUser != null && thisUser.getEmail().equals(user.getEmail())) {
-            throw new AlreadyLoggedUserException("You are alredy logged");
+            throw new AlreadyLoggedUserException("You are already logged");
         } else if(thisUser != null && !thisUser.getEmail().equals(user.getEmail()))  {
             logout();
             thisUser = user;

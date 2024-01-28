@@ -52,7 +52,7 @@ public class SelectCobraGraphicController extends GraphicTool{
     }
 
     public void cartGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "CART");
+        navigateTo(mouseEvent, "CART");
     }
 
     public void addProduct(MouseEvent mouseEvent) {
@@ -66,7 +66,7 @@ public class SelectCobraGraphicController extends GraphicTool{
         try {
             ret = addCobra.updateCart(prod);
         } catch (SQLException e) {
-            GraphicTool.alert(errorToDisplay , rootToDisplay);
+            alert(errorToDisplay , rootToDisplay);
         }
 
     }
@@ -90,7 +90,7 @@ public class SelectCobraGraphicController extends GraphicTool{
     }
 
     public void backBrowseProduct(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "ACC");
+        navigateTo(mouseEvent, "ACC");
     }
 
     public void scrollRight(MouseEvent mouseEvent) {

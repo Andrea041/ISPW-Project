@@ -36,7 +36,7 @@ public class SignupGraphicController extends GraphicTool{
     private static final String KEY = "ISPW2324";
 
     public void loginGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "LOGIN");
+        navigateTo(mouseEvent, "LOGIN");
     }
     public void signUp(MouseEvent mouseEvent) {
         Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -52,7 +52,7 @@ public class SignupGraphicController extends GraphicTool{
                 int startIndex = emailField.getText().indexOf('@');
                 int endIndex = emailField.getText().indexOf('.', startIndex);
                 if (startIndex == -1 || endIndex == -1) {
-                    GraphicTool.alert("Wrong email format (****@****.com)", rootToDisplay);
+                    alert("Wrong email format (****@****.com)", rootToDisplay);
                     cleanUpField();
                 }
             }
@@ -69,7 +69,7 @@ public class SignupGraphicController extends GraphicTool{
                 if(keySignUp.getText().equals(KEY))
                     signBean.setUserType("SELLER");
                 else {
-                    GraphicTool.alert("Wrong key", rootToDisplay);
+                    alert("Wrong key", rootToDisplay);
                     keySignUp.setText("");
                 }
             } else
@@ -78,19 +78,29 @@ public class SignupGraphicController extends GraphicTool{
             try {
                 ret = signup.signupUser(signBean);
                 if (ret == -1) {
-                    GraphicTool.alert(errorToDisplay, rootToDisplay);
+                    alert(errorToDisplay, rootToDisplay);
                 } else if (ret == 1){
-                    SessionUser.getInstance().setPage(mouseEvent);
+                    switch(SessionUser.getInstance().getThisUser().getUserType()) {
+                        case "CUSTOMER":
+                            navigateTo(mouseEvent, "HOME");
+                            break;
+                        case "SELLER":
+                            //navigateTo(mouseEvent, "INBOX");
+                            break;
+                        default:
+                            break;
+                    }
+
                 } else {
-                    GraphicTool.alert(errorToDisplay, rootToDisplay);
+                    alert(errorToDisplay, rootToDisplay);
                 }
             } catch (SQLException | AlreadyLoggedUserException e) {
-                GraphicTool.alert(errorToDisplay, rootToDisplay);
+                alert(errorToDisplay, rootToDisplay);
             } catch (EmptyInputException | AlreadyExistingUserException e) {
-                GraphicTool.alert(e.getMessage(), rootToDisplay);
+                alert(e.getMessage(), rootToDisplay);
             }
         } else {
-            GraphicTool.alert("Inserted passwords doesn't match", rootToDisplay);
+            alert("Inserted passwords doesn't match", rootToDisplay);
             cleanUpField();
         }
     }

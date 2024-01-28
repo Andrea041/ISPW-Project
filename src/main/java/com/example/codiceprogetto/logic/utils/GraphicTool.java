@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class GraphicTool {
     private static Stage stage;
     private static Scene scene;
-    public static void navigateTo(MouseEvent e, String page) {
+    public void navigateTo(MouseEvent e, String page) {
         Parent root = null;
 
         try {
@@ -38,7 +38,7 @@ public class GraphicTool {
         stage.setScene(scene);
         stage.show();
     }
-    public static void alert(String messageToDisplay, Stage thisWindow) {
+    public void alert(String messageToDisplay, Stage thisWindow) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText(messageToDisplay);

@@ -10,14 +10,14 @@ import javafx.stage.Stage;
 
 public class ShoppingCartGraphicController extends GraphicTool {
     public void back(MouseEvent mouseEvent) throws Exception{
-        GraphicTool.navigateTo(mouseEvent, "HOME");
+        navigateTo(mouseEvent, "HOME");
     }
 
     public void accountGUI(MouseEvent mouseEvent) {
     }
 
     public void cartGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "CART");
+        navigateTo(mouseEvent, "CART");
     }
 
     public void gotoCheckoutGUI(MouseEvent mouseEvent) {

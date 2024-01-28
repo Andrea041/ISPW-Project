@@ -3,10 +3,9 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.bean.LoginBean;
 import com.example.codiceprogetto.logic.appcontroller.LoginApplicativeController;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
-import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
 import com.example.codiceprogetto.logic.utils.SessionUser;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
@@ -32,17 +31,26 @@ public class LoginGraphicController extends GraphicTool {
         try {
             ret = loginApp.loginUser(passLogArg);
             if (ret == -1) {
-                GraphicTool.alert(errorToDisplay, rootToDisplay);
+                alert(errorToDisplay, rootToDisplay);
             } else if (ret == 1){
-                SessionUser.getInstance().setPage(mouseEvent);
+                switch(SessionUser.getInstance().getThisUser().getUserType()) {
+                    case "CUSTOMER":
+                        navigateTo(mouseEvent, "HOME");
+                        break;
+                    case "SELLER":
+                        //navigateTo(mouseEvent, "INBOX");
+                        break;
+                    default:
+                        break;
+                }
             } else {
-                GraphicTool.alert(errorToDisplay, rootToDisplay);
+                alert(errorToDisplay, rootToDisplay);
             }
         } catch (SQLException | AlreadyLoggedUserException e) {
-            GraphicTool.alert(errorToDisplay, rootToDisplay);
+            alert(errorToDisplay, rootToDisplay);
         }
     }
     public void singupGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "SIGNUP");
+        navigateTo(mouseEvent, "SIGNUP");
     }
 }

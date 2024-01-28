@@ -42,15 +42,15 @@ public class SignupApplicativeController {
             throw new AlreadyExistingUserException("User alredy exist");
 
         storeSessionData(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
+        SessionUser.getInstance().cart();
 
         return result;
     }
 
     public void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
-        SessionUser su = SessionUser.getInstance();
         User thisUser = new User(email, password, userType, name, surname);
         try {
-            su.login(thisUser);
+            SessionUser.getInstance().login(thisUser);
         } catch (AlreadyLoggedUserException e) {
             throw new AlreadyLoggedUserException(e.getMessage());
         }

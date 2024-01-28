@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 
 public class BrowseAccessoriesGraphicController extends GraphicTool{
     public void backHomePage(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "HOME");
+        navigateTo(mouseEvent, "HOME");
     }
 
     public void accountGUI(MouseEvent mouseEvent){
@@ -13,10 +13,10 @@ public class BrowseAccessoriesGraphicController extends GraphicTool{
     }
 
     public void cartGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "CART");
+        navigateTo(mouseEvent, "CART");
     }
 
     public void selectProduct(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "COBRA");
+        navigateTo(mouseEvent, "COBRA");
     }
 }

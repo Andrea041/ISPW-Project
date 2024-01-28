@@ -37,7 +37,7 @@ public class HomePageGraphicController extends GraphicTool {
     @FXML
     private ImageView accImage;
     public void accessorGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "ACC");
+        navigateTo(mouseEvent, "ACC");
     }
 
     public void accZoomEnter(MouseEvent mouseEvent) {
@@ -61,7 +61,7 @@ public class HomePageGraphicController extends GraphicTool {
     }
 
     public void cartGUI(MouseEvent mouseEvent) {
-        GraphicTool.navigateTo(mouseEvent, "CART");
+        navigateTo(mouseEvent, "CART");
     }
 
     public void zoomIN(ImageView photo){
