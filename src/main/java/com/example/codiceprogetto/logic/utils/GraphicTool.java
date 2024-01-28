@@ -1,8 +1,6 @@
 package com.example.codiceprogetto.logic.utils;
 
-import com.example.codiceprogetto.logic.view.HomePageView;
-import com.example.codiceprogetto.logic.view.LoginView;
-import com.example.codiceprogetto.logic.view.SignupView;
+import com.example.codiceprogetto.logic.view.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,32 +9,26 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class GraphicTool {
+public class GraphicTool {
     private static Stage stage;
     private static Scene scene;
     public static void navigateTo(MouseEvent e, String page) {
         Parent root = null;
 
         try {
-            switch (page) {
-                case "HOME":
-                    root = new HomePageView().getHomeView();
-                    break;
-                case "LOGIN":
-                    root = new LoginView().getLoginView();
-                    break;
-                case "SIGNUP":
-                    root = new SignupView().getSignupView();
-                    break;
-                default:
-                    root = null;
-                    break;
-            }
+            root = switch (page) {
+                case "HOME" -> new HomePageView().getHomeView();
+                case "LOGIN" -> new LoginView().getLoginView();
+                case "SIGNUP" -> new SignupView().getSignupView();
+                case "ACC" -> new BrowseAccessoriesView().getAccessoriesView();
+                case "CART" -> new ShoppingCartView().getShoppingView();
+                case "COBRA" -> new SelectCobraView().getCobraView();
+                default -> null;
+            };
+
         } catch (Exception excpetion) {
             Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
         }

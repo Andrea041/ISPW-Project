@@ -27,12 +27,7 @@
          </font>
       </Label>
       <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
-      <Label fx:id="Cart" layoutX="1110.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="itemInCart" layoutX="1149.0" layoutY="32.0" onMouseClicked="#cartGUI" text="0" textFill="WHITE">
+      <Label fx:id="Cart" layoutX="1118.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
          <font>
             <Font name="Arial" size="16.0" />
          </font>

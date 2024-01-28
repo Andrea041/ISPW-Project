@@ -9,7 +9,6 @@ public class SignupBean {
     public SignupBean(String mail, String pass, String name, String surname){
         this.email = mail;
         this.password = pass;
-        this.userType = "CUSTOMER";
         this.name = name;
         this.surname = surname;
     }

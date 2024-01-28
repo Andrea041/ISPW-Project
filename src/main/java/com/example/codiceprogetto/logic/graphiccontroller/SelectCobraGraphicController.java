@@ -1,13 +1,13 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.logic.view.BrowseAccessoriesView;
-import com.example.codiceprogetto.logic.view.ShoppingCartView;
+import com.example.codiceprogetto.logic.appcontroller.SelectCobraApplicativeController;
+import com.example.codiceprogetto.logic.bean.ProductBean;
+import com.example.codiceprogetto.logic.utils.GraphicTool;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,9 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SelectCobraGraphicController{
-    private Stage stage;
-    private Scene scene;
+import java.sql.SQLException;
+
+public class SelectCobraGraphicController extends GraphicTool{
     private int unitsCounter = 1;
     @FXML
     private TextField displayUnits;
@@ -51,15 +51,24 @@ public class SelectCobraGraphicController{
         System.out.println("try");
     }
 
-    public void cartGUI(MouseEvent mouseEvent) throws Exception{
-        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(new ShoppingCartView().getShoppingView());
-        stage.setScene(scene);
-        stage.show();
+    public void cartGUI(MouseEvent mouseEvent) {
+        GraphicTool.navigateTo(mouseEvent, "CART");
     }
 
     public void addProduct(MouseEvent mouseEvent) {
-        System.out.println("try");
+        int ret;
+        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        String errorToDisplay = "Unknown error";
+
+        ProductBean prod = new ProductBean("Cobra ultra swipe mirror", 6452, Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
+        SelectCobraApplicativeController addCobra = new SelectCobraApplicativeController();
+
+        try {
+            ret = addCobra.updateCart(prod);
+        } catch (SQLException e) {
+            GraphicTool.alert(errorToDisplay , rootToDisplay);
+        }
+
     }
 
     public void addProductUnits(MouseEvent mouseEvent) {
@@ -80,11 +89,8 @@ public class SelectCobraGraphicController{
             textFieldHandler(ACTION);
     }
 
-    public void backBrowseProduct(MouseEvent mouseEvent) throws Exception{
-        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(new BrowseAccessoriesView().getAccessoriesView());
-        stage.setScene(scene);
-        stage.show();
+    public void backBrowseProduct(MouseEvent mouseEvent) {
+        GraphicTool.navigateTo(mouseEvent, "ACC");
     }
 
     public void scrollRight(MouseEvent mouseEvent) {

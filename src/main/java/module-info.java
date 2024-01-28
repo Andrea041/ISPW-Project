@@ -20,4 +20,8 @@ module com.example.codiceprogetto {
     opens com.example.codiceprogetto.logic.appcontroller;
     exports com.example.codiceprogetto.logic.entities;
     opens com.example.codiceprogetto.logic.entities;
+    exports com.example.codiceprogetto.logic.exception;
+    opens com.example.codiceprogetto.logic.exception;
+    exports com.example.codiceprogetto.logic.enumeration;
+    opens com.example.codiceprogetto.logic.enumeration;
 }

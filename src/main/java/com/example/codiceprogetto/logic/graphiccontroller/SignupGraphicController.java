@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeController;
 import com.example.codiceprogetto.logic.bean.SignupBean;
+import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
@@ -9,6 +10,7 @@ import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +29,11 @@ public class SignupGraphicController extends GraphicTool{
     private TextField name;
     @FXML
     private TextField surname;
+    @FXML
+    private CheckBox checkBox;
+    @FXML
+    private PasswordField keySignUp;
+    private static final String KEY = "ISPW2324";
 
     public void loginGUI(MouseEvent mouseEvent) {
         GraphicTool.navigateTo(mouseEvent, "LOGIN");
@@ -34,7 +41,7 @@ public class SignupGraphicController extends GraphicTool{
     public void signUp(MouseEvent mouseEvent) {
         Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         int ret;
-        String errorToDisplay = "Sign up error";
+        String errorToDisplay = "Signup error";
 
         if(passTextFieldConfirm.getText().equals(passTextField.getText())){
             SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
@@ -44,11 +51,29 @@ public class SignupGraphicController extends GraphicTool{
             if(!emailField.getText().isEmpty()) {
                 int startIndex = emailField.getText().indexOf('@');
                 int endIndex = emailField.getText().indexOf('.', startIndex);
-                if(startIndex == -1 || endIndex == -1) {
+                if (startIndex == -1 || endIndex == -1) {
                     GraphicTool.alert("Wrong email format (****@****.com)", rootToDisplay);
                     cleanUpField();
                 }
             }
+
+            // check for CheckBox
+            checkBox.setOnAction(event -> {
+                if(checkBox.isSelected())
+                    keySignUp.setVisible(true);
+                else
+                    keySignUp.setVisible(false);
+            });
+
+            if(checkBox.isSelected()) {
+                if(keySignUp.getText().equals(KEY))
+                    signBean.setUserType("SELLER");
+                else {
+                    GraphicTool.alert("Wrong key", rootToDisplay);
+                    keySignUp.setText("");
+                }
+            } else
+                signBean.setUserType("CUSTOMER");
 
             try {
                 ret = signup.signupUser(signBean);
@@ -59,12 +84,10 @@ public class SignupGraphicController extends GraphicTool{
                 } else {
                     GraphicTool.alert(errorToDisplay, rootToDisplay);
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | AlreadyLoggedUserException e) {
                 GraphicTool.alert(errorToDisplay, rootToDisplay);
-            } catch (EmptyInputException e) {
+            } catch (EmptyInputException | AlreadyExistingUserException e) {
                 GraphicTool.alert(e.getMessage(), rootToDisplay);
-            } catch (AlreadyLoggedUserException e) {
-                GraphicTool.alert(errorToDisplay, rootToDisplay);
             }
         } else {
             GraphicTool.alert("Inserted passwords doesn't match", rootToDisplay);

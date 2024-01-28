@@ -1,19 +1,15 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.logic.view.BrowseAccessoriesView;
-import com.example.codiceprogetto.logic.view.ShoppingCartView;
+import com.example.codiceprogetto.logic.utils.GraphicTool;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class HomePageGraphicController{
-    private Stage stage;
-    private Scene scene;
+public class HomePageGraphicController extends GraphicTool {
     @FXML
     private ImageView manImage;
     public void manSwimGUI(MouseEvent mouseEvent) {
@@ -40,11 +36,8 @@ public class HomePageGraphicController{
 
     @FXML
     private ImageView accImage;
-    public void accessorGUI(MouseEvent mouseEvent) throws Exception {
-        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(new BrowseAccessoriesView().getAccessoriesView());
-        stage.setScene(scene);
-        stage.show();
+    public void accessorGUI(MouseEvent mouseEvent) {
+        GraphicTool.navigateTo(mouseEvent, "ACC");
     }
 
     public void accZoomEnter(MouseEvent mouseEvent) {
@@ -67,11 +60,8 @@ public class HomePageGraphicController{
         System.out.println("try");
     }
 
-    public void cartGUI(MouseEvent mouseEvent) throws Exception{
-        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(new ShoppingCartView().getShoppingView());
-        stage.setScene(scene);
-        stage.show();
+    public void cartGUI(MouseEvent mouseEvent) {
+        GraphicTool.navigateTo(mouseEvent, "CART");
     }
 
     public void zoomIN(ImageView photo){
