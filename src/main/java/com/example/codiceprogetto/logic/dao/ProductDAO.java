@@ -1,7 +1,6 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.Product;
-import com.example.codiceprogetto.logic.entities.User;
 import com.example.codiceprogetto.logic.utils.DBsingleton;
 
 import java.sql.Connection;

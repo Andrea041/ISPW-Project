@@ -10,7 +10,7 @@ import com.example.codiceprogetto.logic.utils.SessionUser;
 import java.sql.SQLException;
 
 public class LoginApplicativeController {
-    public int loginUser(LoginBean logUser) throws SQLException, EmptyInputException, AlreadyLoggedUserException {
+    public int loginUser(LoginBean logUser) throws SQLException, AlreadyLoggedUserException {
         User user;
         int result = -1;
 
