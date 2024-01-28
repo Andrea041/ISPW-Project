@@ -38,11 +38,7 @@ public class LoginGraphicController extends GraphicTool {
             } else {
                 GraphicTool.alert(errorToDisplay, rootToDisplay);
             }
-        } catch (SQLException e) {
-            GraphicTool.alert(errorToDisplay, rootToDisplay);
-        } catch (EmptyInputException e) {
-            GraphicTool.alert(e.getMessage(), rootToDisplay);
-        } catch (AlreadyLoggedUserException e) {
+        } catch (SQLException | AlreadyLoggedUserException e) {
             GraphicTool.alert(errorToDisplay, rootToDisplay);
         }
     }
