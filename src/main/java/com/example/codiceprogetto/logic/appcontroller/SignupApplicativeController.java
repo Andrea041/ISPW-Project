@@ -22,7 +22,7 @@ public class SignupApplicativeController {
         user = new UserDAO().findUser(userBean.getEmail());
 
         if(user == null) {
-            if(!userBean.getName().isEmpty() && !userBean.getName().isEmpty() && !userBean.getEmail().isEmpty() && !userBean.getPassword().isEmpty()) {
+            if(!userBean.getName().isEmpty() && !userBean.getSurname().isEmpty() && !userBean.getEmail().isEmpty() && !userBean.getPassword().isEmpty()) {
                 result = new UserDAO().insertUser(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
                 switch(userBean.getUserType()) {
                     case "CUSTOMER":
