@@ -15,15 +15,15 @@ public class ProductDAO {
 
         return prod;
     }
-    public Product retrieveProduct(int ID) throws SQLException {
+    public Product retrieveProduct(int id) throws SQLException {
         Connection conn = DBsingleton.getInstance().getConn();
-        ResultSet rs = null;
-        Product product = null;
-        PreparedStatement stmt = null;
+        ResultSet rs;
+        Product product;
+        PreparedStatement stmt;
 
         String sql = "SELECT * FROM Product WHERE " + "ID" + " = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setInt(1, ID);
+        stmt.setInt(1, id);
 
         rs = stmt.executeQuery();
 

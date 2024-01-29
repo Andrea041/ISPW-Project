@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class SignupApplicativeController {
     public int signupUser(SignupBean userBean) throws SQLException, EmptyInputException, AlreadyExistingUserException, AlreadyLoggedUserException {
         User user;
-        int result = -1;
+        int result;
 
         user = new UserDAO().findUser(userBean.getEmail());
 
@@ -42,6 +42,8 @@ public class SignupApplicativeController {
             throw new AlreadyExistingUserException("User alredy exist");
 
         storeSessionData(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
+
+        // TODO: magari si potrebbe implementare un observer anche qui
         SessionUser.getInstance().cart();
 
         return result;

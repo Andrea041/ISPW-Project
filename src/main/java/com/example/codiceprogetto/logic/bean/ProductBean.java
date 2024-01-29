@@ -2,12 +2,12 @@ package com.example.codiceprogetto.logic.bean;
 
 public class ProductBean {
     private String name;
-    private int ID;
+    private int id;
     private int unitsToOrder;
     private String size;
-    public ProductBean(String name, int ID, int unitsToOrder, String size) {
+    public ProductBean(String name, int id, int unitsToOrder, String size) {
         this.name = name;
-        this.ID = ID;
+        this.id = id;
         this.unitsToOrder = unitsToOrder;
         this.size = size;
     }
@@ -17,8 +17,8 @@ public class ProductBean {
     public String getName() {
         return name;
     }
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
     public int getUnitsToOrder() {
         return unitsToOrder;
@@ -29,8 +29,8 @@ public class ProductBean {
     public void setName(String name) {
         this.name = name;
     }
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
     public void setUnitsToOrder(int unitsToOrder) {
         this.unitsToOrder = unitsToOrder;

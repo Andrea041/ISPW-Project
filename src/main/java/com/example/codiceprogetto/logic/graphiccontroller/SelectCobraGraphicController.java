@@ -1,8 +1,9 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.logic.appcontroller.SelectCobraApplicativeController;
+import com.example.codiceprogetto.logic.appcontroller.AddToCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -61,10 +62,12 @@ public class SelectCobraGraphicController extends GraphicTool{
         String errorToDisplay = "Unknown error";
 
         ProductBean prod = new ProductBean("Cobra ultra swipe mirror", 6452, Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
-        SelectCobraApplicativeController addCobra = new SelectCobraApplicativeController();
+        AddToCartApplicativeController addCobra = new AddToCartApplicativeController();
 
         try {
             ret = addCobra.updateCart(prod);
+            if(ret == -1)
+                alert(errorToDisplay , rootToDisplay);
         } catch (SQLException e) {
             alert(errorToDisplay , rootToDisplay);
         }

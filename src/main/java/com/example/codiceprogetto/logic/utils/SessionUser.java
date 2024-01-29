@@ -6,6 +6,7 @@ import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SessionUser {
@@ -24,9 +25,9 @@ public class SessionUser {
         try {
             ret = new CartDAO().createCustomerCart(thisUser.getEmail());
             if(ret == 0)
-                Logger.getLogger(thisUser.getName(), "Unknown error");
+                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
         } catch(SQLException e) {
-            Logger.getLogger(thisUser.getName(), "Unknown error");
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
     public synchronized void login(User user) throws AlreadyLoggedUserException {

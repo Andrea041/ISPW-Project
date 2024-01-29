@@ -42,9 +42,9 @@ public class UserDAO {
 
     public User findUser(String email) throws SQLException {
         Connection conn = DBsingleton.getInstance().getConn();
-        ResultSet rs = null;
-        User user = null;
-        PreparedStatement stmt = null;
+        ResultSet rs;
+        User user;
+        PreparedStatement stmt;
 
         String sql = "SELECT * FROM User WHERE " + "email" + " = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
