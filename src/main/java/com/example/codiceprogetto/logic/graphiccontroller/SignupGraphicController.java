@@ -61,8 +61,7 @@ public class SignupGraphicController extends GraphicTool{
             checkBox.setOnAction(event -> {
                 if(checkBox.isSelected())
                     keySignUp.setVisible(true);
-                else
-                    keySignUp.setVisible(false);
+                keySignUp.setVisible(false);
             });
 
             if(checkBox.isSelected()) {
