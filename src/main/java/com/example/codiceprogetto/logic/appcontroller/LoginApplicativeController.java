@@ -10,9 +10,12 @@ import com.example.codiceprogetto.logic.utils.SessionUser;
 import java.sql.SQLException;
 
 public class LoginApplicativeController {
-    public int loginUser(LoginBean logUser) throws SQLException, AlreadyLoggedUserException {
+    public int loginUser(LoginBean logUser) throws SQLException, AlreadyLoggedUserException, EmptyInputException {
         User user;
         int result = -1;
+
+        if(logUser.getEmail().isEmpty() || logUser.getPassword().isEmpty())
+            throw new EmptyInputException("There are some empty input field");
 
         user = new UserDAO().findUser(logUser.getEmail());
 
@@ -32,7 +35,7 @@ public class LoginApplicativeController {
         try {
             su.login(thisUser);
         } catch (AlreadyLoggedUserException e) {
-            throw new AlreadyLoggedUserException(e.getMessage());
+            throw new AlreadyLoggedUserException("User already logged in");
         }
     }
 }

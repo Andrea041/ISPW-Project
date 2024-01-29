@@ -15,10 +15,10 @@ public class HomePageGraphicController extends GraphicTool {
     public void manSwimGUI(MouseEvent mouseEvent) {
         System.out.println("try");
     }
-    public void manZoomEnter(MouseEvent mouseEvent) {
+    public void manZoomEnter() {
         zoomIN(manImage);
     }
-    public void manZoomExit(MouseEvent mouseEvent) {
+    public void manZoomExit() {
         zoomOUT(manImage);
     }
 
@@ -27,10 +27,10 @@ public class HomePageGraphicController extends GraphicTool {
     public void womSwimGUI(MouseEvent mouseEvent) {
         System.out.println("try");
     }
-    public void womZoomEnter(MouseEvent mouseEvent) {
+    public void womZoomEnter() {
         zoomIN(womanPic);
     }
-    public void womZoomExit(MouseEvent mouseEvent) {
+    public void womZoomExit() {
         zoomOUT(womanPic);
     }
 
@@ -40,19 +40,19 @@ public class HomePageGraphicController extends GraphicTool {
         navigateTo(mouseEvent, "ACC");
     }
 
-    public void accZoomEnter(MouseEvent mouseEvent) {
+    public void accZoomEnter() {
         zoomIN(accImage);
     }
-    public void accZoomExit(MouseEvent mouseEvent) {
+    public void accZoomExit() {
         zoomOUT(accImage);
     }
 
     @FXML
     private ImageView magazinePic;
-    public void magZoomEnter(MouseEvent mouseEvent) {
+    public void magZoomEnter() {
         zoomIN(magazinePic);
     }
-    public void magZoomExit(MouseEvent mouseEvent) {
+    public void magZoomExit() {
         zoomOUT(magazinePic);
     }
 

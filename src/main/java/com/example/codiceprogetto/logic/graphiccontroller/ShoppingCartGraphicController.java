@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ShoppingCartGraphicController extends GraphicTool {
-    public void back(MouseEvent mouseEvent) throws Exception{
+    public void back(MouseEvent mouseEvent) {
         navigateTo(mouseEvent, "HOME");
     }
 

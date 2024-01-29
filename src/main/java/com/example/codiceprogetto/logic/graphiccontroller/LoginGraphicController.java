@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.bean.LoginBean;
 import com.example.codiceprogetto.logic.appcontroller.LoginApplicativeController;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
+import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
@@ -43,11 +44,12 @@ public class LoginGraphicController extends GraphicTool {
                     default:
                         break;
                 }
-            } else {
+            } else
                 alert(errorToDisplay, rootToDisplay);
-            }
-        } catch (SQLException | AlreadyLoggedUserException e) {
+        } catch (SQLException e) {
             alert(errorToDisplay, rootToDisplay);
+        } catch (AlreadyLoggedUserException | EmptyInputException e) {
+            alert(e.getMessage(), rootToDisplay);
         }
     }
     public void singupGUI(MouseEvent mouseEvent) {
