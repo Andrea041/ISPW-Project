@@ -3,17 +3,15 @@ package com.example.codiceprogetto.logic.entities;
 public class Product {
     private String name;
     private int id;
-    private int availableUnits;
+    private int selectedUnits;
     private String size;
     private double price;
-    private String category;
-    public Product(String name, int id, int availableUnits, String size, double price, String category) {
+    public Product(String name, int id, int selectedUnits, String size, double price) {
         this.name = name;
         this.id = id;
-        this.availableUnits = availableUnits;
+        this.selectedUnits = selectedUnits;
         this.size = size;
         this.price = price;
-        this.category = category;
     }
     public int getId() {
         return id;
@@ -21,11 +19,8 @@ public class Product {
     public double getPrice() {
         return price;
     }
-    public int getAvailableUnits() {
-        return availableUnits;
-    }
-    public String getCategory() {
-        return category;
+    public int getSelectedUnits() {
+        return selectedUnits;
     }
     public String getName() {
         return name;
@@ -33,17 +28,14 @@ public class Product {
     public String getSize() {
         return size;
     }
-    public void setCategory(String category) {
-        this.category = category;
-    }
     public void setId(int id) {
         this.id = id;
     }
     public void setName(String name) {
         this.name = name;
     }
-    public void setAvailableUnits(int availableUnits) {
-        this.availableUnits = availableUnits;
+    public void setSelectedUnits(int selectedUnits) {
+        this.selectedUnits = selectedUnits;
     }
     public void setPrice(double price) {
         this.price = price;

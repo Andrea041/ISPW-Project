@@ -1,14 +1,15 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-import com.example.codiceprogetto.logic.view.HomePageView;
-import com.example.codiceprogetto.logic.view.ShoppingCartView;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 public class ShoppingCartGraphicController extends GraphicTool {
+    @FXML
+    private Label subtotal;
+
+
     public void back(MouseEvent mouseEvent) {
         navigateTo(mouseEvent, "HOME");
     }

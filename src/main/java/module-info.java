@@ -24,4 +24,6 @@ module com.example.codiceprogetto {
     opens com.example.codiceprogetto.logic.exception;
     exports com.example.codiceprogetto.logic.enumeration;
     opens com.example.codiceprogetto.logic.enumeration;
+    exports com.example.codiceprogetto.logic.observer;
+    opens com.example.codiceprogetto.logic.observer;
 }

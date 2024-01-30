@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.Product;
+import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.DBsingleton;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class CartDAO {
         return result;
     }
 
-    public int updateCart(Product product, String email) throws SQLException {
+    public int updateCart(Product product, String email) throws SQLException, TooManyUnitsExcpetion {
         int result = -1;
         List<Product> productList = new ArrayList<>();
         String listUpdated, prodList;
@@ -62,7 +63,9 @@ public class CartDAO {
         if(prodList != null)
             productList = stringConverter(prodList);
 
-        productList.add(product);
+        if(!checkProd(productList, product))
+            productList.add(product);
+
         listUpdated = listConverter(productList);
 
         rs.close();
@@ -85,29 +88,40 @@ public class CartDAO {
     }
 
     public List<Product> stringConverter(String list) {
-        List<Product> listaProdotti = new ArrayList<>();
+        List<Product> listProd = new ArrayList<>();
         String[] elements = list.split(",");
 
-        for (int i = 0; i < elements.length; i += 6) {
+        for(int i = 0; i < elements.length; i += 5) {
             String name = elements[i];
             int id = Integer.parseInt(elements[i + 1]);
-            int availableUnits = Integer.parseInt(elements[i + 2]);
+            int selectedUnits = Integer.parseInt(elements[i + 2]);
             String size = elements[i + 3];
             double price = Double.parseDouble(elements[i + 4]);
-            String category = elements[i + 5];
 
-            listaProdotti.add(new Product(name, id, availableUnits, size, price, category));
+            listProd.add(new Product(name, id, selectedUnits, size, price));
         }
-        return listaProdotti;
+        return listProd;
     }
 
     public String listConverter(List<Product> lista) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Product product : lista) {
-            stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getAvailableUnits()).append(",")
-                    .append(product.getSize()).append(",").append(product.getPrice()).append(",").append(product.getCategory()).append(",");
+        for(Product product : lista) {
+            stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
+                    .append(product.getSize()).append(",").append(product.getPrice()).append(",");
         }
         return stringBuilder.toString();
+    }
+
+    public boolean checkProd(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
+        for(Product prod : prodList) {
+            if(prod.getName().equals(newProd.getName())) {
+                prod.setSelectedUnits(newProd.getSelectedUnits() + prod.getSelectedUnits());
+                if(prod.getSelectedUnits() > 10)
+                    throw new TooManyUnitsExcpetion("Too many units of a single product...new units not added");
+            }
+        }
+
+        return false;
     }
 }

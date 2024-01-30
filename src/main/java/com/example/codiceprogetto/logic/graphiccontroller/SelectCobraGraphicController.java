@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.AddToCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductBean;
+import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 
 import javafx.animation.KeyFrame;
@@ -43,7 +44,7 @@ public class SelectCobraGraphicController extends GraphicTool{
         myChoiceBox.setValue("One Size");
     }
 
-    public void setChoiceBox(ActionEvent event) {
+    public void setChoiceBox() {
         String selected = myChoiceBox.getValue();
         selectionSize.setText(selected);
     }
@@ -67,14 +68,16 @@ public class SelectCobraGraphicController extends GraphicTool{
         try {
             ret = addCobra.updateCart(prod);
             if(ret == -1)
-                alert(errorToDisplay , rootToDisplay);
+                alert(errorToDisplay, rootToDisplay);
         } catch (SQLException e) {
-            alert(errorToDisplay , rootToDisplay);
+            alert(errorToDisplay, rootToDisplay);
+        } catch (TooManyUnitsExcpetion e) {
+            alert(e.getMessage(), rootToDisplay);
         }
 
     }
 
-    public void addProductUnits(MouseEvent mouseEvent) {
+    public void addProductUnits() {
         unitsCounter++;
         if(unitsCounter > 10) {
             unitsCounter = 10;
@@ -84,7 +87,7 @@ public class SelectCobraGraphicController extends GraphicTool{
             textFieldHandler(ACTION);
     }
 
-    public void removeProductUnits(MouseEvent mouseEvent) {
+    public void removeProductUnits() {
         unitsCounter--;
         if(unitsCounter < 1)
             unitsCounter = 1;
@@ -96,12 +99,12 @@ public class SelectCobraGraphicController extends GraphicTool{
         navigateTo(mouseEvent, "ACC");
     }
 
-    public void scrollRight(MouseEvent mouseEvent) {
+    public void scrollRight() {
         occhialini2.setVisible(true);
         occhialini1.setVisible(false);
     }
 
-    public void scrollLeft(MouseEvent mouseEvent) {
+    public void scrollLeft() {
         occhialini1.setVisible(true);
         occhialini2.setVisible(false);
     }
