@@ -39,7 +39,8 @@ public class CartDAO {
     public int updateCart(Product product, String email) throws SQLException, TooManyUnitsExcpetion {
         int result = -1;
         List<Product> productList = new ArrayList<>();
-        String listUpdated, prodList;
+        String listUpdated;
+        String prodList;
 
 
         PreparedStatement stmt;

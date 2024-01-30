@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 public class AddToCartApplicativeController {
     public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion {
         Product product;
-        int ret = -1, res;
+        int ret = -1;
+        int res;
 
         product = new ProductDAO().retrieveProduct(prod.getId(), prod.getUnitsToOrder(), prod.getSize());
         if(product != null)
