@@ -1,13 +1,12 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.logic.appcontroller.AddToCartApplicativeController;
+import com.example.codiceprogetto.logic.appcontroller.AddProductToCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -20,7 +19,7 @@ import javafx.util.Duration;
 
 import java.sql.SQLException;
 
-public class SelectCobraGraphicController extends GraphicTool{
+public class SelectCobraGraphicController extends GraphicTool {
     private int unitsCounter = 1;
     @FXML
     private TextField displayUnits;
@@ -63,7 +62,7 @@ public class SelectCobraGraphicController extends GraphicTool{
         String errorToDisplay = "Unknown error";
 
         ProductBean prod = new ProductBean("Cobra ultra swipe mirror", 6452, Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
-        AddToCartApplicativeController addCobra = new AddToCartApplicativeController();
+        AddProductToCartApplicativeController addCobra = new AddProductToCartApplicativeController();
 
         try {
             ret = addCobra.updateCart(prod);
@@ -75,6 +74,9 @@ public class SelectCobraGraphicController extends GraphicTool{
             alert(e.getMessage(), rootToDisplay);
         }
 
+        boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
+        if(!choice)
+            navigateTo(mouseEvent, "CART");
     }
 
     public void addProductUnits() {

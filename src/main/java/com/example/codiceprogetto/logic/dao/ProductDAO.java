@@ -62,7 +62,15 @@ public class ProductDAO {
 
         rs = stmt.executeQuery();
 
+        if(!rs.first()) {
+            return -1;
+        }
+
+        rs.first();
+
         int stockUpdate = rs.getInt("inStockUnits") - selectedUnits;
+
+        rs.close();
 
         String sql = "UPDATE Product SET inStockUnits = ? WHERE ID = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -75,6 +83,8 @@ public class ProductDAO {
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Product stock update failed");
         }
+
+        stmt.close();
 
         return result;
     }
