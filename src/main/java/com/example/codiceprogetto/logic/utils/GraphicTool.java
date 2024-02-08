@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.utils;
 
 import com.example.codiceprogetto.logic.view.*;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -31,6 +32,7 @@ public class GraphicTool {
                 case "ACC" -> new BrowseAccessoriesView().getAccessoriesView();
                 case "CART" -> new ShoppingCartView().getShoppingView();
                 case "COBRA" -> new SelectCobraView().getCobraView();
+                case "CHECKOUT" -> new CheckoutView().getCheckoutView();
                 default -> null;
             };
 
@@ -43,6 +45,23 @@ public class GraphicTool {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void appendToCart(String prodName, VBox rec) {
+        Parent root = null;
+
+        try {
+            root = switch (prodName) {
+                case "Cobra ultra swipe mirror" -> FXMLLoader.load(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/Cobra.fxml"));
+                default -> null;
+            };
+
+        } catch (Exception excpetion) {
+            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
+        }
+
+        rec.getChildren().add(root);
+    }
+
     public void alert(String messageToDisplay, Stage thisWindow) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Warning");

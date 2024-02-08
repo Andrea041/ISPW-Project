@@ -46,7 +46,6 @@ public class CartDAO {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
 
-
         productList = retrieveCartContent(email);
 
         if(!checkProd(productList, product))
