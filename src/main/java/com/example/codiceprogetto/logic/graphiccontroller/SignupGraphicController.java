@@ -8,6 +8,7 @@ import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 
 import com.example.codiceprogetto.logic.utils.SessionUser;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -57,13 +58,6 @@ public class SignupGraphicController extends GraphicTool{
                 }
             }
 
-            // check for CheckBox
-            checkBox.setOnAction(event -> {
-                if(checkBox.isSelected())
-                    keySignUp.setVisible(true);
-                keySignUp.setVisible(false);
-            });
-
             if(checkBox.isSelected()) {
                 if(keySignUp.getText().equals(KEY))
                     signBean.setUserType("SELLER");
@@ -107,5 +101,9 @@ public class SignupGraphicController extends GraphicTool{
         emailField.setText("");
         passTextField.setText("");
         passTextFieldConfirm.setText("");
+    }
+
+    public void changeVisibility() {
+        keySignUp.setVisible(checkBox.isSelected());
     }
 }

@@ -45,6 +45,7 @@ public class GraphicTool {
     }
     public void alert(String messageToDisplay, Stage thisWindow) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Warning");
         alert.setHeaderText(null);
         alert.setContentText(messageToDisplay);
 

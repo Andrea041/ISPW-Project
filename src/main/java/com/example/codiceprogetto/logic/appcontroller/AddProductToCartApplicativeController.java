@@ -4,6 +4,7 @@ import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.dao.ProductDAO;
 import com.example.codiceprogetto.logic.entities.Product;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.observer.Subject;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
 public class AddProductToCartApplicativeController extends Subject {
     List<Observer> observers = new ArrayList<>();
 
-    public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion {
+    public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion, DAOException {
         Product product;
         int ret = -1;
         int res;
@@ -47,7 +48,7 @@ public class AddProductToCartApplicativeController extends Subject {
 
         notifyObserver();
 
-        detach(sp);
+        // detach(sp);
 
         return ret;
     }

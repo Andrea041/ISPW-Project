@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.PriceBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.Product;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
@@ -12,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ShoppingCartApplicativeController implements Observer {
-    public PriceBean calculatePrice(PriceBean price) throws SQLException {
+    public PriceBean calculatePrice(PriceBean price) throws SQLException, DAOException {
         double amount;
 
         amount = new CartDAO().retrieveCartTotal(SessionUser.getInstance().getThisUser().getEmail());
@@ -22,6 +23,10 @@ public class ShoppingCartApplicativeController implements Observer {
         price.setSubtotal(price.getTotal() - price.getTax());
 
         return price;
+    }
+
+    public void retriveCartProd() {
+
     }
 
     @Override
@@ -44,6 +49,8 @@ public class ShoppingCartApplicativeController implements Observer {
             new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }
 }

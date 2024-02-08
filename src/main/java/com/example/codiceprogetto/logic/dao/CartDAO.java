@@ -1,8 +1,9 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.Product;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
-import com.example.codiceprogetto.logic.utils.DBsingleton;
+import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ public class CartDAO {
     public int createCustomerCart(String email) throws SQLException {
         int result;
         PreparedStatement stmt;
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
 
         String sql = "INSERT INTO Cart (email, products, total) VALUES (?, ?, ?)";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -37,13 +38,14 @@ public class CartDAO {
         return result;
     }
 
-    public int updateCart(Product product, String email) throws SQLException, TooManyUnitsExcpetion {
+    public int updateCart(Product product, String email) throws TooManyUnitsExcpetion, DAOException, SQLException {
         int result;
         List<Product> productList;
         String listUpdated;
 
         PreparedStatement stmt;
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
+
 
         productList = retrieveCartContent(email);
 
@@ -69,13 +71,13 @@ public class CartDAO {
         return result;
     }
 
-    public List<Product> retrieveCartContent(String email) throws SQLException{
+    public List<Product> retrieveCartContent(String email) throws SQLException, DAOException {
         List<Product> productList = new ArrayList<>();
         String prodList;
 
         PreparedStatement stmt;
         ResultSet rs;
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
 
         String sql = "SELECT products FROM Cart WHERE email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -83,9 +85,8 @@ public class CartDAO {
 
         rs = stmt.executeQuery();
 
-        if(!rs.first()) {
-            return null;
-        }
+        if(!rs.first())
+            throw new DAOException("Not existing cart");
 
         rs.first();
 
@@ -102,7 +103,7 @@ public class CartDAO {
 
     public void updateCartTotal(String totalStr, String email) throws SQLException {
         PreparedStatement stmt;
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
         int result;
 
         String sql = "UPDATE Cart SET total = ? WHERE email = ?";
@@ -120,12 +121,12 @@ public class CartDAO {
         stmt.close();
     }
 
-    public double retrieveCartTotal(String email) throws SQLException {
+    public double retrieveCartTotal(String email) throws SQLException, DAOException {
         double amount;
 
         PreparedStatement stmt;
         ResultSet rs;
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
 
         String sql = "SELECT total FROM Cart WHERE email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -134,7 +135,7 @@ public class CartDAO {
         rs = stmt.executeQuery();
 
         if(!rs.first()) {
-            return -1;
+            throw new DAOException("Not existing cart!");
         }
 
         rs.first();

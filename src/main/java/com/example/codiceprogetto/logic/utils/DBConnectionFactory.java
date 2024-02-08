@@ -7,10 +7,11 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DBsingleton {
-    private static DBsingleton instance = null;
-    private Connection conn;
-    protected DBsingleton() {
+public class DBConnectionFactory {
+    private static Connection conn;
+    private DBConnectionFactory() {};
+
+    static {
         try (FileInputStream file = new FileInputStream("src/main/java/com/example/codiceprogetto/logic/utils/configuration.properties")) {
             Properties prop = new Properties();
             prop.load(file);
@@ -24,12 +25,7 @@ public class DBsingleton {
             Logger.getAnonymousLogger().log(Level.INFO, "Connection to DB had an error");
         }
     }
-   public static synchronized DBsingleton getInstance() {
-        if(DBsingleton.instance == null)
-            DBsingleton.instance = new DBsingleton();
-        return instance;
-   }
-   public Connection getConn(){
+   public static Connection getConn() {
         return conn;
    }
 }

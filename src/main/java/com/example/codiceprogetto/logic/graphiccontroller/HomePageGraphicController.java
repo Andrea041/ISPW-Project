@@ -13,7 +13,7 @@ public class HomePageGraphicController extends GraphicTool {
     @FXML
     private ImageView manImage;
     public void manSwimGUI(MouseEvent mouseEvent) {
-        System.out.println("try");
+        // TODO
     }
     public void manZoomEnter() {
         zoomIN(manImage);
@@ -25,7 +25,7 @@ public class HomePageGraphicController extends GraphicTool {
     @FXML
     private ImageView womanPic;
     public void womSwimGUI(MouseEvent mouseEvent) {
-        System.out.println("try");
+        // TODO
     }
     public void womZoomEnter() {
         zoomIN(womanPic);

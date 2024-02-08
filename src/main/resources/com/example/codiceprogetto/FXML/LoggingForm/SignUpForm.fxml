@@ -86,7 +86,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <CheckBox fx:id="checkBox" layoutX="465.0" layoutY="502.0" mnemonicParsing="false" text="Register as seller">
+      <CheckBox fx:id="checkBox" layoutX="465.0" layoutY="502.0" mnemonicParsing="false" onAction="#changeVisibility" text="Register as seller">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

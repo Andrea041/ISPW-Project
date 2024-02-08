@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.SelectCobraGraphicController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.SelectProductGraphicController">
    <children>
       <SVGPath fx:id="backBrowseProduct" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#backBrowseProduct" scaleX="0.025" scaleY="0.025" />
       <Label layoutX="770.0" layoutY="32.0" text="Customer Service">
@@ -45,19 +45,19 @@
          </font>
       </Label>
       <Line endX="1037.0" layoutX="131.0" layoutY="159.0" startX="-100.0" stroke="#bcbcbc" />
-      <Label layoutX="66.0" layoutY="100.0" text="Cobra ultra swipe mirror">
+      <Label fx:id="productName" layoutX="66.0" layoutY="100.0" text="Cobra ultra swipe mirror">
          <font>
             <Font name="Arial" size="36.0" />
          </font>
       </Label>
       <StackPane fx:id="StackPane" layoutX="31.0" layoutY="170.0" prefHeight="197.0" prefWidth="225.0">
          <children>
-            <ImageView fx:id="occhialini2" fitHeight="284.0" fitWidth="233.0">
+            <ImageView fx:id="image2" fitHeight="284.0" fitWidth="233.0">
                <image>
                   <Image url="@occhialini2.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="occhialini1" fitHeight="284.0" fitWidth="233.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="image1" fitHeight="284.0" fitWidth="233.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@occhialini1.jpg" />
                </image>
@@ -169,6 +169,16 @@
       <Label fx:id="alert" layoutX="712.0" layoutY="364.0" textFill="RED">
          <font>
             <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="productID" layoutX="1137.0" layoutY="139.0" text="6452">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="1114.0" layoutY="139.0" text="ID:">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
    </children>

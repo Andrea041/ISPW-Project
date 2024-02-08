@@ -2,8 +2,8 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.PriceBean;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -24,7 +24,8 @@ public class ShoppingCartGraphicController extends GraphicTool {
 
     @FXML
     void initialize() {
-        updateLabel();
+        updatePriceLabel();
+        updateProductGUI();
     }
 
     public void back(MouseEvent mouseEvent) {
@@ -41,7 +42,7 @@ public class ShoppingCartGraphicController extends GraphicTool {
     public void gotoCheckoutGUI(MouseEvent mouseEvent) {
     }
 
-    public void updateLabel() {
+    public void updatePriceLabel() {
         ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
         PriceBean price = new PriceBean(0, 0,0);
 
@@ -51,11 +52,17 @@ public class ShoppingCartGraphicController extends GraphicTool {
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error in DB");
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "Unknown error in DB");
+        } catch(DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         subtotal.setText(round(price.getSubtotal(),2) + "€");
         total.setText(round(price.getTotal(),2) + "€");
         tax.setText(round(price.getTax(),2) + "€");
+    }
+
+    public void updateProductGUI() {
+        ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
     }
 
     public static double round(double value, int places) {

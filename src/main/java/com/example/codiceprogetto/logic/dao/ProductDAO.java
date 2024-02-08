@@ -1,7 +1,7 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.Product;
-import com.example.codiceprogetto.logic.utils.DBsingleton;
+import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +29,7 @@ public class ProductDAO {
     }
 
     public Product retrieveProduct(int id, int selectedUnits, String size) throws SQLException {
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
         ResultSet rs;
         Product product;
         PreparedStatement stmt;
@@ -53,7 +53,7 @@ public class ProductDAO {
     }
 
     public int updateProductStock(int id, int selectedUnits) throws SQLException {
-        Connection conn = DBsingleton.getInstance().getConn();
+        Connection conn = DBConnectionFactory.getConn();
         PreparedStatement stmt;
         ResultSet rs;
         int result;
