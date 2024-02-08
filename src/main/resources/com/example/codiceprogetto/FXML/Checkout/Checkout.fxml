@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.CheckoutGraphicController">
+   <children>
+      <SVGPath fx:id="back" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#back" scaleX="0.025" scaleY="0.025" />
+      <Label layoutX="770.0" layoutY="32.0" text="Customer Service">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="929.0" layoutY="32.0" text="Store">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="myAccount" layoutX="998.0" layoutY="32.0" onMouseClicked="#accountGUI" text="My account">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
+      <Label fx:id="Cart" layoutX="1118.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="25.0" text="Bubble Shop" textFill="#0071f5">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Line endX="1037.0" layoutX="131.0" layoutY="159.0" startX="-100.0" stroke="#bcbcbc" />
+      <Label layoutX="66.0" layoutY="100.0" text="Checkout">
+         <font>
+            <Font name="Arial" size="36.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="289.0" layoutX="861.0" layoutY="440.0" stroke="BLACK" strokeType="INSIDE" width="308.0" />
+      <Label layoutX="883.0" layoutY="455.0" text="Order summary">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="883.0" layoutY="509.0" text="Subtotal">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="883.0" layoutY="536.0" text="Tax (22%)">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="883.0" layoutY="640.0" text="Total">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="proceedPayment" alignment="BASELINE_LEFT" layoutX="884.0" layoutY="675.0" mnemonicParsing="false" onMouseClicked="#gotoPaymentGUI" prefHeight="34.0" prefWidth="260.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Proceed to payment" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="subtotal" layoutX="1094.0" layoutY="509.0" text="0€">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="tax" layoutX="1094.0" layoutY="536.0" text="0€">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="total" layoutX="1094.0" layoutY="640.0" text="0€">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Label>
+      <SVGPath content="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="WHITE" layoutX="1111.0" layoutY="680.0" scaleX="0.85" scaleY="0.85" />
+      <Label layoutX="884.0" layoutY="562.0" text="Shipping">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="shipping" layoutX="1094.0" layoutY="562.0" text="0€">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="197.0" layoutX="860.0" layoutY="203.0" stroke="BLACK" strokeType="INSIDE" width="308.0" />
+      <Label layoutX="883.0" layoutY="220.0" text="Shipping &amp; coupon">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Line endX="160.0" layoutX="986.0" layoutY="250.0" startX="-102.0" />
+      <RadioButton fx:id="freeRadio" layoutX="883.0" layoutY="260.0" mnemonicParsing="false" text="FREE - 6 to 8 working days">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="threeRadio" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" text="3.00€ - 4 to 6 working days">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="fiveRadio" layoutX="883.0" layoutY="314.0" mnemonicParsing="false" text="5.00€ - 2 to 4 working days">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </RadioButton>
+      <TextField fx:id="couponText" layoutX="883.0" layoutY="353.0" prefHeight="30.0" prefWidth="174.0" promptText="Coupon" style="-fx-background-radius: 16; -fx-border-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="applyCoupon" alignment="BASELINE_LEFT" layoutX="1088.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#couponCheck" prefHeight="30.0" prefWidth="55.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Apply" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="884.0" layoutY="589.0" text="Discount">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="discount" layoutX="1093.0" layoutY="589.0" text="0€">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="163.0" layoutY="220.0" text="Compile delivery address form">
+         <font>
+            <Font name="Arial Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="addressField" layoutX="149.0" layoutY="337.0" prefHeight="39.0" prefWidth="390.0" promptText="Address" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="countryField" layoutX="149.0" layoutY="402.0" prefHeight="39.0" prefWidth="390.0" promptText="Country" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="nameField" layoutX="149.0" layoutY="272.0" prefHeight="39.0" prefWidth="180.0" promptText="Name" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="lastNameField" layoutX="357.0" layoutY="272.0" prefHeight="39.0" prefWidth="180.0" promptText="Last  name" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="stateField" layoutX="149.0" layoutY="467.0" prefHeight="39.0" prefWidth="390.0" promptText="State" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="cityField" layoutX="149.0" layoutY="532.0" prefHeight="39.0" prefWidth="390.0" promptText="City" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="numberField" layoutX="149.0" layoutY="597.0" prefHeight="39.0" prefWidth="390.0" promptText="Phone number" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Line endX="96.66665649414062" layoutX="218.0" layoutY="666.0" startX="-66.0" />
+      <Label layoutX="326.0" layoutY="653.0" text="Or">
+         <font>
+            <Font name="Arial Bold" size="24.0" />
+         </font>
+      </Label>
+      <Line endX="94.0" layoutX="440.0" layoutY="666.0" startX="-72.66665649414062" />
+      <CheckBox fx:id="memoAddress" layoutX="149.0" layoutY="696.0" mnemonicParsing="false" text="I already have delivery address">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </CheckBox>
+   </children>
+</AnchorPane>
