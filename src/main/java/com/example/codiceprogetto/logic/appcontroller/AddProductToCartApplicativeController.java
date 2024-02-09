@@ -16,17 +16,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddProductToCartApplicativeController extends Subject {
-    List<Observer> observers = new ArrayList<>();
-
+public class AddProductToCartApplicativeController {
     public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion, DAOException {
         Product product;
         int ret = -1;
         int res;
-
-        ShoppingCartApplicativeController sp = new ShoppingCartApplicativeController();
-
-        attach(sp);
 
         product = new ProductDAO().retrieveProduct(prod.getId(), prod.getUnitsToOrder(), prod.getSize());
         if(product != null)
@@ -35,7 +29,7 @@ public class AddProductToCartApplicativeController extends Subject {
             return ret;
 
         try {
-            ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail());
+            ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
         } catch (TooManyUnitsExcpetion e) {
             throw new TooManyUnitsExcpetion(e.getMessage());
         }
@@ -46,26 +40,32 @@ public class AddProductToCartApplicativeController extends Subject {
         else
             return -1;
 
-        notifyObserver();
-
-        // detach(sp);
+        updateTotal();
 
         return ret;
     }
 
-    @Override
-    public void attach(Observer o) {
-        observers.add(o);
-    }
+    public void updateTotal() {
+        List<Product> cartContent;
+        double total = 0;
+        String totalStr;
 
-    @Override
-    public void detach(Observer o) {
-        observers.remove(o);
-    }
+        try {
+            cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
+            if(cartContent == null)
+                return;
 
-    @Override
-    protected void notifyObserver() {
-        for(Observer observer : observers)
-            observer.update();
+            for(Product prod : cartContent) {
+                total += (prod.getPrice() * prod.getSelectedUnits());
+            }
+
+            totalStr = String.valueOf(total);
+
+            new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
     }
 }

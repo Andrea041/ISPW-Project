@@ -38,7 +38,7 @@ public class CartDAO {
         return result;
     }
 
-    public int updateCart(Product product, String email) throws TooManyUnitsExcpetion, DAOException, SQLException {
+    public int updateCart(Product product, String email, String op) throws TooManyUnitsExcpetion, DAOException, SQLException {
         int result;
         List<Product> productList;
         String listUpdated;
@@ -48,8 +48,12 @@ public class CartDAO {
 
         productList = retrieveCartContent(email);
 
-        if(!checkProd(productList, product))
+        if(productList.isEmpty())
             productList.add(product);
+        else if(op.equals("ADD") && !checkProd(productList, product))
+            productList.add(product);
+        else
+            productList.removeIf(prod -> prod.getName().equals(product.getName()));
 
         listUpdated = listConverter(productList);
 
@@ -71,7 +75,7 @@ public class CartDAO {
     }
 
     public List<Product> retrieveCartContent(String email) throws SQLException, DAOException {
-        List<Product> productList = new ArrayList<>();
+        List<Product> productList;
         String prodList;
 
         PreparedStatement stmt;
@@ -91,8 +95,10 @@ public class CartDAO {
 
         prodList = rs.getString("products");
 
-        if(prodList != null)
+        if(!prodList.isEmpty())
             productList = stringConverter(prodList);
+        else
+            return new ArrayList<>();
 
         rs.close();
         stmt.close();
@@ -166,6 +172,9 @@ public class CartDAO {
     public String listConverter(List<Product> lista) {
         StringBuilder stringBuilder = new StringBuilder();
 
+        if(lista == null)
+            return null;
+
         for(Product product : lista) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
                     .append(product.getSize()).append(",").append(product.getPrice()).append(",");
@@ -175,9 +184,9 @@ public class CartDAO {
 
     public boolean checkProd(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
         for(Product prod : prodList) {
-            if (prod.getName().equals(newProd.getName())) {
+            if(prod.getName().equals(newProd.getName())) {
                 prod.setSelectedUnits(newProd.getSelectedUnits() + prod.getSelectedUnits());
-                if (prod.getSelectedUnits() <= 10)
+                if(prod.getSelectedUnits() <= 10)
                     return true;
                 else
                     throw new TooManyUnitsExcpetion("Limit units for each customer reached, the new units aren't added in the cart");

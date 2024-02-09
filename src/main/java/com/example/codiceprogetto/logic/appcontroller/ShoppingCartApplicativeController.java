@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ShoppingCartApplicativeController implements Observer {
+public class ShoppingCartApplicativeController {
     public PriceBean calculatePrice(PriceBean price) throws SQLException, DAOException {
         double amount;
 
@@ -39,30 +39,5 @@ public class ShoppingCartApplicativeController implements Observer {
         }
 
         return prodNameList;
-    }
-
-    @Override
-    public void update() {
-        List<Product> cartContent;
-        double total = 0;
-        String totalStr;
-
-        try {
-            cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
-            if(cartContent == null)
-                return;
-
-            for(Product prod : cartContent) {
-                total += (prod.getPrice() * prod.getSelectedUnits());
-            }
-
-            totalStr = String.valueOf(total);
-
-            new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        } catch (DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        }
     }
 }

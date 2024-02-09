@@ -2,12 +2,12 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ProdInCartApplicativeController;
 import com.example.codiceprogetto.logic.exception.DAOException;
+import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,12 +37,12 @@ public class ProdInCartGraphicController extends GraphicTool {
             if(selectedUnits == -1)
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
 
-            totalAmountPerProd.setText(totalPerProd + "€");
+            totalAmountPerProd.setText(round(totalPerProd, 2) + "€");
             changeQuantity.setText(String.valueOf(selectedUnits));
             counter = selectedUnits;
-        } catch (DAOException e) {
+        } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
@@ -61,6 +61,18 @@ public class ProdInCartGraphicController extends GraphicTool {
         changeQuantity.setText(Integer.toString(counter));
     }
 
-    public void removeProd(MouseEvent mouseEvent) {
+    public void removeProd() {
+        ProdInCartApplicativeController prodBox = new ProdInCartApplicativeController();
+        int res;
+
+        try {
+            res = prodBox.removeProduct(productName.getText());
+            if(res == -1)
+                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+        } catch(DAOException | TooManyUnitsExcpetion e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        } catch(SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        }
     }
 }

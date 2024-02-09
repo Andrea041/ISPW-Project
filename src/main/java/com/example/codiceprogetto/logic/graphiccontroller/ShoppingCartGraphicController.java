@@ -3,21 +3,20 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.PriceBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
+import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ShoppingCartGraphicController extends GraphicTool {
+public class ShoppingCartGraphicController extends GraphicTool implements Observer {
     @FXML
     private Label subtotal;
     @FXML
@@ -79,16 +78,15 @@ public class ShoppingCartGraphicController extends GraphicTool {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
-        for(String name : nameList) {
-            appendToCart(name, productLocation);
+        if(!nameList.isEmpty()) {
+            for(String name : nameList)
+                appendToCart(name, productLocation);
         }
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+    @Override
+    public void update() {
+        updatePriceLabel();
+        updateProductGUI();
     }
 }
