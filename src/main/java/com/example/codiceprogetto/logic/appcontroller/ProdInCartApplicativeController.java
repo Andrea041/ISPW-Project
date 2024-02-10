@@ -1,6 +1,8 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
+import com.example.codiceprogetto.logic.bean.ProductInCartBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
+import com.example.codiceprogetto.logic.dao.ProductDAO;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
@@ -8,22 +10,23 @@ import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProdInCartApplicativeController {
-    public double calculateTotalSingleProd(String prodName) throws DAOException, SQLException {
+    public ProductInCartBean calculateTotalSingleProd(String prodName, ProductInCartBean cart) throws DAOException, SQLException {
         List<Product> cartContent;
-        int res = -1;
 
         cartContent = fetchCart();
-        if(cartContent == null)
-            return res;
+        if(cartContent.isEmpty())
+            return null;
 
         for(Product prod : cartContent) {
             if(prod.getName().equals(prodName))
-                return prod.getPrice() * prod.getSelectedUnits();
+                cart.setTotalAmount(prod.getPrice() * prod.getSelectedUnits());
         }
 
-        return res;
+        return cart;
     }
 
     public int displaySelectedUnits(String prodName) throws DAOException, SQLException {
@@ -31,7 +34,7 @@ public class ProdInCartApplicativeController {
         int res = -1;
 
         cartContent = fetchCart();
-        if(cartContent == null)
+        if(cartContent.isEmpty())
             return res;
 
         for(Product prod : cartContent) {
@@ -48,7 +51,7 @@ public class ProdInCartApplicativeController {
         Product toRemove = null;
 
         cartContent = fetchCart();
-        if(cartContent == null)
+        if(cartContent.isEmpty())
             return res;
 
         for(Product prod : cartContent) {
@@ -60,6 +63,53 @@ public class ProdInCartApplicativeController {
 
         res = new CartDAO().updateCart(toRemove, SessionUser.getInstance().getThisUser().getEmail(), "REMOVE");
         new CartDAO().updateCartTotal("0", SessionUser.getInstance().getThisUser().getEmail());
+
+        return res;
+    }
+
+    public int changeUnits(String prodName, String op) throws DAOException, SQLException, TooManyUnitsExcpetion {
+        List<Product> cartContent;
+        int res = -1;
+        Product modifiedProd = null;
+        double total = 0;
+        String totalStr;
+
+        cartContent = fetchCart();
+        if(cartContent.isEmpty())
+            return res;
+
+        for(Product prod : cartContent) {
+            if(prod.getName().equals(prodName) && op.equals("ADD") && prod.getSelectedUnits() < 10) {
+                prod.setSelectedUnits(1);
+                modifiedProd = prod;
+                res = new ProductDAO().updateProductStock(prod.getId(), prod.getSelectedUnits());
+                if(res == -1)
+                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");
+            }
+            else if(prod.getName().equals(prodName) && op.equals("DELETE") && prod.getSelectedUnits() > 1) {
+                prod.setSelectedUnits(-1);
+                modifiedProd = prod;
+                res = new ProductDAO().updateProductStock(prod.getId(), prod.getSelectedUnits());
+                if(res == -1)
+                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");
+            }
+            else if(op.equals("ADD") || op.equals("REMOVE") && (prod.getSelectedUnits() > 10 || prod.getSelectedUnits() < 1))
+                throw new TooManyUnitsExcpetion("Limit units for each customer reached, the new units aren't added in the cart");
+        }
+        
+        res = new CartDAO().updateCart(modifiedProd, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
+
+        cartContent = fetchCart();
+        if(cartContent.isEmpty())
+            return res;
+
+        for(Product prod : cartContent) {
+            total += (prod.getPrice() * prod.getSelectedUnits());
+        }
+
+        totalStr = String.valueOf(total);
+
+        new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
 
         return res;
     }

@@ -28,44 +28,34 @@ public class AddProductToCartApplicativeController {
         else
             return ret;
 
-        try {
-            ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
-        } catch (TooManyUnitsExcpetion e) {
-            throw new TooManyUnitsExcpetion(e.getMessage());
-        }
+        ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
 
         res = new ProductDAO().updateProductStock(product.getId(), product.getSelectedUnits());
         if(res != 0)
             Logger.getAnonymousLogger().log(Level.INFO, "Product stock updated");
         else
-            return -1;
+            return res;
 
         updateTotal();
 
         return ret;
     }
 
-    public void updateTotal() {
+    public void updateTotal() throws DAOException, SQLException {
         List<Product> cartContent;
         double total = 0;
         String totalStr;
 
-        try {
-            cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
-            if(cartContent == null)
-                return;
+        cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
+        if(cartContent == null)
+            return;
 
-            for(Product prod : cartContent) {
-                total += (prod.getPrice() * prod.getSelectedUnits());
-            }
-
-            totalStr = String.valueOf(total);
-
-            new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        } catch (DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        for(Product prod : cartContent) {
+            total += (prod.getPrice() * prod.getSelectedUnits());
         }
+
+        totalStr = String.valueOf(total);
+
+        new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
     }
 }

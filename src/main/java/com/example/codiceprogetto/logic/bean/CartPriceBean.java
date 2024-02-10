@@ -1,13 +1,15 @@
 package com.example.codiceprogetto.logic.bean;
 
-public class PriceBean {
+import com.example.codiceprogetto.logic.graphiccontroller.ShoppingCartGraphicController;
+
+public class CartPriceBean {
     private double total;
     private double tax;
     private double subtotal;
-    public PriceBean(double total, double tax, double subtotal) {
+    public CartPriceBean(double total, double tax, double subtotal) {
         this.total = total;
-        this.subtotal = subtotal;
         this.tax = tax;
+        this.subtotal = subtotal;
     }
     public double getSubtotal() {
         return subtotal;

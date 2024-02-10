@@ -56,14 +56,14 @@ public class ProductDAO {
         Connection conn = DBConnectionFactory.getConn();
         PreparedStatement stmt;
         ResultSet rs;
-        int result;
+        int result = -1;
 
         stmt = retrieveQuery(conn, id);
 
         rs = stmt.executeQuery();
 
         if(!rs.first()) {
-            return -1;
+            return result;
         }
 
         rs.first();

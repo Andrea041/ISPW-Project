@@ -1,20 +1,17 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
-import com.example.codiceprogetto.logic.bean.PriceBean;
+import com.example.codiceprogetto.logic.bean.CartPriceBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
-import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ShoppingCartApplicativeController {
-    public PriceBean calculatePrice(PriceBean price) throws SQLException, DAOException {
+    public CartPriceBean calculatePrice(CartPriceBean price) throws SQLException, DAOException {
         double amount;
 
         amount = new CartDAO().retrieveCartTotal(SessionUser.getInstance().getThisUser().getEmail());

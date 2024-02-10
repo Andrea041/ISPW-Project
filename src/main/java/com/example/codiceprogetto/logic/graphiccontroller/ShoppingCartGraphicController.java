@@ -1,7 +1,8 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
-import com.example.codiceprogetto.logic.bean.PriceBean;
+import com.example.codiceprogetto.logic.bean.CartPriceBean;
+import com.example.codiceprogetto.logic.bean.ProductInCartBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
@@ -30,6 +31,9 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     void initialize() {
         updatePriceLabel();
         updateProductGUI();
+
+        ProductInCartBean totPrice = new ProductInCartBean(0);
+        totPrice.attach(this);
     }
 
     public void back(MouseEvent mouseEvent) {
@@ -49,7 +53,7 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
 
     public void updatePriceLabel() {
         ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
-        PriceBean price = new PriceBean(0, 0,0);
+        CartPriceBean price = new CartPriceBean(0, 0,0);
 
         try {
             price = shop.calculatePrice(price);
@@ -61,7 +65,7 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
-        subtotal.setText(round(price.getSubtotal(),2) + "€");
+        subtotal.setText(round(price.getSubtotal(), 2) + "€");
         total.setText(round(price.getTotal(),2) + "€");
         tax.setText(round(price.getTax(),2) + "€");
     }

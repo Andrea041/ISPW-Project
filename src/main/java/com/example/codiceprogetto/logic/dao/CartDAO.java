@@ -50,9 +50,9 @@ public class CartDAO {
 
         if(productList.isEmpty())
             productList.add(product);
-        else if(op.equals("ADD") && !checkProd(productList, product))
+        else if(op.equals("ADD") && !countUnits(productList, product))
             productList.add(product);
-        else
+        else if(op.equals("REMOVE"))
             productList.removeIf(prod -> prod.getName().equals(product.getName()));
 
         listUpdated = listConverter(productList);
@@ -63,11 +63,10 @@ public class CartDAO {
         stmt.setString(2, email);
 
         result = stmt.executeUpdate();
-        if(result > 0){
+        if(result > 0)
             Logger.getAnonymousLogger().log(Level.INFO, "Cart updated");
-        } else {
+        else
             Logger.getAnonymousLogger().log(Level.INFO, "Cart update failed");
-        }
 
         stmt.close();
 
@@ -169,20 +168,20 @@ public class CartDAO {
         return listProd;
     }
 
-    public String listConverter(List<Product> lista) {
+    public String listConverter(List<Product> list) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if(lista == null)
+        if(list == null)
             return null;
 
-        for(Product product : lista) {
+        for(Product product : list) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
                     .append(product.getSize()).append(",").append(product.getPrice()).append(",");
         }
         return stringBuilder.toString();
     }
 
-    public boolean checkProd(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
+    public boolean countUnits(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
         for(Product prod : prodList) {
             if(prod.getName().equals(newProd.getName())) {
                 prod.setSelectedUnits(newProd.getSelectedUnits() + prod.getSelectedUnits());
