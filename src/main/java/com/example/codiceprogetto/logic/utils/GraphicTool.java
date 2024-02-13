@@ -48,22 +48,6 @@ public abstract class GraphicTool {
         stage.show();
     }
 
-    public void appendToCart(String prodName, VBox rec) {
-        Parent root = null;
-
-        try {
-            root = switch (prodName) {
-                case "Cobra ultra swipe mirror" -> FXMLLoader.load(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/Cobra.fxml"));
-                default -> null;
-            };
-
-        } catch (Exception excpetion) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
-        }
-
-        rec.getChildren().add(root);
-    }
-
     public void alert(String messageToDisplay, Stage thisWindow) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Warning");

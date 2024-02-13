@@ -1,7 +1,8 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
-import com.example.codiceprogetto.logic.bean.CartPriceBean;
+import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
+import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -11,30 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCartApplicativeController {
-    public CartPriceBean calculatePrice(CartPriceBean price) throws SQLException, DAOException {
-        double amount;
+    public CartBean calculatePrice(CartBean price) throws SQLException, DAOException {
+        Cart cart;
 
-        amount = new CartDAO().retrieveCartTotal(SessionUser.getInstance().getThisUser().getEmail());
+        cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
 
-        price.setTotal(amount);
-        price.setTax((amount/100)*22);
-        price.setSubtotal(price.getTotal() - price.getTax());
+        price.setTotal(cart.getTotal());
+        price.setTax((cart.getTotal()/100) * 22);
+        price.setSubtotal(cart.getTotal() - price.getTax());
 
         return price;
     }
 
-    public List<String> retrieveCartProd() throws DAOException, SQLException{
-        List<Product> cartContent;
-        List<String> prodNameList = new ArrayList<>();
+    public CartBean retrieveCartProd(CartBean cartContent) throws DAOException, SQLException{
+        Cart cart;
 
-        cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
-        if (cartContent == null)
-            return null;
+        cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
 
-        for(Product prod : cartContent) {
-            prodNameList.add(prod.getName());
-        }
+        List<Product> prodList = new ArrayList<>(cart.getProducts());
+        cartContent.setProductList(prodList);
 
-        return prodNameList;
+        return cartContent;
     }
 }

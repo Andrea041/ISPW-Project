@@ -67,7 +67,7 @@ public class SelectProductGraphicController extends GraphicTool {
         Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         String errorToDisplay = "Unknown error";
 
-        ProductBean prod = new ProductBean(productName.getText(), Integer.parseInt(productID.getText()), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
+        ProductBean prod = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
         AddProductToCartApplicativeController addCobra = new AddProductToCartApplicativeController();
 
         try {

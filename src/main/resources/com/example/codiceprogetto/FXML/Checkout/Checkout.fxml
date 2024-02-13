@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -105,27 +106,30 @@
          </font>
       </Label>
       <Line endX="160.0" layoutX="986.0" layoutY="250.0" startX="-102.0" />
-      <RadioButton fx:id="freeRadio" layoutX="883.0" layoutY="260.0" mnemonicParsing="false" text="FREE - 6 to 8 working days">
+      <RadioButton fx:id="freeRadio" layoutX="883.0" layoutY="260.0" mnemonicParsing="false" selected="true" text="FREE - 6 to 8 working days" onAction="#checkShipping">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="ship" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="threeRadio" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" text="3.00€ - 4 to 6 working days" toggleGroup="$ship" onAction="#checkShipping">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="threeRadio" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" text="3.00€ - 4 to 6 working days">
+      <RadioButton fx:id="fiveRadio" layoutX="883.0" layoutY="314.0" mnemonicParsing="false" text="5.00€ - 2 to 4 working days" toggleGroup="$ship" onAction="#checkShipping">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="fiveRadio" layoutX="883.0" layoutY="314.0" mnemonicParsing="false" text="5.00€ - 2 to 4 working days">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </RadioButton>
-      <TextField fx:id="couponText" layoutX="883.0" layoutY="353.0" prefHeight="30.0" prefWidth="174.0" promptText="Coupon" style="-fx-background-radius: 16; -fx-border-radius: 16;">
+      <TextField fx:id="couponText" layoutX="883.0" layoutY="353.0" prefHeight="30.0" prefWidth="123.0" promptText="Coupon" style="-fx-background-radius: 16; -fx-border-radius: 16;">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="applyCoupon" alignment="BASELINE_LEFT" layoutX="1088.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#couponCheck" prefHeight="30.0" prefWidth="55.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Apply" textFill="WHITE">
+      <Button fx:id="applyCoupon" alignment="CENTER" layoutX="1023.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#couponCheck" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Apply" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -175,7 +179,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="numberField" layoutX="149.0" layoutY="597.0" prefHeight="39.0" prefWidth="390.0" promptText="Phone number" style="-fx-border-radius: 16; -fx-background-radius: 16;">
+      <TextField fx:id="phoneNumberField" layoutX="149.0" layoutY="597.0" prefHeight="39.0" prefWidth="390.0" promptText="Phone number" style="-fx-border-radius: 16; -fx-background-radius: 16;">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -192,5 +196,11 @@
             <Font name="Arial" size="14.0" />
          </font>
       </CheckBox>
+      <Line endX="160.0" layoutX="986.0" layoutY="487.0" startX="-102.0" />
+      <Button fx:id="deleteCoupon" alignment="BASELINE_LEFT" layoutX="1089.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#couponDelete" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

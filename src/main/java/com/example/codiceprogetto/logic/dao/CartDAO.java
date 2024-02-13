@@ -1,9 +1,11 @@
 package com.example.codiceprogetto.logic.dao;
 
+import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CartDAO {
+    public Cart createCartEntity(ResultSet rs, String email) throws SQLException {
+        Cart cart;
+        List<Product> productList;
+        String prodList;
+
+        prodList = rs.getString("products");
+
+        if(!prodList.isEmpty())
+            productList = stringConverter(prodList);
+        else
+            productList = new ArrayList<>();
+
+        cart = new Cart(email, productList, rs.getDouble("total"), rs.getInt("appliedDiscount"), rs.getInt("shipping"));
+
+        return cart;
+    }
+
     public int createCustomerCart(String email) throws SQLException {
         int result;
         PreparedStatement stmt;
@@ -40,22 +59,22 @@ public class CartDAO {
 
     public int updateCart(Product product, String email, String op) throws TooManyUnitsExcpetion, DAOException, SQLException {
         int result;
-        List<Product> productList;
         String listUpdated;
+        Cart cart;
 
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
 
-        productList = retrieveCartContent(email);
+        cart = retrieveCart(email);
 
-        if(productList.isEmpty())
-            productList.add(product);
-        else if(op.equals("ADD") && !countUnits(productList, product))
-            productList.add(product);
+        if(cart.getProducts().isEmpty())
+            cart.getProducts().add(product);
+        else if(op.equals("ADD") && !countUnits(cart.getProducts(), product))
+            cart.getProducts().add(product);
         else if(op.equals("REMOVE"))
-            productList.removeIf(prod -> prod.getName().equals(product.getName()));
+            cart.getProducts().removeIf(prod -> prod.getName().equals(product.getName()));
 
-        listUpdated = listConverter(productList);
+        listUpdated = listConverter(cart.getProducts());
 
         String sql = "UPDATE Cart SET products = ? WHERE email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -73,15 +92,14 @@ public class CartDAO {
         return result;
     }
 
-    public List<Product> retrieveCartContent(String email) throws SQLException, DAOException {
-        List<Product> productList;
-        String prodList;
+    public Cart retrieveCart(String email) throws SQLException, DAOException {
+        Cart cart;
 
         PreparedStatement stmt;
         ResultSet rs;
         Connection conn = DBConnectionFactory.getConn();
 
-        String sql = "SELECT products FROM Cart WHERE email = ?";
+        String sql = "SELECT * FROM Cart WHERE email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, email);
 
@@ -92,17 +110,52 @@ public class CartDAO {
 
         rs.first();
 
-        prodList = rs.getString("products");
-
-        if(!prodList.isEmpty())
-            productList = stringConverter(prodList);
-        else
-            return new ArrayList<>();
+        cart = createCartEntity(rs, email);
 
         rs.close();
         stmt.close();
 
-        return productList;
+        return cart;
+    }
+
+    public void updateCartCoupon(int coupon, String email) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        int result;
+
+        String sql = "UPDATE Cart SET appliedDiscount = ? WHERE email = ?";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setInt(1, coupon);
+        stmt.setString(2, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "Discount updated");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Discount update failed");
+        }
+
+        stmt.close();
+    }
+
+    public void updateCartShipping(int shipping, String email) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        int result;
+
+        String sql = "UPDATE Cart SET shipping = ? WHERE email = ?";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setInt(1, shipping);
+        stmt.setString(2, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "Shipping updated");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Shipping update failed");
+        }
+
+        stmt.close();
     }
 
     public void updateCartTotal(String totalStr, String email) throws SQLException {
@@ -125,40 +178,13 @@ public class CartDAO {
         stmt.close();
     }
 
-    public double retrieveCartTotal(String email) throws SQLException, DAOException {
-        double amount;
-
-        PreparedStatement stmt;
-        ResultSet rs;
-        Connection conn = DBConnectionFactory.getConn();
-
-        String sql = "SELECT total FROM Cart WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-
-        rs = stmt.executeQuery();
-
-        if(!rs.first()) {
-            throw new DAOException("Not existing cart!");
-        }
-
-        rs.first();
-
-        amount = Double.parseDouble(rs.getString("total"));
-
-        rs.close();
-        stmt.close();
-
-        return amount;
-    }
-
-    public List<Product> stringConverter(String list) {
+    private List<Product> stringConverter(String list) {
         List<Product> listProd = new ArrayList<>();
         String[] elements = list.split(",");
 
         for(int i = 0; i < elements.length; i += 5) {
             String name = elements[i];
-            int id = Integer.parseInt(elements[i + 1]);
+            String id = elements[i + 1];
             int selectedUnits = Integer.parseInt(elements[i + 2]);
             String size = elements[i + 3];
             double price = Double.parseDouble(elements[i + 4]);
@@ -168,7 +194,7 @@ public class CartDAO {
         return listProd;
     }
 
-    public String listConverter(List<Product> list) {
+    private String listConverter(List<Product> list) {
         StringBuilder stringBuilder = new StringBuilder();
 
         if(list == null)
@@ -181,7 +207,7 @@ public class CartDAO {
         return stringBuilder.toString();
     }
 
-    public boolean countUnits(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
+    private boolean countUnits(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {
         for(Product prod : prodList) {
             if(prod.getName().equals(newProd.getName())) {
                 prod.setSelectedUnits(newProd.getSelectedUnits() + prod.getSelectedUnits());

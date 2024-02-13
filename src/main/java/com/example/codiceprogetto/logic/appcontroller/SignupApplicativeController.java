@@ -43,7 +43,6 @@ public class SignupApplicativeController {
 
         storeSessionData(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
 
-        // TODO: magari si potrebbe implementare un observer anche qui
         SessionUser.getInstance().cart();
 
         return result;

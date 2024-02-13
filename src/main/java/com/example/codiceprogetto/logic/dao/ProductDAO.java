@@ -13,22 +13,22 @@ import java.util.logging.Logger;
 public class ProductDAO {
     protected Product newProduct(ResultSet rs, int selectedUnits, String size) throws SQLException {
         Product prod;
-        prod = new Product(rs.getString("name"), rs.getInt("ID"), selectedUnits, size, rs.getDouble("price"));
+        prod = new Product(rs.getString("name"), rs.getString("ID"), selectedUnits, size, rs.getDouble("price"));
 
         return prod;
     }
 
-    public PreparedStatement retrieveQuery(Connection conn, int id) throws SQLException {
+    public PreparedStatement retrieveQuery(Connection conn, String id) throws SQLException {
         PreparedStatement stmt;
 
         String sql = "SELECT * FROM Product WHERE " + "ID" + " = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setInt(1, id);
+        stmt.setString(1, id);
 
         return stmt;
     }
 
-    public Product retrieveProduct(int id, int selectedUnits, String size) throws SQLException {
+    public Product retrieveProduct(String id, int selectedUnits, String size) throws SQLException {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs;
         Product product;
@@ -52,7 +52,7 @@ public class ProductDAO {
         return product;
     }
 
-    public int updateProductStock(int id, int selectedUnits) throws SQLException {
+    public int updateProductStock(String id, int selectedUnits) throws SQLException {
         Connection conn = DBConnectionFactory.getConn();
         PreparedStatement stmt;
         ResultSet rs;
@@ -75,7 +75,7 @@ public class ProductDAO {
         String sql = "UPDATE Product SET inStockUnits = ? WHERE ID = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setInt(1, stockUpdate);
-        stmt.setInt(2, id);
+        stmt.setString(2, id);
 
         result = stmt.executeUpdate();
         if(result > 0){

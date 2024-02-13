@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDAO extends AbsUserDAO {
-    protected User newUser(ResultSet rs) throws SQLException {
+    private User newUser(ResultSet rs) throws SQLException {
         User user;
         user = new User(rs.getString("email"), rs.getString("password"), rs.getString("userType"), rs.getString("name"), rs.getString("surname"));
 

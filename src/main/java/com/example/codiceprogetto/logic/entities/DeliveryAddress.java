@@ -7,14 +7,25 @@ public class DeliveryAddress {
     private String city;
     private String country;
     private String state;
-    private int phoneNumber;
+    private String phoneNumber;
+
+    public DeliveryAddress(String name, String surname, String address, String city, String country, String state, String phoneNumber) {
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.state = state;
+        this.phoneNumber =  phoneNumber;
+    }
+
     public String getName() {
         return name;
     }
     public String getAddress() {
         return address;
     }
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
     public String getCity() {
@@ -41,7 +52,7 @@ public class DeliveryAddress {
     public void setCountry(String country) {
         this.country = country;
     }
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     public void setState(String state) {

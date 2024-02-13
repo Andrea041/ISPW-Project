@@ -1,19 +1,19 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
-import com.example.codiceprogetto.logic.bean.CartPriceBean;
-import com.example.codiceprogetto.logic.bean.ProductInCartBean;
+import com.example.codiceprogetto.logic.bean.CartBean;
+import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,9 +31,6 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     void initialize() {
         updatePriceLabel();
         updateProductGUI();
-
-        ProductInCartBean totPrice = new ProductInCartBean(0);
-        totPrice.attach(this);
     }
 
     public void back(MouseEvent mouseEvent) {
@@ -53,12 +50,10 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
 
     public void updatePriceLabel() {
         ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
-        CartPriceBean price = new CartPriceBean(0, 0,0);
+        CartBean price = new CartBean();
 
         try {
             price = shop.calculatePrice(price);
-            if(price == null)
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error in DB");
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "Unknown error in DB");
         } catch(DAOException e) {
@@ -72,25 +67,42 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
 
     public void updateProductGUI() {
         ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
-        List<String> nameList = new ArrayList<>();
+        CartBean cartContent = new CartBean();
 
         try {
-            nameList = shop.retrieveCartProd();
+            cartContent = shop.retrieveCartProd(cartContent);
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         } catch (DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
-        if(!nameList.isEmpty()) {
-            for(String name : nameList)
-                appendToCart(name, productLocation);
+        if(!cartContent.getProductList().isEmpty()) {
+            for(Product ignored : cartContent.getProductList())
+                appendToCart();
         }
+    }
+
+    private void appendToCart() {
+        Parent root = null;
+
+        ProdInCartGraphicController prodController = new ProdInCartGraphicController();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/Cobra.fxml"));
+        fxmlLoader.setController(prodController);
+
+        prodController.attach(this);
+
+        try {
+            root = fxmlLoader.load();
+        } catch (Exception exception) {
+            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
+        }
+
+        productLocation.getChildren().add(root);
     }
 
     @Override
     public void update() {
         updatePriceLabel();
-        updateProductGUI();
     }
 }

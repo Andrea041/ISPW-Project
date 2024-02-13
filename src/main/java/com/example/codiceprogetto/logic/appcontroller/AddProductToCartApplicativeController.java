@@ -3,15 +3,13 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.dao.ProductDAO;
+import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
-import com.example.codiceprogetto.logic.observer.Observer;
-import com.example.codiceprogetto.logic.observer.Subject;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,15 +40,15 @@ public class AddProductToCartApplicativeController {
     }
 
     public void updateTotal() throws DAOException, SQLException {
-        List<Product> cartContent;
         double total = 0;
         String totalStr;
+        Cart cart;
 
-        cartContent = new CartDAO().retrieveCartContent(SessionUser.getInstance().getThisUser().getEmail());
-        if(cartContent == null)
+        cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
+        if(cart.getProducts() == null)
             return;
 
-        for(Product prod : cartContent) {
+        for(Product prod : cart.getProducts()) {
             total += (prod.getPrice() * prod.getSelectedUnits());
         }
 
