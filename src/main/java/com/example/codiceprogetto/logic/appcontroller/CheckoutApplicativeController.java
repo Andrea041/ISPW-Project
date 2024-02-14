@@ -2,13 +2,10 @@ package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.AddressBean;
 import com.example.codiceprogetto.logic.bean.ShippingBean;
-import com.example.codiceprogetto.logic.dao.CustomerDAO;
-import com.example.codiceprogetto.logic.dao.OrderDAO;
+import com.example.codiceprogetto.logic.dao.*;
 import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.bean.CouponBean;
-import com.example.codiceprogetto.logic.dao.CartDAO;
-import com.example.codiceprogetto.logic.dao.CouponDAO;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
@@ -18,6 +15,7 @@ import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class CheckoutApplicativeController {
     public void checkCouponCode(CouponBean coupon) throws SQLException, AlreadyAppliedCouponException, DAOException {
@@ -55,13 +53,13 @@ public class CheckoutApplicativeController {
         return cartContent;
     }
 
-    public boolean checkCustomerAddress(String email) throws SQLException, DAOException {
+    public boolean checkCustomerAddress(String email) throws SQLException {
         Customer customer;
         boolean checker = false;
 
         customer = new CustomerDAO().findCustomer(email);
 
-        if(customer.getAddress() != null)
+        if(customer != null && customer.getAddress() != null)
             checker = true;
 
         return checker;
@@ -71,13 +69,16 @@ public class CheckoutApplicativeController {
         Cart cart;
         DeliveryAddress deliveryAddress;
         double finalTotal;
+        Customer customer;
+        String orderId;
 
         cart = new CartDAO().retrieveCart(email);
         finalTotal = (cart.getTotal() - (cart.getTotal() * cart.getDiscount())/100) + cart.getShipping();
 
-        if(address == null)
-            deliveryAddress = new CustomerDAO().fetchAddress(email);
-        else
+        if(address == null) {
+            customer = new CustomerDAO().findCustomer(email);
+            deliveryAddress = customer.getAddress();
+        } else
             deliveryAddress = new DeliveryAddress(address.getState(),
                                                     address.getCity(),
                                                     address.getCountry(),
@@ -86,7 +87,9 @@ public class CheckoutApplicativeController {
                                                     address.getLastName(),
                                                     address.getAddress());
 
-        new OrderDAO().createOrder(email, finalTotal, deliveryAddress, cart.getProducts());
+        orderId = UUID.randomUUID().toString();
+
+        new OrderDAO().createOrder(email, finalTotal, orderId,deliveryAddress, cart.getProducts());
     }
 
     public void insertAddress(AddressBean address, String email) throws SQLException, EmptyInputException {
@@ -99,15 +102,14 @@ public class CheckoutApplicativeController {
                 address.getAddress().isEmpty())
             throw new EmptyInputException("There are some empty fields!");
 
-        DeliveryAddress deliveryAddress = new DeliveryAddress(address.getState(),
-                                                                address.getCity(),
-                                                                address.getCountry(),
-                                                                address.getPhoneNumber(),
-                                                                address.getName(),
-                                                                address.getLastName(),
-                                                                address.getAddress());
-
-        new CustomerDAO().insertAddress(deliveryAddress, email);
+        new AddressDAO().insertAddress(email,
+                                        address.getName(),
+                                        address.getLastName(),
+                                        address.getAddress(),
+                                        address.getCity(),
+                                        address.getCountry(),
+                                        address.getState(),
+                                        address.getPhoneNumber());
     }
 
     public boolean checkPendingOrder(String email) throws SQLException {

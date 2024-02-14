@@ -106,7 +106,7 @@
          </font>
       </Label>
       <Line endX="160.0" layoutX="986.0" layoutY="250.0" startX="-102.0" />
-      <RadioButton fx:id="freeRadio" layoutX="883.0" layoutY="260.0" mnemonicParsing="false" selected="true" text="FREE - 6 to 8 working days" onAction="#checkShipping">
+      <RadioButton fx:id="freeRadio" layoutX="883.0" layoutY="260.0" mnemonicParsing="false" onAction="#checkShipping" selected="true" text="FREE - 6 to 8 working days">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -114,12 +114,12 @@
             <ToggleGroup fx:id="ship" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="threeRadio" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" text="3.00€ - 4 to 6 working days" toggleGroup="$ship" onAction="#checkShipping">
+      <RadioButton fx:id="threeRadio" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" onAction="#checkShipping" text="3.00€ - 4 to 6 working days" toggleGroup="$ship">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="fiveRadio" layoutX="883.0" layoutY="314.0" mnemonicParsing="false" text="5.00€ - 2 to 4 working days" toggleGroup="$ship" onAction="#checkShipping">
+      <RadioButton fx:id="fiveRadio" layoutX="883.0" layoutY="314.0" mnemonicParsing="false" onAction="#checkShipping" text="5.00€ - 2 to 4 working days" toggleGroup="$ship">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -184,13 +184,13 @@
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Line endX="96.66665649414062" layoutX="218.0" layoutY="666.0" startX="-66.0" />
-      <Label layoutX="326.0" layoutY="653.0" text="Or">
+      <Line endX="105.33334350585938" layoutX="218.0" layoutY="666.0" startX="-66.0" />
+      <Label layoutX="330.0" layoutY="653.0" text="Or">
          <font>
-            <Font name="Arial Bold" size="24.0" />
+            <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Line endX="94.0" layoutX="440.0" layoutY="666.0" startX="-72.66665649414062" />
+      <Line endX="94.0" layoutX="440.0" layoutY="666.0" startX="-86.66665649414062" />
       <CheckBox fx:id="memoAddress" layoutX="149.0" layoutY="696.0" mnemonicParsing="false" text="I already have delivery address">
          <font>
             <Font name="Arial" size="14.0" />

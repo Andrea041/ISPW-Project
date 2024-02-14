@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class GraphicTool {
+    // Implementare un navigator singleton molto meglio!
     public void navigateTo(MouseEvent e, String page) {
         Parent root = null;
 
@@ -35,10 +36,11 @@ public abstract class GraphicTool {
                 case "CART" -> new ShoppingCartView().getShoppingView();
                 case "COBRA" -> new SelectCobraView().getCobraView();
                 case "CHECKOUT" -> new CheckoutView().getCheckoutView();
+                case "PAY" -> new PaymentView().getPaymentView();
                 default -> null;
             };
 
-        } catch (Exception excpetion) {
+        } catch (Exception exception) {
             Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
         }
 

@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class BrowseAccessoriesView{
-    private Parent root;
+    private final Parent root;
     public BrowseAccessoriesView() throws Exception {
         root = FXMLLoader.load(getClass().getResource("/com/example/codiceprogetto/FXML/BrowseAccessories/BrowseProduct.fxml"));
     }

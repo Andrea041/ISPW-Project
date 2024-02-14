@@ -130,7 +130,7 @@ public class CheckoutGraphicController extends GraphicTool {
             }
         }
 
-        // navigate to
+        navigateTo(mouseEvent, "PAY");
     }
 
     public void couponCheck(MouseEvent mouseEvent) {
@@ -212,14 +212,10 @@ public class CheckoutGraphicController extends GraphicTool {
 
         try {
             res = cOut.checkCustomerAddress(SessionUser.getInstance().getThisUser().getEmail());
-        } catch (DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
         return res;
     }
-
-
 }
