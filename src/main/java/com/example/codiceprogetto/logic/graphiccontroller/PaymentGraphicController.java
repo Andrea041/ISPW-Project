@@ -1,7 +1,7 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.PaymentApplicativeController;
-import com.example.codiceprogetto.logic.bean.OrderAmountBean;
+import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.bean.PaymentBean;
 import com.example.codiceprogetto.logic.enumeration.PaymentType;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
@@ -45,7 +45,7 @@ public class PaymentGraphicController extends GraphicTool {
 
     @FXML
     void initialize() {
-        OrderAmountBean orderBean = new OrderAmountBean();
+        OrderBean orderBean = new OrderBean();
         PaymentApplicativeController cOut = new PaymentApplicativeController();
 
         try {
@@ -110,9 +110,12 @@ public class PaymentGraphicController extends GraphicTool {
 
         try {
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
+            toPay.updateOrder(SessionUser.getInstance().getThisUser().getEmail());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO,"DB error");
         }
+
+        navigateTo(mouseEvent, "PAYSUM");
     }
 
     private boolean checkPayment() {

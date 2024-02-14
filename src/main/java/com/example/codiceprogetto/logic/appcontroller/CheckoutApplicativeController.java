@@ -8,6 +8,7 @@ import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.bean.CouponBean;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
+import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.AlreadyAppliedCouponException;
 import com.example.codiceprogetto.logic.exception.DAOException;
@@ -65,7 +66,7 @@ public class CheckoutApplicativeController {
         return checker;
     }
 
-    public void createOrder(AddressBean address, String email) throws DAOException, SQLException {
+    public void createOrder(AddressBean address, String email) throws SQLException, DAOException {
         Cart cart;
         DeliveryAddress deliveryAddress;
         double finalTotal;
@@ -112,14 +113,7 @@ public class CheckoutApplicativeController {
                                         address.getPhoneNumber());
     }
 
-    public boolean checkPendingOrder(String email) throws SQLException {
-        String status;
-
-        status = new OrderDAO().checkOrderStatus(email);
-
-        if(status == null)
-            return false;
-
-        return status.equals(OrderStatus.NEW.getId());
+    public void deleteOrder(String email) throws SQLException {
+        new OrderDAO().deleteOrder(email);
     }
 }

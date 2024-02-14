@@ -4,7 +4,6 @@ import com.example.codiceprogetto.logic.entities.DeliveryAddress;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
-import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
 
 
 public class OrderDAO {
-    public Order retrieveOrder(ResultSet rs) throws SQLException {
+    public Order generateOrder(ResultSet rs) throws SQLException {
         Order order;
         DeliveryAddress address;
         List<Product> productList;
@@ -68,32 +67,7 @@ public class OrderDAO {
         stmt.close();
     }
 
-    public String checkOrderStatus(String email) throws SQLException {
-        PreparedStatement stmt;
-        Connection conn = DBConnectionFactory.getConn();
-        String status;
-        ResultSet rs;
-
-        String sql = "SELECT status FROM Progetto.Order WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-
-        rs = stmt.executeQuery();
-
-        if(!rs.first()) {
-            return null;
-        }
-
-        rs.first();
-
-        status = rs.getString("status");
-
-        stmt.close();
-
-        return status;
-    }
-
-    public Order fetchNewOrder(String email) throws SQLException {
+    public Order fetchOrder(String email) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
         Order order;
@@ -111,11 +85,50 @@ public class OrderDAO {
 
         rs.first();
 
-        order = retrieveOrder(rs);
+        order = generateOrder(rs);
 
         stmt.close();
 
         return order;
+    }
+
+    public void deleteOrder(String email) throws SQLException {
+        int result;
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+
+        String sql = "DELETE * FROM Progetto.Order WHERE email = ?";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
+        }
+
+        stmt.close();
+    }
+
+    public void updateOrderStatus(String email, String orderStatus) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        int result;
+
+        String sql = "UPDATE Progetto.Order SET orderStatus = ? WHERE email = ? AND status = 'new'";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, orderStatus);
+        stmt.setString(2, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status updated");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status update failed");
+        }
+
+        stmt.close();
     }
 
     private String convertAddress(DeliveryAddress address) {

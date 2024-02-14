@@ -9,9 +9,7 @@ import com.example.codiceprogetto.logic.exception.AlreadyAppliedCouponException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
 import com.example.codiceprogetto.logic.utils.SessionUser;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -69,6 +67,14 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void back(MouseEvent mouseEvent) {
+        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
+
+        try {
+            cOut.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        }
+
         navigateTo(mouseEvent, "CART");
     }
 
@@ -81,18 +87,11 @@ public class CheckoutGraphicController extends GraphicTool {
 
     public void gotoPaymentGUI(MouseEvent mouseEvent) {
         rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        boolean pending = false;
         boolean res;
         String toDisplay = "There isn't any memorized address!";
 
         CheckoutApplicativeController cOut = new CheckoutApplicativeController();
         AddressBean address = null;
-
-        try {
-            pending = cOut.checkPendingOrder(SessionUser.getInstance().getThisUser().getEmail());
-        } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        }
 
         if(memoAddress.isSelected()) {
             res = checkAddress();
@@ -120,14 +119,12 @@ public class CheckoutGraphicController extends GraphicTool {
             }
         }
 
-        if(!pending) {
-            try {
-                cOut.createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
-            } catch (DAOException e) {
-                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-            } catch (SQLException e) {
-                Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-            }
+        try {
+            cOut.createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
+        } catch (DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
         navigateTo(mouseEvent, "PAY");

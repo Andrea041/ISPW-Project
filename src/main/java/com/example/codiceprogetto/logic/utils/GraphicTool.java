@@ -15,7 +15,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -37,6 +39,7 @@ public abstract class GraphicTool {
                 case "COBRA" -> new SelectCobraView().getCobraView();
                 case "CHECKOUT" -> new CheckoutView().getCheckoutView();
                 case "PAY" -> new PaymentView().getPaymentView();
+                case "PAYSUM" -> new PaymentSummaryView().getPaymentSummaryView();
                 default -> null;
             };
 

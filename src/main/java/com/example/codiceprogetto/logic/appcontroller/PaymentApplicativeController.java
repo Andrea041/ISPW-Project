@@ -1,13 +1,16 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
-import com.example.codiceprogetto.logic.bean.OrderAmountBean;
+import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.bean.PaymentBean;
+import com.example.codiceprogetto.logic.bean.TransactionBean;
 import com.example.codiceprogetto.logic.dao.CustomerDAO;
 import com.example.codiceprogetto.logic.dao.OrderDAO;
 import com.example.codiceprogetto.logic.dao.PaymentDAO;
 import com.example.codiceprogetto.logic.dao.TransactionDAO;
 import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.Order;
+import com.example.codiceprogetto.logic.entities.Transaction;
+import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.enumeration.TransactionStatus;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 
@@ -50,17 +53,38 @@ public class PaymentApplicativeController {
         String status;
 
         status = transactionStatus.getId();
-        order = new OrderDAO().fetchNewOrder(email);
+        order = new OrderDAO().fetchOrder(email);
 
         new TransactionDAO().insertTransaction(email, status, order.getOrderID(), paymentType);
+
+
     }
 
-    public OrderAmountBean fetchTotal(String email, OrderAmountBean orderBean) throws SQLException {
+    public OrderBean fetchTotal(String email, OrderBean orderBean) throws SQLException {
         Order order;
 
-        order = new OrderDAO().fetchNewOrder(email);
+        order = new OrderDAO().fetchOrder(email);
         orderBean.setFinalTotal(order.getTotal());
+        orderBean.setOrderID(order.getOrderID());
+        orderBean.setOrderStatus(order.getStatus());
 
         return orderBean;
+    }
+
+    public TransactionBean fetchTransaction(OrderBean orderBean) throws SQLException {
+        Transaction transaction;
+        TransactionBean transactionBean = new TransactionBean();
+
+        transaction = new TransactionDAO().fetchTransaction(orderBean.getOrderID());
+        transactionBean.setTransactionID(transaction.getTransactionID());
+        transactionBean.setPaymentType(transaction.getPaymentType());
+
+        return transactionBean;
+    }
+
+    public void updateOrder(String email) throws SQLException {
+        OrderStatus orderStatus = OrderStatus.CONFIRMED;
+
+        new OrderDAO().updateOrderStatus(email, orderStatus.getId());
     }
 }
