@@ -5,17 +5,14 @@ import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
+import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.sql.SQLException;
@@ -54,16 +51,16 @@ public class SelectProductGraphicController extends GraphicTool {
     }
 
     public void accountGUI() {
-        System.out.println("try");
+        SessionUser.getInstance().logout();
+        navigateTo(LOGIN);
     }
 
     public void cartGUI() {
         navigateTo(CART);
     }
 
-    public void addProduct(MouseEvent mouseEvent) {
+    public void addProduct() {
         int ret;
-        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         String errorToDisplay = "Unknown error";
 
         ProductBean prod = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
@@ -72,11 +69,11 @@ public class SelectProductGraphicController extends GraphicTool {
         try {
             ret = addCobra.updateCart(prod);
             if(ret == -1)
-                alert(errorToDisplay, rootToDisplay);
+                alert(errorToDisplay);
         } catch (SQLException e) {
-            alert(errorToDisplay, rootToDisplay);
+            alert(errorToDisplay);
         } catch (TooManyUnitsExcpetion | DAOException e) {
-            alert(e.getMessage(), rootToDisplay);
+            alert(e.getMessage());
         }
 
         boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");

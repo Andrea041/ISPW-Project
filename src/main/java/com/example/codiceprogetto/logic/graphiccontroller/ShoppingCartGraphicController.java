@@ -6,11 +6,11 @@ import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
@@ -39,7 +39,9 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
         navigateTo(HOME);
     }
 
-    public void accountGUI(MouseEvent mouseEvent) {
+    public void accountGUI() {
+        SessionUser.getInstance().logout();
+        navigateTo(LOGIN);
     }
 
     public void cartGUI() {
@@ -47,7 +49,10 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void gotoCheckoutGUI() {
-        navigateTo(CHECKOUT);
+        if(total.getText().equals("0.0€")) {
+            alert("Your cart is empty!");
+        } else
+            navigateTo(CHECKOUT);
     }
 
     public void updatePriceLabel() {
@@ -78,15 +83,15 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
         }
 
         if(!cartContent.getProductList().isEmpty()) {
-            for(Product ignored : cartContent.getProductList())
-                appendToCart();
+            for(Product prod : cartContent.getProductList())
+                appendToCart(prod.getId());
         }
     }
 
-    private void appendToCart() {
+    private void appendToCart(String prodID) {
         Parent root = null;
 
-        ProdInCartGraphicController prodController = new ProdInCartGraphicController();
+        ProdInCartGraphicController prodController = new ProdInCartGraphicController(prodID);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/Cobra.fxml"));
         fxmlLoader.setController(prodController);
 

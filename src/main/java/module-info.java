@@ -12,8 +12,6 @@ module com.example.codiceprogetto {
     opens com.example.codiceprogetto.logic.dao;
     exports com.example.codiceprogetto.logic.bean;
     opens com.example.codiceprogetto.logic.bean;
-    exports com.example.codiceprogetto.logic.view;
-    opens com.example.codiceprogetto.logic.view;
     exports com.example.codiceprogetto.logic.graphiccontroller;
     opens com.example.codiceprogetto.logic.graphiccontroller;
     exports com.example.codiceprogetto.logic.appcontroller;

@@ -5,7 +5,6 @@ import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
-import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -184,14 +183,15 @@ public class CartDAO {
         List<Product> listProd = new ArrayList<>();
         String[] elements = list.split(",");
 
-        for(int i = 0; i < elements.length; i += 5) {
+        for(int i = 0; i < elements.length; i += 6) {
             String name = elements[i];
             String id = elements[i + 1];
             int selectedUnits = Integer.parseInt(elements[i + 2]);
             String size = elements[i + 3];
             double price = Double.parseDouble(elements[i + 4]);
+            String image = elements[i + 5];
 
-            listProd.add(new Product(name, id, selectedUnits, size, price));
+            listProd.add(new Product(name, id, selectedUnits, size, price, image));
         }
         return listProd;
     }
@@ -206,7 +206,7 @@ public class CartDAO {
 
         for(Product product : list) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
-                    .append(product.getSize()).append(",").append(product.getPrice()).append(",");
+                    .append(product.getSize()).append(",").append(product.getPrice()).append(",").append(product.getImage()).append(",");
         }
         return stringBuilder.toString();
     }

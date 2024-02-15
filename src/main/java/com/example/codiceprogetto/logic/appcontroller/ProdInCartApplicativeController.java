@@ -23,8 +23,13 @@ public class ProdInCartApplicativeController {
             return null;
 
         for(Product prod : cartContent) {
-            if(prod.getId().equals(prodID))
+            if(prod.getId().equals(prodID)) {
                 cart.setTotalAmount(prod.getPrice() * prod.getSelectedUnits());
+                cart.setLabelID(prod.getId());
+                cart.setProductName(prod.getName());
+                cart.setPrice(prod.getPrice());
+                cart.setProdImage(prod.getImage());
+            }
         }
 
         return cart;

@@ -16,15 +16,7 @@ import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import java.sql.SQLException;
 
 public class PaymentApplicativeController {
-    public void insertPayment(PaymentBean paymentBean, String email) throws EmptyInputException, SQLException {
-        if(paymentBean.getName().isEmpty() ||
-                paymentBean.getLastName().isEmpty() ||
-                paymentBean.getExpiration().isEmpty() ||
-                paymentBean.getCardNumber().isEmpty() ||
-                paymentBean.getCVV().isEmpty() ||
-                paymentBean.getZipCode().isEmpty())
-            throw new EmptyInputException("There are some empty fields!");
-
+    public void insertPayment(PaymentBean paymentBean, String email) throws SQLException {
         new PaymentDAO().insertPaymentMethod(email,
                                              paymentBean.getName(),
                                              paymentBean.getLastName(),
@@ -89,5 +81,15 @@ public class PaymentApplicativeController {
         new CartDAO().updateCart(null, email, "REMOVE ALL");
         new CartDAO().updateCartTotal("0", email);
         new CartDAO().updateCartShipping(0, email);
+    }
+
+    public void checkEmptyFields(PaymentBean paymentBean) throws EmptyInputException {
+        if(paymentBean.getName().isEmpty() ||
+                paymentBean.getLastName().isEmpty() ||
+                paymentBean.getExpiration().isEmpty() ||
+                paymentBean.getCardNumber().isEmpty() ||
+                paymentBean.getCVV().isEmpty() ||
+                paymentBean.getZipCode().isEmpty())
+            throw new EmptyInputException("There are some empty fields!");
     }
 }

@@ -18,17 +18,17 @@
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.SelectProductGraphicController">
    <children>
       <SVGPath fx:id="backBrowseProduct" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#backBrowseProduct" scaleX="0.025" scaleY="0.025" />
-      <Label layoutX="770.0" layoutY="32.0" text="Customer Service">
+      <Label layoutX="795.0" layoutY="33.0" text="Customer Service">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="929.0" layoutY="32.0" text="Store">
+      <Label layoutX="954.0" layoutY="33.0" text="Store">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="myAccount" layoutX="998.0" layoutY="32.0" onMouseClicked="#accountGUI" text="My account">
+      <Label fx:id="myAccount" layoutX="1023.0" layoutY="33.0" onMouseClicked="#accountGUI" text="Logout">
          <font>
             <Font name="Arial" size="16.0" />
          </font>

@@ -36,31 +36,8 @@ public abstract class GraphicTool {
             Logger.getAnonymousLogger().log(Level.INFO, "Invalid page" + e);
         }
     }
-    /*public void navigateTo(String page) {
-        Parent root;
 
-        try {
-            root = switch (page) {
-                case "HOME" -> new HomePageView().getHomeView();
-                case "LOGIN" -> new LoginView().getLoginView();
-                case "SIGNUP" -> new SignupView().getSignupView();
-                case "ACC" -> new BrowseAccessoriesView().getAccessoriesView();
-                case "CART" -> new ShoppingCartView().getShoppingView();
-                case "COBRA" -> new SelectCobraView().getCobraView();
-                case "CHECKOUT" -> new CheckoutView().getCheckoutView();
-                case "PAY" -> new PaymentView().getPaymentView();
-                case "PAYSUM" -> new PaymentSummaryView().getPaymentSummaryView();
-                default -> null;
-            };
-
-            NavigatorSingleton.getInstance().goTo(root);
-
-        } catch (Exception exception) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
-        }
-    }*/
-
-    public void alert(String messageToDisplay, Stage thisWindow) {
+    public void alert(String messageToDisplay) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Warning");
         alert.setHeaderText(null);
@@ -72,7 +49,7 @@ public abstract class GraphicTool {
         Label contentText = (Label) alert.getDialogPane().lookup(".content");
         contentText.setStyle("-fx-font-size: 16px;");
 
-        alert.initOwner(thisWindow);
+        alert.initOwner(NavigatorSingleton.getInstance().getStage());
         alert.showAndWait();
     }
 

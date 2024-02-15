@@ -6,12 +6,14 @@ public class Product {
     private int selectedUnits;
     private String size;
     private double price;
-    public Product(String name, String id, int selectedUnits, String size, double price) {
+    private String image;
+    public Product(String name, String id, int selectedUnits, String size, double price, String image) {
         this.name = name;
         this.id = id;
         this.selectedUnits = selectedUnits;
         this.size = size;
         this.price = price;
+        this.image = image;
     }
     public String getId() {
         return id;
@@ -42,5 +44,11 @@ public class Product {
     }
     public void setSize(String size) {
         this.size = size;
+    }
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
     }
 }

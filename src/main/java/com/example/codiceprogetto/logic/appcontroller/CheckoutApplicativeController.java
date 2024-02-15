@@ -81,28 +81,19 @@ public class CheckoutApplicativeController {
             deliveryAddress = customer.getAddress();
         } else
             deliveryAddress = new DeliveryAddress(address.getState(),
-                                                    address.getCity(),
-                                                    address.getCountry(),
-                                                    address.getPhoneNumber(),
-                                                    address.getName(),
-                                                    address.getLastName(),
-                                                    address.getAddress());
+                    address.getCity(),
+                    address.getCountry(),
+                    address.getPhoneNumber(),
+                    address.getName(),
+                    address.getLastName(),
+                    address.getAddress());
 
         orderId = UUID.randomUUID().toString();
 
-        new OrderDAO().createOrder(email, finalTotal, orderId,deliveryAddress, cart.getProducts());
+        new OrderDAO().createOrder(email, finalTotal, orderId, deliveryAddress, cart.getProducts());
     }
 
-    public void insertAddress(AddressBean address, String email) throws SQLException, EmptyInputException {
-        if(address.getState().isEmpty() ||
-                address.getCity().isEmpty() ||
-                address.getCountry().isEmpty() ||
-                address.getPhoneNumber().isEmpty() ||
-                address.getName().isEmpty() ||
-                address.getLastName().isEmpty() ||
-                address.getAddress().isEmpty())
-            throw new EmptyInputException("There are some empty fields!");
-
+    public void insertAddress(AddressBean address, String email) throws SQLException {
         new AddressDAO().insertAddress(email,
                                         address.getName(),
                                         address.getLastName(),
@@ -113,7 +104,14 @@ public class CheckoutApplicativeController {
                                         address.getPhoneNumber());
     }
 
-    public void deleteOrder(String email) throws SQLException {
-        new OrderDAO().deleteOrder(email);
+    public void checkEmptyFieldAddress(AddressBean address) throws EmptyInputException {
+        if(address.getState().isEmpty() ||
+                address.getCity().isEmpty() ||
+                address.getCountry().isEmpty() ||
+                address.getPhoneNumber().isEmpty() ||
+                address.getName().isEmpty() ||
+                address.getLastName().isEmpty() ||
+                address.getAddress().isEmpty())
+            throw new EmptyInputException("There are some empty input fields!");
     }
 }

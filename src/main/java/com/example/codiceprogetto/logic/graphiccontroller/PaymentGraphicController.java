@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.SVGPath;
-import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -39,8 +38,6 @@ public class PaymentGraphicController extends GraphicTool {
     private Label totalAmount;
     @FXML
     private CheckBox paymetCheckbox;
-
-    Stage rootToDisplay;
     PaymentApplicativeController toPay = new PaymentApplicativeController();
 
 
@@ -63,7 +60,6 @@ public class PaymentGraphicController extends GraphicTool {
     }
 
     public void pay(MouseEvent mouseEvent) {
-        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         boolean res;
         String toDisplay = "There isn't any memorized payment method!";
         PaymentType payment = PaymentType.PAYPAL;
@@ -77,12 +73,11 @@ public class PaymentGraphicController extends GraphicTool {
 
         PaymentBean payBean;
 
-        if(paymetCheckbox.isSelected() && Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId())) {
-            res = checkPayment();
-            if(!res) {
-                alert(toDisplay, rootToDisplay);
-                return;
-            }
+        res = checkPayment();
+
+        if(paymetCheckbox.isSelected() && Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId()) && !res) {
+            alert(toDisplay);
+            return;
         } else if(Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId())) {
             payBean = new PaymentBean(nameField.getText(),
                                       lastNameField.getText(),
@@ -91,7 +86,12 @@ public class PaymentGraphicController extends GraphicTool {
                                       cvvField.getText(),
                                       zipField.getText());
 
-            res = checkPayment();
+            try {
+                toPay.checkEmptyFields(payBean);
+            } catch(EmptyInputException e) {
+                alert(e.getMessage());
+                return;
+            }
 
             if(!res) {
                 res = displayConfirmBox("Do you want to save your payment method?", "yes", "no");
@@ -100,9 +100,6 @@ public class PaymentGraphicController extends GraphicTool {
                         toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
                     } catch(SQLException e) {
                         Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-                    } catch (EmptyInputException e) {
-                        alert(e.getMessage(), rootToDisplay);
-                        return;
                     }
                 }
             }
@@ -110,11 +107,10 @@ public class PaymentGraphicController extends GraphicTool {
 
         try {
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
+            navigateTo(PAYSUM);
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO,"DB error");
         }
-
-        navigateTo(PAYSUM);
     }
 
     private boolean checkPayment() {

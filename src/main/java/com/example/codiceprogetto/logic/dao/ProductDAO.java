@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class ProductDAO {
     protected Product newProduct(ResultSet rs, int selectedUnits, String size) throws SQLException {
         Product prod;
-        prod = new Product(rs.getString("name"), rs.getString("ID"), selectedUnits, size, rs.getDouble("price"));
+        prod = new Product(rs.getString("name"), rs.getString("ID"), selectedUnits, size, rs.getDouble("price"), rs.getString("prodImage"));
 
         return prod;
     }

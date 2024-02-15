@@ -7,14 +7,14 @@ import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.observer.Subject;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,15 +34,19 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     private ImageView prodImage;
     private int counter = 0;
     ProdInCartApplicativeController prodBox = new ProdInCartApplicativeController();
-    Stage rootToDisplay;
+    String prodID;
+
+    public ProdInCartGraphicController(String prodID) {
+        super();
+        this.prodID = prodID;
+    }
 
     @FXML
     void initialize() {
-        updateTotalSingleProd();
+        updateGUI();
     }
 
-    public void removeUnits(ActionEvent mouseEvent) {
-        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+    public void removeUnits() {
         int res;
 
         counter--;
@@ -55,17 +59,16 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             if(res <= 0)
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
         } catch(TooManyUnitsExcpetion e) {
-            alert(e.getMessage(), rootToDisplay);
+            alert(e.getMessage());
         } catch(SQLException | DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
         notifyObserver();
-        updateTotalSingleProd();
+        updateGUI();
     }
 
-    public void addUnits(ActionEvent mouseEvent) {
-        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+    public void addUnits() {
         int res;
 
         counter++;
@@ -78,13 +81,13 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             if(res <= 0)
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
         } catch(TooManyUnitsExcpetion e) {
-            alert(e.getMessage(), rootToDisplay);
+            alert(e.getMessage());
         } catch(SQLException | DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
         notifyObserver();
-        updateTotalSingleProd();
+        updateGUI();
     }
 
     public void removeProd() {
@@ -101,10 +104,10 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         }
     }
 
-    public void updateTotalSingleProd() {
+    public void updateGUI() {
         int selectedUnits;
 
-        ProductInCartBean cartTotal = new ProductInCartBean(0);
+        ProductInCartBean cartTotal = new ProductInCartBean();
 
         try {
             cartTotal = prodBox.calculateTotalSingleProd(labelID.getText(), cartTotal);
@@ -116,11 +119,16 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             selectedUnits = prodBox.displaySelectedUnits(labelID.getText());
             if(selectedUnits == -1)
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+            Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
             totalAmountPerProd.setText(round(cartTotal.getTotalAmount(), 2) + "€");
             changeQuantity.setText(String.valueOf(selectedUnits));
+            labelID.setText(cartTotal.getLabelID());
+            productName.setText(cartTotal.getProductName());
+            price.setText(round(cartTotal.getPrice(), 2) + "€");
+            prodImage.setImage(image);
             counter = selectedUnits;
-        } catch(DAOException e) {
+        } catch(DAOException | FileNotFoundException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");

@@ -8,12 +8,10 @@ import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
@@ -37,8 +35,7 @@ public class SignupGraphicController extends GraphicTool{
     public void loginGUI() {
         navigateTo(LOGIN);
     }
-    public void signUp(MouseEvent mouseEvent) {
-        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+    public void signUp() {
         int ret;
         String errorToDisplay = "Signup error";
 
@@ -51,7 +48,7 @@ public class SignupGraphicController extends GraphicTool{
                 int startIndex = emailField.getText().indexOf('@');
                 int endIndex = emailField.getText().indexOf('.', startIndex);
                 if (startIndex == -1 || endIndex == -1) {
-                    alert("Wrong email format (****@****.com)", rootToDisplay);
+                    alert("Wrong email format (****@****.com)");
                     cleanUpField();
                 }
             }
@@ -60,7 +57,7 @@ public class SignupGraphicController extends GraphicTool{
                 if(keySignUp.getText().equals(KEY))
                     signBean.setUserType("SELLER");
                 else {
-                    alert("Wrong key", rootToDisplay);
+                    alert("Wrong key");
                     keySignUp.setText("");
                 }
             } else
@@ -69,7 +66,7 @@ public class SignupGraphicController extends GraphicTool{
             try {
                 ret = signup.signupUser(signBean);
                 if (ret == -1) {
-                    alert(errorToDisplay, rootToDisplay);
+                    alert(errorToDisplay);
                 } else if (ret == 1){
                     switch(SessionUser.getInstance().getThisUser().getUserType()) {
                         case "CUSTOMER":
@@ -83,15 +80,15 @@ public class SignupGraphicController extends GraphicTool{
                     }
 
                 } else {
-                    alert(errorToDisplay, rootToDisplay);
+                    alert(errorToDisplay);
                 }
             } catch (SQLException | AlreadyLoggedUserException e) {
-                alert(errorToDisplay, rootToDisplay);
+                alert(errorToDisplay);
             } catch (EmptyInputException | AlreadyExistingUserException e) {
-                alert(e.getMessage(), rootToDisplay);
+                alert(e.getMessage());
             }
         } else {
-            alert("Inserted passwords doesn't match", rootToDisplay);
+            alert("Inserted passwords doesn't match");
             cleanUpField();
         }
     }

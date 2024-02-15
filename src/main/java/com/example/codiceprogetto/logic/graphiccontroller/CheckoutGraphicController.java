@@ -11,13 +11,10 @@ import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -58,8 +55,6 @@ public class CheckoutGraphicController extends GraphicTool {
     private RadioButton fiveRadio;
     @FXML
     private RadioButton freeRadio;
-
-    Stage rootToDisplay;
     CheckoutApplicativeController cOut = new CheckoutApplicativeController();
 
     @FXML
@@ -69,39 +64,44 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void back() {
-        try {
-            cOut.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        }
-
         navigateTo(CART);
     }
 
     public void accountGUI() {
+        SessionUser.getInstance().logout();
+        navigateTo(LOGIN);
     }
 
     public void cartGUI() {
         navigateTo(CART);
     }
 
-    public void gotoPaymentGUI(MouseEvent mouseEvent) {
-        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+    public void gotoPaymentGUI() {
         boolean res;
         String toDisplay = "There isn't any memorized address!";
 
         AddressBean address = null;
 
-        if(memoAddress.isSelected()) {
-            res = checkAddress();
-            if(!res) {
-                alert(toDisplay, rootToDisplay);
+        res = checkAddress();
+
+        if(memoAddress.isSelected() && !res) {
+            alert(toDisplay);
+            return;
+        } else if(!memoAddress.isSelected()) {
+            address = new AddressBean(stateField.getText(),
+                                      cityField.getText(),
+                                      countryField.getText(),
+                                      phoneNumberField.getText(),
+                                      nameField.getText(),
+                                      lastNameField.getText(),
+                                      addressField.getText());
+
+            try {
+                cOut.checkEmptyFieldAddress(address);
+            } catch (EmptyInputException e) {
+                alert(e.getMessage());
                 return;
             }
-        } else {
-            address = new AddressBean(stateField.getText(), cityField.getText(), countryField.getText(), phoneNumberField.getText(), nameField.getText(), lastNameField.getText(), addressField.getText());
-
-            res = checkAddress();
 
             if(!res) {
                 res = displayConfirmBox("Do you want to save your delivery address?", "yes", "no");
@@ -110,9 +110,6 @@ public class CheckoutGraphicController extends GraphicTool {
                         cOut.insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
                     } catch(SQLException e) {
                         Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-                    } catch (EmptyInputException e) {
-                        alert(e.getMessage(), rootToDisplay);
-                        return;
                     }
                 }
             }
@@ -120,24 +117,21 @@ public class CheckoutGraphicController extends GraphicTool {
 
         try {
             cOut.createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
+            navigateTo(PAY);
         } catch (DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
-
-        navigateTo(PAY);
     }
 
-    public void couponCheck(MouseEvent mouseEvent) {
-        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-
+    public void couponCheck() {
         CouponBean coupon = new CouponBean(couponText.getText());
 
         try {
             cOut.checkCouponCode(coupon);
         } catch(DAOException | AlreadyAppliedCouponException e) {
-            alert(e.getMessage(), rootToDisplay);
+            alert(e.getMessage());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
@@ -145,9 +139,7 @@ public class CheckoutGraphicController extends GraphicTool {
         updateLabel();
     }
 
-    public void couponDelete(MouseEvent mouseEvent) {
-        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-
+    public void couponDelete() {
         String toDisplay = "Coupon removed!";
 
         try {
@@ -158,7 +150,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
         updateLabel();
 
-        alert(toDisplay, rootToDisplay);
+        alert(toDisplay);
     }
 
     public void checkShipping() {
@@ -188,7 +180,7 @@ public class CheckoutGraphicController extends GraphicTool {
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         } catch(DAOException e) {
-            alert(e.getMessage(), rootToDisplay);
+            alert(e.getMessage());
         }
 
         subtotal.setText(round(cart.getSubtotal(), 2) + "€");

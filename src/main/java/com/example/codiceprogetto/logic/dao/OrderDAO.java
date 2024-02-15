@@ -92,25 +92,6 @@ public class OrderDAO {
         return order;
     }
 
-    public void deleteOrder(String email) throws SQLException {
-        int result;
-        PreparedStatement stmt;
-        Connection conn = DBConnectionFactory.getConn();
-
-        String sql = "DELETE * FROM Progetto.Order WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-
-        result = stmt.executeUpdate();
-        if(result > 0){
-            Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
-        } else {
-            Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
-        }
-
-        stmt.close();
-    }
-
     public void updateOrderStatus(String email, String orderStatus) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
@@ -150,7 +131,8 @@ public class OrderDAO {
                                    elements[3],
                                    elements[4],
                                    elements[5],
-                                   elements[6]);
+                                   elements[6]
+        );
     }
 
     private String listConverter(List<Product> list) {
@@ -161,7 +143,7 @@ public class OrderDAO {
 
         for(Product product : list) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
-                    .append(product.getSize()).append(",").append(product.getPrice()).append(",");
+                    .append(product.getSize()).append(",").append(product.getPrice()).append(",").append(product.getImage()).append(",");
         }
         return stringBuilder.toString();
     }
@@ -169,14 +151,15 @@ public class OrderDAO {
         List<Product> listProd = new ArrayList<>();
         String[] elements = list.split(",");
 
-        for(int i = 0; i < elements.length; i += 5) {
+        for(int i = 0; i < elements.length; i += 6) {
             String name = elements[i];
             String id = elements[i + 1];
             int selectedUnits = Integer.parseInt(elements[i + 2]);
             String size = elements[i + 3];
             double price = Double.parseDouble(elements[i + 4]);
+            String image = elements[i + 5];
 
-            listProd.add(new Product(name, id, selectedUnits, size, price));
+            listProd.add(new Product(name, id, selectedUnits, size, price, image));
         }
         return listProd;
     }

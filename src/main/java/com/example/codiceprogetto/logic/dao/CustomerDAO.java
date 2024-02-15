@@ -18,8 +18,8 @@ public class CustomerDAO extends AbsUserDAO {
         DeliveryAddress address;
         Payment payment;
 
-        address = new DeliveryAddress(rs.getString("name"),
-                                      rs.getString("surname"),
+        address = new DeliveryAddress(rs.getString("addressName"),
+                                      rs.getString("addressSurname"),
                                       rs.getString("address"),
                                       rs.getString("city"),
                                       rs.getString("country"),
@@ -66,7 +66,7 @@ public class CustomerDAO extends AbsUserDAO {
 
         String sql = "SELECT Customer.*, Address.*, Payment.* FROM Customer " +
                 "INNER JOIN Address ON Customer.email = Address.email " +
-                "INNER JOIN Payment ON Customer.email = Payment.email " +
+                "LEFT JOIN Payment ON Customer.email = Payment.email " +
                 "WHERE Customer.email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, email);

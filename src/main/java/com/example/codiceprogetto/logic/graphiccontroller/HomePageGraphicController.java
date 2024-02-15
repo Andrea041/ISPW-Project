@@ -1,10 +1,10 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class HomePageGraphicController extends GraphicTool {
@@ -50,7 +50,8 @@ public class HomePageGraphicController extends GraphicTool {
     }
 
     public void accountGUI(){
-        System.out.println("try");
+        SessionUser.getInstance().logout();
+        navigateTo(LOGIN);
     }
 
     public void cartGUI() {

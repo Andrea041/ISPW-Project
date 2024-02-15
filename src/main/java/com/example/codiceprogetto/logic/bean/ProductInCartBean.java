@@ -1,17 +1,40 @@
 package com.example.codiceprogetto.logic.bean;
 
-import com.example.codiceprogetto.logic.graphiccontroller.ShoppingCartGraphicController;
-import com.example.codiceprogetto.logic.observer.Subject;
-
 public class ProductInCartBean {
     private double totalAmount;
-    public ProductInCartBean(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+    private String labelID;
+    private String productName;
+    private double price;
+    private String prodImage;
+
     public double getTotalAmount() {
         return totalAmount;
     }
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public String getLabelID() {
+        return labelID;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public String getProdImage() {
+        return prodImage;
+    }
+    public String getProductName() {
+        return productName;
+    }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    public void setLabelID(String labelID) {
+        this.labelID = labelID;
+    }
+    public void setProdImage(String prodImage) {
+        this.prodImage = prodImage;
     }
 }
