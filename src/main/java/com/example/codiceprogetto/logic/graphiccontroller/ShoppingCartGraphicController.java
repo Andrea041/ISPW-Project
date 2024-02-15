@@ -27,29 +27,30 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     @FXML
     private VBox productLocation;
 
+    ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
+
     @FXML
     void initialize() {
         updatePriceLabel();
         updateProductGUI();
     }
 
-    public void back(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "HOME");
+    public void back() {
+        navigateTo(HOME);
     }
 
     public void accountGUI(MouseEvent mouseEvent) {
     }
 
-    public void cartGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "CART");
+    public void cartGUI() {
+        navigateTo(CART);
     }
 
-    public void gotoCheckoutGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "CHECKOUT");
+    public void gotoCheckoutGUI() {
+        navigateTo(CHECKOUT);
     }
 
     public void updatePriceLabel() {
-        ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
         CartBean price = new CartBean();
 
         try {
@@ -66,7 +67,6 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void updateProductGUI() {
-        ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
         CartBean cartContent = new CartBean();
 
         try {

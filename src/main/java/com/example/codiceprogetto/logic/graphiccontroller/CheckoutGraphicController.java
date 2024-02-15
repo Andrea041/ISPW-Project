@@ -60,29 +60,29 @@ public class CheckoutGraphicController extends GraphicTool {
     private RadioButton freeRadio;
 
     Stage rootToDisplay;
+    CheckoutApplicativeController cOut = new CheckoutApplicativeController();
 
     @FXML
     void initialize() {
         updateLabel();
+        shipping.setText(0.0 + "€");
     }
 
-    public void back(MouseEvent mouseEvent) {
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
-
+    public void back() {
         try {
             cOut.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
-        navigateTo(mouseEvent, "CART");
+        navigateTo(CART);
     }
 
-    public void accountGUI(MouseEvent mouseEvent) {
+    public void accountGUI() {
     }
 
-    public void cartGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "CART");
+    public void cartGUI() {
+        navigateTo(CART);
     }
 
     public void gotoPaymentGUI(MouseEvent mouseEvent) {
@@ -90,7 +90,6 @@ public class CheckoutGraphicController extends GraphicTool {
         boolean res;
         String toDisplay = "There isn't any memorized address!";
 
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
         AddressBean address = null;
 
         if(memoAddress.isSelected()) {
@@ -127,14 +126,13 @@ public class CheckoutGraphicController extends GraphicTool {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
-        navigateTo(mouseEvent, "PAY");
+        navigateTo(PAY);
     }
 
     public void couponCheck(MouseEvent mouseEvent) {
         rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
 
         CouponBean coupon = new CouponBean(couponText.getText());
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
 
         try {
             cOut.checkCouponCode(coupon);
@@ -150,7 +148,6 @@ public class CheckoutGraphicController extends GraphicTool {
     public void couponDelete(MouseEvent mouseEvent) {
         rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
 
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
         String toDisplay = "Coupon removed!";
 
         try {
@@ -165,7 +162,6 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void checkShipping() {
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
         ShippingBean shipping = new ShippingBean(0);
 
         if(threeRadio.isSelected())
@@ -186,7 +182,6 @@ public class CheckoutGraphicController extends GraphicTool {
 
     private void updateLabel() {
         CartBean cart = new CartBean();
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
 
         try {
             cart = cOut.calculateTotal(cart);
@@ -204,7 +199,6 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     private boolean checkAddress() {
-        CheckoutApplicativeController cOut = new CheckoutApplicativeController();
         boolean res = false;
 
         try {

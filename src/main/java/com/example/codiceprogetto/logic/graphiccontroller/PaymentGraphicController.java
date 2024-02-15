@@ -41,6 +41,7 @@ public class PaymentGraphicController extends GraphicTool {
     private CheckBox paymetCheckbox;
 
     Stage rootToDisplay;
+    PaymentApplicativeController toPay = new PaymentApplicativeController();
 
 
     @FXML
@@ -57,8 +58,8 @@ public class PaymentGraphicController extends GraphicTool {
         totalAmount.setText(round(orderBean.getFinalTotal(), 2) + "€");
     }
 
-    public void homeGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "HOME");
+    public void homeGUI() {
+        navigateTo(HOME);
     }
 
     public void pay(MouseEvent mouseEvent) {
@@ -74,7 +75,6 @@ public class PaymentGraphicController extends GraphicTool {
             payment = PaymentType.fromString(payment.getId());
         }
 
-        PaymentApplicativeController toPay = new PaymentApplicativeController();
         PaymentBean payBean;
 
         if(paymetCheckbox.isSelected() && Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId())) {
@@ -110,16 +110,14 @@ public class PaymentGraphicController extends GraphicTool {
 
         try {
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
-            toPay.updateOrder(SessionUser.getInstance().getThisUser().getEmail());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO,"DB error");
         }
 
-        navigateTo(mouseEvent, "PAYSUM");
+        navigateTo(PAYSUM);
     }
 
     private boolean checkPayment() {
-        PaymentApplicativeController toPay = new PaymentApplicativeController();
         boolean res = false;
 
         try {

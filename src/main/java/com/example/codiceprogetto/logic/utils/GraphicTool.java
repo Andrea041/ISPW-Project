@@ -1,21 +1,15 @@
 package com.example.codiceprogetto.logic.utils;
 
-import com.example.codiceprogetto.logic.view.*;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,9 +19,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class GraphicTool {
-    // Implementare un navigator singleton molto meglio!
-    public void navigateTo(MouseEvent e, String page) {
-        Parent root = null;
+    protected static final String HOME = "/com/example/codiceprogetto/FXML/HomePage/HomePage.fxml";
+    protected static final String LOGIN = "/com/example/codiceprogetto/FXML/LoggingForm/LoginForm.fxml";
+    protected static final String SIGNUP = "/com/example/codiceprogetto/FXML/LoggingForm/SignUpForm.fxml";
+    protected static final String ACC = "/com/example/codiceprogetto/FXML/BrowseAccessories/BrowseProduct.fxml";
+    protected static final String CART = "/com/example/codiceprogetto/FXML/ShoppingCart/ShoppingCart.fxml";
+    protected static final String COBRA = "/com/example/codiceprogetto/FXML/SelectCobra/SelectCobra.fxml";
+    protected static final String CHECKOUT = "/com/example/codiceprogetto/FXML/Checkout/Checkout.fxml";
+    protected static final String PAY = "/com/example/codiceprogetto/FXML/Payment/Payment.fxml";
+    protected static final String PAYSUM = "/com/example/codiceprogetto/FXML/Payment/PaymentSummary.fxml";
+
+    protected void navigateTo(String page) {
+        try {
+            NavigatorSingleton.getInstance().goTo(page);
+        } catch(IOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page" + e);
+        }
+    }
+    /*public void navigateTo(String page) {
+        Parent root;
 
         try {
             root = switch (page) {
@@ -43,15 +53,12 @@ public abstract class GraphicTool {
                 default -> null;
             };
 
+            NavigatorSingleton.getInstance().goTo(root);
+
         } catch (Exception exception) {
             Logger.getAnonymousLogger().log(Level.INFO, "Invalid page");
         }
-
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+    }*/
 
     public void alert(String messageToDisplay, Stage thisWindow) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

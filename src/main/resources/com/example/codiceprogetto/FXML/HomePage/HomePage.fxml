@@ -52,7 +52,7 @@
             <Image url="@Occhialini-nuoto-1024x683.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="menSwimWear" layoutX="148.0" layoutY="316.0" onMouseClicked="#manSwimGUI" onMouseEntered="#manZoomEnter" onMouseExited="#manZoomExit" text="Man swimwear">
+      <Label fx:id="menSwimWear" layoutX="148.0" layoutY="316.0" onMouseEntered="#manZoomEnter" onMouseExited="#manZoomExit" text="Man swimwear">
          <font>
             <Font name="Arial Bold" size="24.0" />
          </font>
@@ -67,7 +67,7 @@
             <Image url="@nuoto-5-5.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="womanSwimWear" layoutX="864.0" layoutY="316.0" onMouseClicked="#womSwimGUI" onMouseEntered="#womZoomEnter" onMouseExited="#womZoomExit" text="Woman swimwear">
+      <Label fx:id="womanSwimWear" layoutX="864.0" layoutY="316.0" onMouseEntered="#womZoomEnter" onMouseExited="#womZoomExit" text="Woman swimwear">
          <font>
             <Font name="Arial Bold" size="24.0" />
          </font>

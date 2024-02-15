@@ -116,7 +116,7 @@ public class OrderDAO {
         Connection conn = DBConnectionFactory.getConn();
         int result;
 
-        String sql = "UPDATE Progetto.Order SET orderStatus = ? WHERE email = ? AND status = 'new'";
+        String sql = "UPDATE Progetto.Order SET status = ? WHERE email = ? AND status = 'new'";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, orderStatus);
         stmt.setString(2, email);

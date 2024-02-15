@@ -3,18 +3,14 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class HomePageGraphicController extends GraphicTool {
     @FXML
     private ImageView manImage;
-    public void manSwimGUI(MouseEvent mouseEvent) {
-        // TODO
-    }
+
     public void manZoomEnter() {
         zoomIN(manImage);
     }
@@ -24,9 +20,6 @@ public class HomePageGraphicController extends GraphicTool {
 
     @FXML
     private ImageView womanPic;
-    public void womSwimGUI(MouseEvent mouseEvent) {
-        // TODO
-    }
     public void womZoomEnter() {
         zoomIN(womanPic);
     }
@@ -36,8 +29,8 @@ public class HomePageGraphicController extends GraphicTool {
 
     @FXML
     private ImageView accImage;
-    public void accessorGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "ACC");
+    public void accessorGUI() {
+        navigateTo(ACC);
     }
 
     public void accZoomEnter() {
@@ -56,12 +49,12 @@ public class HomePageGraphicController extends GraphicTool {
         zoomOUT(magazinePic);
     }
 
-    public void accountGUI(MouseEvent mouseEvent){
+    public void accountGUI(){
         System.out.println("try");
     }
 
-    public void cartGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "CART");
+    public void cartGUI() {
+        navigateTo(CART);
     }
 
     public void zoomIN(ImageView photo){

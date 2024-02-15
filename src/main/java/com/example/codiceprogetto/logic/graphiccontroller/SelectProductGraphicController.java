@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.security.auth.callback.LanguageCallback;
 import java.sql.SQLException;
 
 public class SelectProductGraphicController extends GraphicTool {
@@ -39,7 +38,7 @@ public class SelectProductGraphicController extends GraphicTool {
     private Label productName;
     @FXML
     private Label productID;
-    private static final String ACTION = "textUpdate";
+    private final String ACTION = "textUpdate";
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
 
     @FXML
@@ -54,12 +53,12 @@ public class SelectProductGraphicController extends GraphicTool {
         selectionSize.setText(selected);
     }
 
-    public void accountGUI(MouseEvent mouseEvent) {
+    public void accountGUI() {
         System.out.println("try");
     }
 
-    public void cartGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "CART");
+    public void cartGUI() {
+        navigateTo(CART);
     }
 
     public void addProduct(MouseEvent mouseEvent) {
@@ -82,7 +81,7 @@ public class SelectProductGraphicController extends GraphicTool {
 
         boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
         if(!choice)
-            navigateTo(mouseEvent, "CART");
+            navigateTo(CART);
     }
 
     public void addProductUnits() {
@@ -103,8 +102,8 @@ public class SelectProductGraphicController extends GraphicTool {
             textFieldHandler(ACTION);
     }
 
-    public void backBrowseProduct(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "ACC");
+    public void backBrowseProduct() {
+        navigateTo(ACC);
     }
 
     public void scrollRight() {

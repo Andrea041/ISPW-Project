@@ -24,7 +24,7 @@ public class CartDAO {
 
         prodList = rs.getString("products");
 
-        if(!prodList.isEmpty())
+        if(prodList != null && !prodList.isEmpty())
             productList = stringConverter(prodList);
         else
             productList = new ArrayList<>();
@@ -67,12 +67,14 @@ public class CartDAO {
 
         cart = retrieveCart(email);
 
-        if(cart.getProducts().isEmpty())
+        if(cart.getProducts() == null || cart.getProducts().isEmpty())
             cart.getProducts().add(product);
         else if(op.equals("ADD") && !countUnits(cart.getProducts(), product))
             cart.getProducts().add(product);
         else if(op.equals("REMOVE"))
             cart.getProducts().removeIf(prod -> prod.getName().equals(product.getName()));
+        else if(op.equals("REMOVE ALL"))
+            cart.getProducts().clear();
 
         listUpdated = listConverter(cart.getProducts());
 
@@ -199,6 +201,8 @@ public class CartDAO {
 
         if(list == null)
             return null;
+        else if(list.isEmpty())
+            return stringBuilder.toString();
 
         for(Product product : list) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")

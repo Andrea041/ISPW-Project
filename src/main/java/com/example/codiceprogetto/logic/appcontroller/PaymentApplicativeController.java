@@ -3,16 +3,15 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.bean.PaymentBean;
 import com.example.codiceprogetto.logic.bean.TransactionBean;
-import com.example.codiceprogetto.logic.dao.CustomerDAO;
-import com.example.codiceprogetto.logic.dao.OrderDAO;
-import com.example.codiceprogetto.logic.dao.PaymentDAO;
-import com.example.codiceprogetto.logic.dao.TransactionDAO;
+import com.example.codiceprogetto.logic.dao.*;
 import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.entities.Transaction;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.enumeration.TransactionStatus;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
+import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 
 import java.sql.SQLException;
 
@@ -82,9 +81,13 @@ public class PaymentApplicativeController {
         return transactionBean;
     }
 
-    public void updateOrder(String email) throws SQLException {
+    public void updateOrder(String email) throws SQLException, DAOException, TooManyUnitsExcpetion {
         OrderStatus orderStatus = OrderStatus.CONFIRMED;
 
         new OrderDAO().updateOrderStatus(email, orderStatus.getId());
+
+        new CartDAO().updateCart(null, email, "REMOVE ALL");
+        new CartDAO().updateCartTotal("0", email);
+        new CartDAO().updateCartShipping(0, email);
     }
 }

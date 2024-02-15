@@ -12,7 +12,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="720.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="100.0" stroke="BLACK" strokeType="INSIDE" width="720.0" />
-      <ImageView fitHeight="94.0" fitWidth="101.0" layoutX="4.0" layoutY="3.0">
+      <ImageView fx:id="prodImage" fitHeight="94.0" fitWidth="101.0" layoutX="4.0" layoutY="3.0">
          <image>
             <Image url="@002507-310-cobra-ultra-swipe-mr-002-fr-s.jpg" />
          </image>
@@ -27,7 +27,7 @@
             <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="118.0" layoutY="30.0" text="74.90€/unit">
+      <Label fx:id="price" layoutX="118.0" layoutY="30.0" text="74.90€">
          <font>
             <Font name="Arial" size="11.0" />
          </font>
@@ -60,6 +60,11 @@
       <Label layoutX="295.0" layoutY="10.0" text="ID:">
          <font>
             <Font name="Arial Bold" size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="152.0" layoutY="30.0" text="/unit">
+         <font>
+            <Font name="Arial" size="11.0" />
          </font>
       </Label>
    </children>

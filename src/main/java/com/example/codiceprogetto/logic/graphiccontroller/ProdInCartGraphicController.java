@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -24,9 +25,16 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     @FXML
     private Label labelID;
     @FXML
+    private Label productName;
+    @FXML
+    private Label price;
+    @FXML
     private TextField changeQuantity;
+    @FXML
+    private ImageView prodImage;
     private int counter = 0;
     ProdInCartApplicativeController prodBox = new ProdInCartApplicativeController();
+    Stage rootToDisplay;
 
     @FXML
     void initialize() {
@@ -34,7 +42,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     }
 
     public void removeUnits(ActionEvent mouseEvent) {
-        Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         int res;
 
         counter--;

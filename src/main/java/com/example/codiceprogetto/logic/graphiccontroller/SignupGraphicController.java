@@ -6,9 +6,7 @@ import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
-
 import com.example.codiceprogetto.logic.utils.SessionUser;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -36,8 +34,8 @@ public class SignupGraphicController extends GraphicTool{
     private PasswordField keySignUp;
     private static final String KEY = "ISPW2324";
 
-    public void loginGUI(MouseEvent mouseEvent) {
-        navigateTo(mouseEvent, "LOGIN");
+    public void loginGUI() {
+        navigateTo(LOGIN);
     }
     public void signUp(MouseEvent mouseEvent) {
         Stage rootToDisplay = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -75,7 +73,7 @@ public class SignupGraphicController extends GraphicTool{
                 } else if (ret == 1){
                     switch(SessionUser.getInstance().getThisUser().getUserType()) {
                         case "CUSTOMER":
-                            navigateTo(mouseEvent, "HOME");
+                            navigateTo(HOME);
                             break;
                         case "SELLER":
                             //navigateTo(mouseEvent, "INBOX");
