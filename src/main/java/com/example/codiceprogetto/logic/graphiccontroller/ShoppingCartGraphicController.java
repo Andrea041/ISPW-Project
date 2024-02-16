@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.CartBean;
+import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
@@ -14,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,8 +29,8 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     private Label total;
     @FXML
     private VBox productLocation;
-
-    ShoppingCartApplicativeController shop = new ShoppingCartApplicativeController();
+    ShoppingCartApplicativeController shop;
+    List<ProductStockBean> productStockBeans;
 
     @FXML
     void initialize() {
@@ -49,7 +52,9 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void gotoCheckoutGUI() {
-        if(total.getText().equals("0.0€")) {
+        productStockBeans = fetchCartContent();
+
+        if(productStockBeans.isEmpty()) {
             alert("Your cart is empty!");
         } else
             navigateTo(CHECKOUT);
@@ -57,6 +62,7 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
 
     public void updatePriceLabel() {
         CartBean price = new CartBean();
+        shop = new ShoppingCartApplicativeController();
 
         try {
             price = shop.calculatePrice(price);
@@ -72,19 +78,12 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void updateProductGUI() {
-        CartBean cartContent = new CartBean();
+        productStockBeans = fetchCartContent();
+        productLocation.getChildren().clear();
 
-        try {
-            cartContent = shop.retrieveCartProd(cartContent);
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        } catch (DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        }
-
-        if(!cartContent.getProductList().isEmpty()) {
-            for(Product prod : cartContent.getProductList())
-                appendToCart(prod.getId());
+        if(!productStockBeans.isEmpty()) {
+            for(ProductStockBean prod : productStockBeans)
+                appendToCart(prod.getLabelID());
         }
     }
 
@@ -92,7 +91,7 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
         Parent root = null;
 
         ProdInCartGraphicController prodController = new ProdInCartGraphicController(prodID);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/Cobra.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/codiceprogetto/FXML/ProdInCart/CartProd.fxml"));
         fxmlLoader.setController(prodController);
 
         prodController.attach(this);
@@ -106,8 +105,24 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
         productLocation.getChildren().add(root);
     }
 
+    public List<ProductStockBean> fetchCartContent() {
+        List< ProductStockBean> productStockBeans = new ArrayList<>();
+        shop = new ShoppingCartApplicativeController();
+
+        try {
+            productStockBeans = shop.retrieveCartProd();
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
+
+        return productStockBeans;
+    }
+
     @Override
     public void update() {
         updatePriceLabel();
+        updateProductGUI();
     }
 }

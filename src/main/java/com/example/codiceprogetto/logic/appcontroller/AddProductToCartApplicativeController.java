@@ -10,7 +10,6 @@ import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,11 +19,14 @@ public class AddProductToCartApplicativeController {
         int ret = -1;
         int res;
 
-        product = new ProductDAO().retrieveProduct(prod.getId(), prod.getUnitsToOrder(), prod.getSize());
+        product = new ProductDAO().fetchProduct(prod.getId());
         if(product != null)
             Logger.getAnonymousLogger().log(Level.INFO, "Product retrieved from DB");
         else
             return ret;
+
+        product.setSelectedUnits(prod.getUnitsToOrder());
+        product.setSize(prod.getSize());
 
         ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
 

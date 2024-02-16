@@ -4,10 +4,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -15,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.SelectProductGraphicController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SVGPath fx:id="backBrowseProduct" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#backBrowseProduct" scaleX="0.025" scaleY="0.025" />
       <Label layoutX="795.0" layoutY="33.0" text="Customer Service">
@@ -50,32 +48,18 @@
             <Font name="Arial" size="36.0" />
          </font>
       </Label>
-      <StackPane fx:id="StackPane" layoutX="31.0" layoutY="170.0" prefHeight="197.0" prefWidth="225.0">
-         <children>
-            <ImageView fx:id="image2" fitHeight="284.0" fitWidth="233.0">
-               <image>
-                  <Image url="@occhialini2.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="image1" fitHeight="284.0" fitWidth="233.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@occhialini1.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </StackPane>
       <Line endX="347.6666564941406" layoutX="131.0" layoutY="526.0" startX="-100.0" stroke="#bcbcbc" />
       <Label layoutX="29.0" layoutY="494.0" text="Product description">
          <font>
             <Font name="Arial" size="26.0" />
          </font>
       </Label>
-      <Text fontSmoothingType="LCD" layoutX="30.0" layoutY="557.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-line-spacing: 1;" text="The gaskets, which form a watertight seal around the eyes, are constructed from soft and comfortable silicone, providing a snug fit without causing discomfort. The adjustable head straps are designed for a secure fit, preventing any water from entering the goggles during dives and turns." wrappingWidth="445.99999237060547">
+      <Text fontSmoothingType="LCD" layoutX="30.0" layoutY="557.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-line-spacing: 1;" text="Discover our latest innovation in modern convenience. Our product combines cutting-edge technology with sleek design, offering a versatile solution for everyday needs. With a focus on quality and usability, this product enhances your lifestyle without compromising on style or functionality." wrappingWidth="445.99999237060547">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Text>
-      <Text fontSmoothingType="LCD" layoutX="30.0" layoutY="656.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-line-spacing: 1;" text="Many competitive swim goggles also feature UV protection to shield the eyes from harmful sun rays during outdoor races. Some models may include advanced technology such as mirrored coatings to reduce glare and improve visibility." wrappingWidth="448.7583312988281">
+      <Text fontSmoothingType="LCD" layoutX="30.0" layoutY="656.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-line-spacing: 1;" text="Experience seamless integration into your daily routine, whether at home, work, or on the go. Engineered for reliability and performance, our product delivers consistent results, empowering you to accomplish more with ease." wrappingWidth="448.7583312988281">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -91,16 +75,11 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="577.0" layoutY="201.0" text="74.90 € / Colore: YELLOW COPPER-GOLD ">
+      <Label fx:id="prodPrice" layoutX="577.0" layoutY="253.0" text="74.90€ ">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="577.0" layoutY="224.0">
-         <image>
-            <Image url="@_magento_color_swatches_002507310_thumb.png" />
-         </image>
-      </ImageView>
       <Button fx:id="addQuantity" layoutX="672.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#addProductUnits" prefHeight="34.0" prefWidth="19.0" style="-fx-background-radius: 8;" text="+">
          <font>
             <Font name="Arial" size="14.0" />
@@ -127,6 +106,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
+      <ImageView fx:id="image" fitHeight="254.0" fitWidth="240.0" layoutX="27.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true" />
       <VBox layoutX="579.0" layoutY="546.0" prefHeight="254.0" prefWidth="449.0" spacing="15.0">
          <children>
             <Rectangle arcHeight="24.0" arcWidth="24.0" fill="#d9d9d9" height="106.0" stroke="BLACK" strokeType="INSIDE" width="449.0" />
@@ -164,8 +144,6 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Text>
-      <SVGPath fx:id="rightArrow" content="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z" layoutX="12.0" layoutY="73.0" onMouseClicked="#scrollRight" scaleX="0.025" scaleY="0.025" />
-      <SVGPath fx:id="leftArrow" content="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z" layoutX="-210.0" layoutY="73.0" onMouseClicked="#scrollLeft" rotate="180.0" scaleX="0.025" scaleY="0.025" />
       <Label fx:id="alert" layoutX="712.0" layoutY="364.0" textFill="RED">
          <font>
             <Font name="Arial" size="16.0" />

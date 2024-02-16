@@ -35,4 +35,8 @@ public class NavigatorSingleton {
         Parent root = FXMLLoader.load(Objects.requireNonNull(AppStarter.class.getResource(fxml)));
         stage.getScene().setRoot(root);
     }
+
+    public void goToAlternative(Parent root) {
+        stage.getScene().setRoot(root);
+    }
 }

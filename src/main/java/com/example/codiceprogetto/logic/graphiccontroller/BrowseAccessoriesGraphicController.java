@@ -1,14 +1,65 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
+import com.example.codiceprogetto.logic.appcontroller.BrowseAccessoriesApplicativeController;
+import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.SessionUser;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.GridPane;
 
-public class BrowseAccessoriesGraphicController extends GraphicTool{
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class BrowseAccessoriesGraphicController extends GraphicTool {
+    @FXML
+    private GridPane prodGrid;
+
+    @FXML
+    void initialize() {
+        List<ProductStockBean> productList;
+        BrowseAccessoriesApplicativeController broAcc = new BrowseAccessoriesApplicativeController();
+        int gridRow = 0;
+        int gridCol = 0;
+        int index = 1;
+
+        try {
+            productList = broAcc.retrieveProduct();
+
+            for(ProductStockBean prod : productList) {
+                ProductPreviewGraphicController prodPrev = new ProductPreviewGraphicController(prod);
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/codiceprogetto/FXML/BrowseAccessories/ProductPreview.fxml"));
+                fxmlLoader.setController(prodPrev);
+
+                Parent root = fxmlLoader.load();
+
+                prodGrid.add(root, gridCol, gridRow);
+
+                if(index % 2 == 0)
+                    gridRow++;
+                 else
+                    gridCol++;
+                index++;
+            }
+        } catch(SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch(IOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
+    }
+
     public void backHomePage() {
         navigateTo(HOME);
     }
 
     public void accountGUI(){
-        System.out.println("try");
+        SessionUser.getInstance().logout();
+        navigateTo(LOGIN);
     }
 
     public void cartGUI() {

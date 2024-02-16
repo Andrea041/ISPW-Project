@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.utils;
 
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -35,6 +36,10 @@ public abstract class GraphicTool {
         } catch(IOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "Invalid page" + e);
         }
+    }
+
+    protected void navigateToAlternative(Parent root) {
+        NavigatorSingleton.getInstance().goToAlternative(root);
     }
 
     public void alert(String messageToDisplay) {

@@ -38,7 +38,7 @@ public class PaymentGraphicController extends GraphicTool {
     private Label totalAmount;
     @FXML
     private CheckBox paymetCheckbox;
-    PaymentApplicativeController toPay = new PaymentApplicativeController();
+    PaymentApplicativeController toPay;
 
 
     @FXML
@@ -63,6 +63,7 @@ public class PaymentGraphicController extends GraphicTool {
         boolean res;
         String toDisplay = "There isn't any memorized payment method!";
         PaymentType payment = PaymentType.PAYPAL;
+        toPay = new PaymentApplicativeController();
 
         Node source = (Node) mouseEvent.getSource();
         if(source instanceof Button paymentType) {
@@ -115,6 +116,7 @@ public class PaymentGraphicController extends GraphicTool {
 
     private boolean checkPayment() {
         boolean res = false;
+        toPay = new PaymentApplicativeController();
 
         try {
             res = toPay.checkCustomerPayment(SessionUser.getInstance().getThisUser().getEmail());

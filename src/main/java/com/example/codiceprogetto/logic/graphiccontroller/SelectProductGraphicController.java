@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.AddProductToCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductBean;
+import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
@@ -12,10 +13,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SelectProductGraphicController extends GraphicTool {
     private int unitsCounter = 1;
@@ -28,21 +34,37 @@ public class SelectProductGraphicController extends GraphicTool {
     @FXML
     private Label alert;
     @FXML
-    private ImageView image1;
-    @FXML
-    private ImageView image2;
+    private ImageView image;
     @FXML
     private Label productName;
     @FXML
     private Label productID;
+    @FXML
+    private Label prodPrice;
     private final String ACTION = "textUpdate";
+    private final ProductStockBean prod;
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
+
+    protected SelectProductGraphicController(ProductStockBean prod) {
+        this.prod = prod;
+    }
 
     @FXML
     void initialize(){
         String size = "One Size";
         myChoiceBox.getItems().addAll(size);
         myChoiceBox.setValue("One Size");
+
+        productName.setText(prod.getProductName());
+        prodPrice.setText(round(prod.getPrice(), 2) + "€");
+        productID.setText(prod.getLabelID());
+
+        try {
+            Image prodImage = new Image(new FileInputStream(prod.getProdImage()));
+            image.setImage(prodImage);
+        } catch(FileNotFoundException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
     }
 
     public void setChoiceBox() {
@@ -70,15 +92,15 @@ public class SelectProductGraphicController extends GraphicTool {
             ret = addCobra.updateCart(prod);
             if(ret == -1)
                 alert(errorToDisplay);
+
+            boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
+            if(!choice)
+                navigateTo(CART);
         } catch (SQLException e) {
             alert(errorToDisplay);
         } catch (TooManyUnitsExcpetion | DAOException e) {
             alert(e.getMessage());
         }
-
-        boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
-        if(!choice)
-            navigateTo(CART);
     }
 
     public void addProductUnits() {
@@ -101,16 +123,6 @@ public class SelectProductGraphicController extends GraphicTool {
 
     public void backBrowseProduct() {
         navigateTo(ACC);
-    }
-
-    public void scrollRight() {
-        image2.setVisible(true);
-        image1.setVisible(false);
-    }
-
-    public void scrollLeft() {
-        image1.setVisible(true);
-        image2.setVisible(false);
     }
 
     public void textFieldHandler(String toDo){

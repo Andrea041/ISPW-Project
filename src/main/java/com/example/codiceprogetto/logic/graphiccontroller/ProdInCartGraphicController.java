@@ -1,7 +1,7 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.ProdInCartApplicativeController;
-import com.example.codiceprogetto.logic.bean.ProductInCartBean;
+import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.observer.Observer;
@@ -16,6 +16,8 @@ import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,8 +35,9 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     @FXML
     private ImageView prodImage;
     private int counter = 0;
-    ProdInCartApplicativeController prodBox = new ProdInCartApplicativeController();
+    ProdInCartApplicativeController prodBox;
     String prodID;
+    private final List<Observer> observers = new ArrayList<>();
 
     public ProdInCartGraphicController(String prodID) {
         super();
@@ -48,10 +51,13 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
 
     public void removeUnits() {
         int res;
+        prodBox = new ProdInCartApplicativeController();
 
         counter--;
-        if(counter < 1)
-            counter = 1;
+        if(counter < 1) {
+            removeProd();
+            return;
+        }
         changeQuantity.setText(Integer.toString(counter));
 
         try {
@@ -70,6 +76,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
 
     public void addUnits() {
         int res;
+        prodBox = new ProdInCartApplicativeController();
 
         counter++;
         if(counter > 10)
@@ -92,6 +99,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
 
     public void removeProd() {
         int res;
+        prodBox = new ProdInCartApplicativeController();
 
         try {
             res = prodBox.removeProduct(labelID.getText());
@@ -102,26 +110,29 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
+
+        notifyObserver();
     }
 
     public void updateGUI() {
         int selectedUnits;
 
-        ProductInCartBean cartTotal = new ProductInCartBean();
+        ProductStockBean cartTotal = new ProductStockBean();
+        prodBox = new ProdInCartApplicativeController();
 
         try {
-            cartTotal = prodBox.calculateTotalSingleProd(labelID.getText(), cartTotal);
+            cartTotal = prodBox.updateUI(prodID, cartTotal);
             if(cartTotal == null) {
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
                 return;
             }
 
-            selectedUnits = prodBox.displaySelectedUnits(labelID.getText());
+            selectedUnits = prodBox.displaySelectedUnits(prodID);
             if(selectedUnits == -1)
                 Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
             Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
-            totalAmountPerProd.setText(round(cartTotal.getTotalAmount(), 2) + "€");
+            totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * selectedUnits, 2) + "€");
             changeQuantity.setText(String.valueOf(selectedUnits));
             labelID.setText(cartTotal.getLabelID());
             productName.setText(cartTotal.getProductName());

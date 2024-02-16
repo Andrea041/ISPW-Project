@@ -7,14 +7,22 @@ public class Product {
     private String size;
     private double price;
     private String image;
-    public Product(String name, String id, int selectedUnits, String size, double price, String image) {
+    public Product(String name, String id, double price, String image) {
         this.name = name;
         this.id = id;
-        this.selectedUnits = selectedUnits;
-        this.size = size;
         this.price = price;
         this.image = image;
     }
+
+    public Product(String name, String id, int selectedUnits, String size, double price, String image) {
+        this.name = name;
+        this.id = id;
+        this.size = size;
+        this.selectedUnits = selectedUnits;
+        this.price = price;
+        this.image = image;
+    }
+
     public String getId() {
         return id;
     }

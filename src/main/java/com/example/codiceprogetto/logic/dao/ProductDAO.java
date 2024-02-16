@@ -7,15 +7,31 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductDAO {
-    protected Product newProduct(ResultSet rs, int selectedUnits, String size) throws SQLException {
+    protected Product newProduct(ResultSet rs) throws SQLException {
         Product prod;
-        prod = new Product(rs.getString("name"), rs.getString("ID"), selectedUnits, size, rs.getDouble("price"), rs.getString("prodImage"));
+        prod = new Product(rs.getString("name"), rs.getString("ID"), rs.getDouble("price"), rs.getString("prodImage"));
 
         return prod;
+    }
+
+    protected List<Product> newProductList(ResultSet rs) throws SQLException {
+        List<Product> productList = new ArrayList<>();
+        Product prod;
+
+         do {
+            prod = newProduct(rs);
+
+            productList.add(prod);
+         } while(rs.next());
+
+        return productList;
     }
 
     public PreparedStatement retrieveQuery(Connection conn, String id) throws SQLException {
@@ -28,7 +44,7 @@ public class ProductDAO {
         return stmt;
     }
 
-    public Product retrieveProduct(String id, int selectedUnits, String size) throws SQLException {
+    public Product fetchProduct(String id) throws SQLException {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs;
         Product product;
@@ -44,12 +60,37 @@ public class ProductDAO {
 
         rs.first();
 
-        product = newProduct(rs, selectedUnits, size);
+        product = newProduct(rs);
 
         stmt.close();
         rs.close();
 
         return product;
+    }
+
+    public List<Product> fetchAllProduct() throws SQLException {
+        Connection conn = DBConnectionFactory.getConn();
+        ResultSet rs;
+        List<Product> productList;
+        PreparedStatement stmt;
+
+        String sql = "SELECT * FROM Product";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+        rs = stmt.executeQuery();
+
+        if(!rs.first()) {
+            return null;
+        }
+
+        rs.first();
+
+        productList = newProductList(rs);
+
+        stmt.close();
+        rs.close();
+
+        return productList;
     }
 
     public int updateProductStock(String id, int selectedUnits) throws SQLException {

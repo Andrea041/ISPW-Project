@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.CartBean;
+import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
@@ -24,14 +25,19 @@ public class ShoppingCartApplicativeController {
         return price;
     }
 
-    public CartBean retrieveCartProd(CartBean cartContent) throws DAOException, SQLException{
+    public List<ProductStockBean> retrieveCartProd() throws DAOException, SQLException{
         Cart cart;
+        List<ProductStockBean> productListBeans = new ArrayList<>();
+        ProductStockBean productStockBean;
 
         cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
 
-        List<Product> prodList = new ArrayList<>(cart.getProducts());
-        cartContent.setProductList(prodList);
+        for(Product prod : cart.getProducts()) {
+            productStockBean = new ProductStockBean(prod.getId(), prod.getImage(), prod.getPrice(), prod.getName());
+            productListBeans.add(productStockBean);
+        }
 
-        return cartContent;
+
+        return productListBeans;
     }
 }

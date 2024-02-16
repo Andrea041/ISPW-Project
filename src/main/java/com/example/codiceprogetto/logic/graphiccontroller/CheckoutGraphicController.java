@@ -55,7 +55,7 @@ public class CheckoutGraphicController extends GraphicTool {
     private RadioButton fiveRadio;
     @FXML
     private RadioButton freeRadio;
-    CheckoutApplicativeController cOut = new CheckoutApplicativeController();
+    CheckoutApplicativeController cOut;
 
     @FXML
     void initialize() {
@@ -79,6 +79,7 @@ public class CheckoutGraphicController extends GraphicTool {
     public void gotoPaymentGUI() {
         boolean res;
         String toDisplay = "There isn't any memorized address!";
+        cOut = new CheckoutApplicativeController();
 
         AddressBean address = null;
 
@@ -127,6 +128,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
     public void couponCheck() {
         CouponBean coupon = new CouponBean(couponText.getText());
+        cOut = new CheckoutApplicativeController();
 
         try {
             cOut.checkCouponCode(coupon);
@@ -141,6 +143,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
     public void couponDelete() {
         String toDisplay = "Coupon removed!";
+        cOut = new CheckoutApplicativeController();
 
         try {
             cOut.removeCoupon();
@@ -155,6 +158,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
     public void checkShipping() {
         ShippingBean shipping = new ShippingBean(0);
+        cOut = new CheckoutApplicativeController();
 
         if(threeRadio.isSelected())
             shipping.setShippingValue(3);
@@ -174,6 +178,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
     private void updateLabel() {
         CartBean cart = new CartBean();
+        cOut = new CheckoutApplicativeController();
 
         try {
             cart = cOut.calculateTotal(cart);
