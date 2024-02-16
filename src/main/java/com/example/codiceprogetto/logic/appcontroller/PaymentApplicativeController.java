@@ -47,8 +47,6 @@ public class PaymentApplicativeController {
         order = new OrderDAO().fetchOrder(email);
 
         new TransactionDAO().insertTransaction(email, status, order.getOrderID(), paymentType);
-
-
     }
 
     public OrderBean fetchTotal(String email, OrderBean orderBean) throws SQLException {
@@ -73,14 +71,19 @@ public class PaymentApplicativeController {
         return transactionBean;
     }
 
-    public void updateOrder(String email) throws SQLException, DAOException, TooManyUnitsExcpetion {
+    public void makeCartEmpty(String email) throws SQLException, DAOException, TooManyUnitsExcpetion {
         OrderStatus orderStatus = OrderStatus.CONFIRMED;
 
         new OrderDAO().updateOrderStatus(email, orderStatus.getId());
 
         new CartDAO().updateCart(null, email, "REMOVE ALL");
-        new CartDAO().updateCartTotal("0", email);
+        new CartDAO().updateCartTotal(0.0, email);
         new CartDAO().updateCartShipping(0, email);
+        new CartDAO().updateCartCoupon(0, email);
+    }
+
+    public void deleteOrder(String email) throws SQLException {
+        new OrderDAO().deleteOrder(email);
     }
 
     public void checkEmptyFields(PaymentBean paymentBean) throws EmptyInputException {

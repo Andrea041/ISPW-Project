@@ -159,14 +159,14 @@ public class CartDAO {
         stmt.close();
     }
 
-    public void updateCartTotal(String totalStr, String email) throws SQLException {
+    public void updateCartTotal(double totalStr, String email) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
         int result;
 
         String sql = "UPDATE Cart SET total = ? WHERE email = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, totalStr);
+        stmt.setDouble(1, totalStr);
         stmt.setString(2, email);
 
         result = stmt.executeUpdate();

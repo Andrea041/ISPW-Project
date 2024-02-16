@@ -40,8 +40,10 @@ public class BrowseAccessoriesGraphicController extends GraphicTool {
 
                 prodGrid.add(root, gridCol, gridRow);
 
-                if(index % 2 == 0)
+                if(index % 2 == 0) {
                     gridRow++;
+                    gridCol = 0;
+                }
                  else
                     gridCol++;
                 index++;

@@ -112,6 +112,25 @@ public class OrderDAO {
         stmt.close();
     }
 
+    public void deleteOrder(String email) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        int result;
+
+        String sql = "DELETE FROM Progetto.Order WHERE email = ? AND status = 'new'";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "Order deleted");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Order not deleted, an error occurred!");
+        }
+
+        stmt.close();
+    }
+
     private String convertAddress(DeliveryAddress address) {
         return address.getName() + "," +
                 address.getSurname() + "," +

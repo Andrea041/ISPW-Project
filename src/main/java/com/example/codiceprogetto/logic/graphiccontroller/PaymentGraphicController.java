@@ -56,7 +56,14 @@ public class PaymentGraphicController extends GraphicTool {
     }
 
     public void homeGUI() {
-        navigateTo(HOME);
+        toPay = new PaymentApplicativeController();
+
+        try {
+            toPay.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
+            navigateTo(HOME);
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        }
     }
 
     public void pay(MouseEvent mouseEvent) {

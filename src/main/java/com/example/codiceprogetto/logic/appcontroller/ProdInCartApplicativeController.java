@@ -61,7 +61,7 @@ public class ProdInCartApplicativeController {
         res = new CartDAO().updateCart(toRemove, SessionUser.getInstance().getThisUser().getEmail(), "REMOVE");
 
         assert toRemove != null;
-        new CartDAO().updateCartTotal(String.valueOf(cart.getTotal()-(toRemove.getPrice() * toRemove.getSelectedUnits())), SessionUser.getInstance().getThisUser().getEmail());
+        new CartDAO().updateCartTotal(cart.getTotal()-(toRemove.getPrice() * toRemove.getSelectedUnits()), SessionUser.getInstance().getThisUser().getEmail());
 
         return res;
     }
@@ -71,7 +71,6 @@ public class ProdInCartApplicativeController {
         int res = -1;
         Product modifiedProd = null;
         double total = 0;
-        String totalStr;
 
         cart = fetchCart();
         if(cart.getProducts().isEmpty())
@@ -106,9 +105,7 @@ public class ProdInCartApplicativeController {
             total += (prod.getPrice() * prod.getSelectedUnits());
         }
 
-        totalStr = String.valueOf(total);
-
-        new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
+        new CartDAO().updateCartTotal(total, SessionUser.getInstance().getThisUser().getEmail());
 
         return res;
     }

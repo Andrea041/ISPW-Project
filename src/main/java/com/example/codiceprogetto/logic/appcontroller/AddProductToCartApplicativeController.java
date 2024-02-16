@@ -43,7 +43,6 @@ public class AddProductToCartApplicativeController {
 
     public void updateTotal() throws DAOException, SQLException {
         double total = 0;
-        String totalStr;
         Cart cart;
 
         cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
@@ -54,8 +53,6 @@ public class AddProductToCartApplicativeController {
             total += (prod.getPrice() * prod.getSelectedUnits());
         }
 
-        totalStr = String.valueOf(total);
-
-        new CartDAO().updateCartTotal(totalStr, SessionUser.getInstance().getThisUser().getEmail());
+        new CartDAO().updateCartTotal(total, SessionUser.getInstance().getThisUser().getEmail());
     }
 }

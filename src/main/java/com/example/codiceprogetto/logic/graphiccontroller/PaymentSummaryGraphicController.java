@@ -37,7 +37,7 @@ public class PaymentSummaryGraphicController extends GraphicTool {
             orderBean = toPay.fetchTotal(SessionUser.getInstance().getThisUser().getEmail(), orderBean);
             transactionBean = toPay.fetchTransaction(orderBean);
 
-            toPay.updateOrder(SessionUser.getInstance().getThisUser().getEmail());
+            toPay.makeCartEmpty(SessionUser.getInstance().getThisUser().getEmail());
             orderBean.setOrderStatus(OrderStatus.CONFIRMED);
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
