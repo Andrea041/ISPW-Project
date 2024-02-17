@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
+import com.example.codiceprogetto.logic.dao.ProductDAOFactory;
 import com.example.codiceprogetto.logic.dao.ProductDAOJdbc;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
@@ -9,15 +10,16 @@ import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProdInCartApplicativeController {
-    public ProductStockBean updateUI(String prodID, ProductStockBean cart) throws DAOException, SQLException {
+    public ProductStockBean updateUI(String prodID, ProductStockBean cart) throws DAOException, SQLException, IOException {
         Product prod;
 
-        prod = new ProductDAOJdbc().fetchProduct(prodID);
+        prod = new ProductDAOFactory().createProductDAO().fetchProduct(prodID);
 
         cart.setTotalAmount(prod.getPrice());
         cart.setLabelID(prod.getId());

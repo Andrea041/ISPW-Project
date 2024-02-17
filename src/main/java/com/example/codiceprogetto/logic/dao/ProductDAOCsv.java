@@ -13,18 +13,17 @@ import java.util.logging.Logger;
 
 public class ProductDAOCsv implements ProductDAO {
     private final File fd;
-    static final String CSV_FILE_NAME = "ProductCSV.csv";
-    static final int INDEX_PRODUCT_NAME = 0;
-    static final int INDEX_PRODUCT_ID = 1;
-    static final int INDEX_SIZE = 2;
-    static final int INDEX_PRICE = 3;
-    static final int INDEX_PROD_IMAGE = 4;
+    private static final String CSV_FILE_NAME = "ProductCSV.csv";
+    private static final int INDEX_PRODUCT_NAME = 0;
+    private static final int INDEX_PRODUCT_ID = 1;
+    private static final int INDEX_PRICE = 3;
+    private static final int INDEX_PROD_IMAGE = 4;
 
 
     public ProductDAOCsv() throws IOException {
         this.fd = new File(CSV_FILE_NAME);
 
-        if (!fd.exists()) {
+        if(!fd.exists()) {
             throw new IOException(CSV_FILE_NAME + " file does not exist");
         }
     }
@@ -58,18 +57,17 @@ public class ProductDAOCsv implements ProductDAO {
             while((record = csvReader.readNext()) != null) {
                 String productName = record[INDEX_PRODUCT_NAME];
                 String productID = record[INDEX_PRODUCT_ID];
-                String productSize = record[INDEX_SIZE];
                 double productPrice = Double.parseDouble(record[INDEX_PRICE]);
                 String productImage = record[INDEX_PROD_IMAGE];
 
-                Product product = new Product(productName, productID, productSize, productPrice, productImage);
+                Product product = new Product(productName, productID, productPrice, productImage);
 
                 productList.add(product);
             }
         } catch (FileNotFoundException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, String.format("Invalid file descriptor %s", e));
+            Logger.getAnonymousLogger().log(Level.INFO, "Invalid file descriptor");
         } catch (IOException | CsvValidationException e) {
-            throw new IOException(e);
+            Logger.getAnonymousLogger().log(Level.INFO, "Error reading CSV file");
         }
 
         return productList;

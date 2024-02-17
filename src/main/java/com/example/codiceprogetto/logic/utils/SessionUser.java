@@ -4,17 +4,20 @@ import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.User;
 import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
-import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SessionUser {
     private static SessionUser instance = null;
     protected User thisUser;
+    protected List<User> listOfUser;
 
     protected SessionUser() {
+        listOfUser = new ArrayList<>();
         thisUser = null;
     }
 
@@ -27,7 +30,7 @@ public class SessionUser {
     public synchronized void cart() {
         int ret;
 
-        if(thisUser.getUserType().equals(UserType.CUSTOMER.getId())) {
+        if(thisUser.getUserType().equals(UserType.CUSTOMER.getId().toUpperCase())) {
             try {
                 ret = new CartDAO().createCustomerCart(thisUser.getEmail());
                 if (ret == 0)
@@ -39,20 +42,26 @@ public class SessionUser {
     }
 
     public synchronized void login(User user) throws AlreadyLoggedUserException {
-        if(thisUser != null && thisUser.getEmail().equals(user.getEmail())) {
-            throw new AlreadyLoggedUserException("You are already logged");
-        } else if(thisUser != null && !thisUser.getEmail().equals(user.getEmail()))  {
-            logout();
-            thisUser = user;
-        }
-        else {
+        try {
+            for(User us : listOfUser) {
+                if (us.getEmail().equals(user.getEmail()))
+                    throw new AlreadyLoggedUserException("User already logged");
+            }
+            listOfUser.add(user);
+        } finally {
             thisUser = user;
         }
     }
     public synchronized void logout() {
+            listOfUser.remove(thisUser);
             thisUser = null;
     }
+
     public User getThisUser(){
         return thisUser;
+    }
+
+    public List<User> getAllUser() {
+        return listOfUser;
     }
 }

@@ -22,17 +22,17 @@ public class IncomingOrderGraphicController extends GraphicTool {
     @FXML
     void initialize() {
         IncomingOrderApplicativeController incOrder = new IncomingOrderApplicativeController();
-        List<OrderBean> orderBeanList = new ArrayList<>();
+        List<OrderBean> orderBeanList;
 
         try {
             orderBeanList = incOrder.retrieveOrders();
+
+            if(!orderBeanList.isEmpty()) {
+                for(OrderBean orderBean : orderBeanList)
+                    appendToDashboard(orderBean.getOrderID());
+            }
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        }
-
-        if(!orderBeanList.isEmpty()) {
-            for(OrderBean orderBean : orderBeanList)
-                appendToDashboard(orderBean.getOrderID());
         }
     }
 

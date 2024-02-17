@@ -19,6 +19,7 @@ import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,6 +101,9 @@ public class SelectProductGraphicController extends GraphicTool {
             alert(errorToDisplay);
         } catch (TooManyUnitsExcpetion | DAOException e) {
             alert(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            // TODO: sistemare
         }
     }
 

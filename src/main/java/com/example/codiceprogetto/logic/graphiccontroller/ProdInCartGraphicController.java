@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +144,9 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            // TODO: sistemare
         }
     }
 

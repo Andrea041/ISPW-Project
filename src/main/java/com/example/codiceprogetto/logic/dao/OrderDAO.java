@@ -135,7 +135,7 @@ public class OrderDAO {
     public List<Order> fetchAllOrder(String orderStatus) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
-        List<Order> orderList;
+        List<Order> orderList = new ArrayList<>();
         ResultSet rs;
 
         String sql = "SELECT * FROM Progetto.Order WHERE status = ?";
@@ -145,7 +145,7 @@ public class OrderDAO {
         rs = stmt.executeQuery();
 
         if(!rs.first()) {
-            return null;
+            return orderList;
         }
 
         rs.first();

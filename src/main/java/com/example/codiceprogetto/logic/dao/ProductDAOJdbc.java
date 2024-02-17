@@ -43,51 +43,83 @@ public class ProductDAOJdbc implements ProductDAO {
         return stmt;
     }
 
-    public Product fetchProduct(String prodID) throws SQLException {
+    public Product fetchProduct(String prodID) {
         Connection conn = DBConnectionFactory.getConn();
-        ResultSet rs;
-        Product product;
-        PreparedStatement stmt;
+        ResultSet rs = null;
+        Product product = null;
+        PreparedStatement stmt = null;
 
-        stmt = retrieveQuery(conn, prodID);
+        try {
+            stmt = retrieveQuery(conn, prodID);
 
-        rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
-        if(!rs.first()) {
-            return null;
+            if (!rs.first()) {
+                return null;
+            }
+
+            rs.first();
+
+            product = newProduct(rs);
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "Fetch product error");
+        } finally {
+            if(stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    Logger.getAnonymousLogger().log(Level.INFO, "stmt close error");
+                }
+            }
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    Logger.getAnonymousLogger().log(Level.INFO, "rs close error");
+                }
+            }
         }
-
-        rs.first();
-
-        product = newProduct(rs);
-
-        stmt.close();
-        rs.close();
 
         return product;
     }
 
-    public List<Product> fetchAllProduct() throws SQLException {
+    public List<Product> fetchAllProduct() {
         Connection conn = DBConnectionFactory.getConn();
-        ResultSet rs;
-        List<Product> productList;
-        PreparedStatement stmt;
+        ResultSet rs = null;
+        List<Product> productList = new ArrayList<>();
+        PreparedStatement stmt = null;
+        
+        try {
+            String sql = "SELECT * FROM Product";
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-        String sql = "SELECT * FROM Product";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery();
 
-        rs = stmt.executeQuery();
+            if(!rs.first()) {
+                return null;
+            }
 
-        if(!rs.first()) {
-            return null;
+            rs.first();
+
+            productList = newProductList(rs);
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "Fetch product error");
+        } finally {
+            if(stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    Logger.getAnonymousLogger().log(Level.INFO, "stmt close error");
+                }
+            }
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    Logger.getAnonymousLogger().log(Level.INFO, "rs close error");
+                }
+            }
         }
-
-        rs.first();
-
-        productList = newProductList(rs);
-
-        stmt.close();
-        rs.close();
 
         return productList;
     }

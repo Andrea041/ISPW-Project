@@ -35,7 +35,7 @@ public abstract class GraphicTool {
         try {
             NavigatorSingleton.getInstance().goTo(page);
         } catch(IOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page" + e);
+            Logger.getAnonymousLogger().log(Level.INFO, "Invalid page " + e);
         }
     }
 
