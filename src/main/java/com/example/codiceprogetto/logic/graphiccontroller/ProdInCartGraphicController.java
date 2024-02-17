@@ -37,8 +37,9 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     private ImageView prodImage;
     private int counter = 0;
     ProdInCartApplicativeController prodBox;
-    private String prodID;
+    private final String prodID;
     private final List<Observer> observers = new ArrayList<>();
+    private final String error = "Unknown error";
 
     public ProdInCartGraphicController(String prodID) {
         super();
@@ -54,6 +55,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         int res;
         prodBox = new ProdInCartApplicativeController();
 
+
         counter--;
         if(counter < 1) {
             removeProd();
@@ -64,11 +66,11 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.changeUnits(labelID.getText(), "DELETE");
             if(res <= 0)
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+                Logger.getAnonymousLogger().log(Level.INFO, error);
         } catch(TooManyUnitsExcpetion e) {
             alert(e.getMessage());
         } catch(SQLException | DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         notifyObserver();
@@ -87,11 +89,11 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.changeUnits(labelID.getText(), "ADD");
             if(res <= 0)
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+                Logger.getAnonymousLogger().log(Level.INFO, error);
         } catch(TooManyUnitsExcpetion e) {
             alert(e.getMessage());
         } catch(SQLException | DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         notifyObserver();
@@ -105,11 +107,9 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.removeProduct(labelID.getText());
             if(res == -1)
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
-        } catch(DAOException | TooManyUnitsExcpetion e) {
+                Logger.getAnonymousLogger().log(Level.INFO, error);
+        } catch(DAOException | TooManyUnitsExcpetion | SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
 
         notifyObserver();
@@ -124,13 +124,13 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             cartTotal = prodBox.updateUI(prodID, cartTotal);
             if(cartTotal == null) {
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+                Logger.getAnonymousLogger().log(Level.INFO, error);
                 return;
             }
 
             selectedUnits = prodBox.displaySelectedUnits(prodID);
             if(selectedUnits == -1)
-                Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+                Logger.getAnonymousLogger().log(Level.INFO, error);
             Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
             totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * selectedUnits, 2) + "€");
@@ -140,10 +140,8 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             price.setText(round(cartTotal.getPrice(), 2) + "€");
             prodImage.setImage(image);
             counter = selectedUnits;
-        } catch(DAOException | IOException e) {
+        } catch(DAOException | IOException | SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
 

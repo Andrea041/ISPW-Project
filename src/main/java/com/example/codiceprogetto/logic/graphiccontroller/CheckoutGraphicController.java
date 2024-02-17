@@ -75,7 +75,7 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void gotoPaymentGUI() {
-        if (memoAddress.isSelected() && !checkAddress()) {
+        if (memoAddress.isSelected() && checkAddress()) {
             alert("There isn't any memorized address!");
             return;
         }
@@ -92,7 +92,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
             try {
                 new CheckoutApplicativeController().checkEmptyFieldAddress(address);
-                if (!checkAddress() && displayConfirmBox("Do you want to save your delivery address?", "yes", "no")) {
+                if (checkAddress() && displayConfirmBox("Do you want to save your delivery address?", "yes", "no")) {
                     new CheckoutApplicativeController().insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
                 }
             } catch (EmptyInputException | DAOException e) {
@@ -104,10 +104,8 @@ public class CheckoutGraphicController extends GraphicTool {
         try {
             new CheckoutApplicativeController().createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
             navigateTo(PAY);
-        } catch (DAOException e) {
+        } catch (DAOException | SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
 
@@ -121,7 +119,7 @@ public class CheckoutGraphicController extends GraphicTool {
         } catch(DAOException | AlreadyAppliedCouponException e) {
             alert(e.getMessage());
         } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         updateLabel();
@@ -134,7 +132,7 @@ public class CheckoutGraphicController extends GraphicTool {
         try {
             cOut.removeCoupon();
         } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         updateLabel();
@@ -156,7 +154,7 @@ public class CheckoutGraphicController extends GraphicTool {
         try {
             cOut.addShipping(shippingBean);
         } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         updateLabel();
@@ -169,7 +167,7 @@ public class CheckoutGraphicController extends GraphicTool {
         try {
             cart = cOut.calculateTotal(cart);
         } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch(DAOException e) {
             alert(e.getMessage());
         }
@@ -190,6 +188,6 @@ public class CheckoutGraphicController extends GraphicTool {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
-        return res;
+        return !res;
     }
 }
