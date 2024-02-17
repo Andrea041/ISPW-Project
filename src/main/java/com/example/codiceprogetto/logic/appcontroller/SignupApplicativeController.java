@@ -1,23 +1,22 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
+import com.example.codiceprogetto.logic.bean.SignupBean;
 import com.example.codiceprogetto.logic.dao.CustomerDAO;
 import com.example.codiceprogetto.logic.dao.SellerDAO;
-import com.example.codiceprogetto.logic.entities.User;
-import com.example.codiceprogetto.logic.bean.SignupBean;
 import com.example.codiceprogetto.logic.dao.UserDAO;
+import com.example.codiceprogetto.logic.entities.User;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
-import com.example.codiceprogetto.logic.enumeration.UserType;
 
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SignupApplicativeController {
-    public int signupUser(SignupBean userBean) throws EmptyInputException, AlreadyExistingUserException, AlreadyLoggedUserException, DAOException, SQLException {
+    public int signupUser(SignupBean userBean) throws EmptyInputException, AlreadyExistingUserException, AlreadyLoggedUserException, DAOException {
         User user;
         int result;
 
@@ -40,8 +39,7 @@ public class SignupApplicativeController {
                         Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
                         break;
                 }
-            }
-            else
+            } else
                 throw new EmptyInputException("There are some empty field, please compile the form correctly");
         } else
             throw new AlreadyExistingUserException("User already exist");
@@ -55,10 +53,7 @@ public class SignupApplicativeController {
 
     public void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
         User thisUser = new User(email, password, userType, name, surname);
-        try {
-            SessionUser.getInstance().login(thisUser);
-        } catch (AlreadyLoggedUserException e) {
-            throw new AlreadyLoggedUserException(e.getMessage());
-        }
+
+        SessionUser.getInstance().login(thisUser);
     }
 }

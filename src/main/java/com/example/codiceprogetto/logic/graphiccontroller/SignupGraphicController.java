@@ -16,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SignupGraphicController extends GraphicTool{
     @FXML
@@ -45,15 +47,17 @@ public class SignupGraphicController extends GraphicTool{
             signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
             SignupApplicativeController signup = new SignupApplicativeController();
 
-            if(checkBox.isSelected()) {
-                if(keySignUp.getText().equals(KEY))
-                    signBean.setUserType(UserType.SELLER.getId());
-                else {
-                    alert("Wrong key");
-                    keySignUp.setText("");
-                }
-            } else
-                signBean.setUserType(UserType.CUSTOMER.getId());
+            signBean.setUserType(
+                    checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
+                            UserType.SELLER.getId() :
+                            UserType.CUSTOMER.getId()
+            );
+
+            if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
+                alert("Wrong key");
+                keySignUp.clear();
+            }
+
 
             try {
                 int ret = signup.signupUser(signBean);
@@ -68,12 +72,9 @@ public class SignupGraphicController extends GraphicTool{
                         default:
                             break;
                     }
-                } else {
+                } else
                     alert(errorToDisplay);
-                }
-            } catch (SQLException | AlreadyLoggedUserException e) {
-                alert(errorToDisplay);
-            } catch (EmptyInputException | AlreadyExistingUserException | DAOException e) {
+            }  catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
                 alert(e.getMessage());
             }
         } else {

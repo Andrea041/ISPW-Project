@@ -31,7 +31,7 @@ public class UserDAO extends AbsUserDAO {
         return result;
     }
 
-    public User findUser(String email) throws DAOException, SQLException {
+    public User findUser(String email) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs = null;
         User user = null;
@@ -52,8 +52,12 @@ public class UserDAO extends AbsUserDAO {
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } finally {
-            if (rs != null)
-                rs.close();
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+            }
         }
 
         return user;
