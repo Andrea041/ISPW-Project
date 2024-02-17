@@ -34,24 +34,16 @@ public class ProductDAOJdbc implements ProductDAO {
         return productList;
     }
 
-    public PreparedStatement retrieveQuery(Connection conn, String id) throws SQLException {
-        PreparedStatement stmt;
-
-        String sql = "SELECT * FROM Product WHERE " + "ID" + " = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, id);
-
-        return stmt;
-    }
-
     public Product fetchProduct(String prodID) {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs = null;
         Product product = null;
         PreparedStatement stmt = null;
+        String sql = "SELECT * FROM Product WHERE " + "ID" + " = ?";
 
         try {
-            stmt = retrieveQuery(conn, prodID);
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setString(1, prodID);
 
             rs = stmt.executeQuery();
 
@@ -124,41 +116,4 @@ public class ProductDAOJdbc implements ProductDAO {
 
         return productList;
     }
-
-    /*public int updateProductStock(String id, int selectedUnits) throws SQLException {
-        Connection conn = DBConnectionFactory.getConn();
-        PreparedStatement stmt;
-        ResultSet rs;
-        int result = -1;
-
-        stmt = retrieveQuery(conn, id);
-
-        rs = stmt.executeQuery();
-
-        if(!rs.first()) {
-            return result;
-        }
-
-        rs.first();
-
-        int stockUpdate = rs.getInt("inStockUnits") - selectedUnits;
-
-        rs.close();
-
-        String sql = "UPDATE Product SET inStockUnits = ? WHERE ID = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setInt(1, stockUpdate);
-        stmt.setString(2, id);
-
-        result = stmt.executeUpdate();
-        if(result > 0){
-            Logger.getAnonymousLogger().log(Level.INFO, "Product stock updated");
-        } else {
-            Logger.getAnonymousLogger().log(Level.INFO, "Product stock update failed");
-        }
-
-        stmt.close();
-
-        return result;
-    }*/
 }

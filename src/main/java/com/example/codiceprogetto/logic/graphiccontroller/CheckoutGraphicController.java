@@ -197,8 +197,8 @@ public class CheckoutGraphicController extends GraphicTool {
 
         try {
             res = cOut.checkCustomerAddress(SessionUser.getInstance().getThisUser().getEmail());
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (SQLException | DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         return res;

@@ -2,7 +2,6 @@ package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.exception.DAOException;
 
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
