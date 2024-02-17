@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.User;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.*;
@@ -21,7 +22,7 @@ public class UserDAO extends AbsUserDAO {
 
         result = registerUser(email, password, userType, name, surname, query);
 
-        if(result > 0){
+        if (result > 0) {
             Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
@@ -30,28 +31,34 @@ public class UserDAO extends AbsUserDAO {
         return result;
     }
 
-    public User findUser(String email) throws SQLException {
+    public User findUser(String email) throws DAOException, SQLException {
         Connection conn = DBConnectionFactory.getConn();
-        ResultSet rs;
-        User user;
-        PreparedStatement stmt;
-
+        ResultSet rs = null;
+        User user = null;
+        PreparedStatement stmt = null;
         String sql = "SELECT * FROM User WHERE " + "email" + " = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
 
-        rs = stmt.executeQuery();
+        try {
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setString(1, email);
 
-        if(!rs.first()) {
-            return null;
+            rs = stmt.executeQuery();
+
+            if (!rs.first()) {
+                throw new DAOException("Not existing user!");
+            }
+
+            rs.first();
+
+            user = newUser(rs);
+        } catch(SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
         }
-
-        rs.first();
-
-        user = newUser(rs);
-
-        stmt.close();
-        rs.close();
 
         return user;
     }

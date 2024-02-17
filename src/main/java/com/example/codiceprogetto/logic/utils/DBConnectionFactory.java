@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 public class DBConnectionFactory {
     private static Connection conn;
 
+    private DBConnectionFactory() {}
+
     static {
         try (FileInputStream file = new FileInputStream("src/main/java/com/example/codiceprogetto/logic/utils/configuration.properties")) {
             Properties prop = new Properties();

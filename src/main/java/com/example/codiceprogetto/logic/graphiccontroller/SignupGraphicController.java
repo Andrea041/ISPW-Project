@@ -4,6 +4,7 @@ import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeControlle
 import com.example.codiceprogetto.logic.bean.SignupBean;
 import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -83,7 +84,7 @@ public class SignupGraphicController extends GraphicTool{
                 }
             } catch (SQLException | AlreadyLoggedUserException e) {
                 alert(errorToDisplay);
-            } catch (EmptyInputException | AlreadyExistingUserException e) {
+            } catch (EmptyInputException | AlreadyExistingUserException | DAOException e) {
                 alert(e.getMessage());
             }
         } else {

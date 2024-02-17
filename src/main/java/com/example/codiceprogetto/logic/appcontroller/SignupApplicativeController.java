@@ -7,6 +7,7 @@ import com.example.codiceprogetto.logic.bean.SignupBean;
 import com.example.codiceprogetto.logic.dao.UserDAO;
 import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import com.example.codiceprogetto.logic.enumeration.UserType;
@@ -16,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SignupApplicativeController {
-    public int signupUser(SignupBean userBean) throws SQLException, EmptyInputException, AlreadyExistingUserException, AlreadyLoggedUserException {
+    public int signupUser(SignupBean userBean) throws EmptyInputException, AlreadyExistingUserException, AlreadyLoggedUserException, DAOException, SQLException {
         User user;
         int result;
 

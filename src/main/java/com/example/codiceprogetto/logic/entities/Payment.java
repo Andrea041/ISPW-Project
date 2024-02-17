@@ -13,7 +13,7 @@ public class Payment {
         this.lastName = lastName;
         this.expiration = expiration;
         this.cardNumber = cardNumber;
-        this.cvv = getCvv();
+        this.cvv = cvv;
         this.zipCode = zipCode;
     }
 
