@@ -5,12 +5,11 @@ import com.example.codiceprogetto.logic.dao.ProductDAOFactory;
 import com.example.codiceprogetto.logic.entities.Product;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BrowseAccessoriesApplicativeController {
-    public List<ProductStockBean> retrieveProduct() throws SQLException, IOException {
+    public List<ProductStockBean> retrieveProduct() throws IOException {
         List<Product> productList;
 
         List<ProductStockBean> productListBean = new ArrayList<>();

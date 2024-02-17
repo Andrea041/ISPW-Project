@@ -3,7 +3,6 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.dao.ProductDAOFactory;
-import com.example.codiceprogetto.logic.dao.ProductDAOJdbc;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;

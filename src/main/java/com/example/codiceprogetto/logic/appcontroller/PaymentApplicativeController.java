@@ -22,7 +22,7 @@ public class PaymentApplicativeController {
                                              paymentBean.getLastName(),
                                              paymentBean.getExpiration(),
                                              paymentBean.getCardNumber(),
-                                             paymentBean.getCVV(),
+                                             paymentBean.getCvv(),
                                              paymentBean.getZipCode());
     }
 
@@ -91,7 +91,7 @@ public class PaymentApplicativeController {
                 paymentBean.getLastName().isEmpty() ||
                 paymentBean.getExpiration().isEmpty() ||
                 paymentBean.getCardNumber().isEmpty() ||
-                paymentBean.getCVV().isEmpty() ||
+                paymentBean.getCvv().isEmpty() ||
                 paymentBean.getZipCode().isEmpty())
             throw new EmptyInputException("There are some empty fields!");
     }

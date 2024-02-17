@@ -5,7 +5,7 @@ public class PaymentBean {
     private String lastName;
     private String expiration;
     private String cardNumber;
-    private String CVV;
+    private String cvv;
     private String zipCode;
 
     public PaymentBean(String name, String lastName, String expiration, String cardNumber, String CVV, String zipCode) {
@@ -13,7 +13,7 @@ public class PaymentBean {
         this.lastName = lastName;
         this.expiration = expiration;
         this.cardNumber = cardNumber;
-        this.CVV = CVV;
+        this.cvv = CVV;
         this.zipCode = zipCode;
     }
 
@@ -23,8 +23,8 @@ public class PaymentBean {
     public String getCardNumber() {
         return cardNumber;
     }
-    public String getCVV() {
-        return CVV;
+    public String getCvv() {
+        return cvv;
     }
     public String getZipCode() {
         return zipCode;
@@ -44,8 +44,8 @@ public class PaymentBean {
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
     public void setName(String name) {
         this.name = name;

@@ -3,14 +3,14 @@ package com.example.codiceprogetto.logic.bean;
 import com.example.codiceprogetto.logic.enumeration.PaymentType;
 
 public class TransactionBean {
-    private String TransactionID;
+    private String transactionID;
     private PaymentType paymentType;
 
     public String getTransactionID() {
-        return TransactionID;
+        return transactionID;
     }
     public void setTransactionID(String transactionID) {
-        TransactionID = transactionID;
+        this.transactionID = transactionID;
     }
     public PaymentType getPaymentType() {
         return paymentType;

@@ -1,6 +1,5 @@
 package com.example.codiceprogetto.logic.bean;
 
-import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 
 import java.util.List;

@@ -15,7 +15,7 @@ public class AddressDAO {
         PreparedStatement stmt;
         int result;
 
-        String query = "INSERT INTO Address (email, addressName, addressSurname, address, city, country, state, phoneNumber) values (?, ?, ?, ?, ?, ?, ? , ?) ";
+        String query = "INSERT INTO Address (email, addressName, addressSurname, address, city, country, state, phoneNumber) values (?, ?, ?, ?, ?, ?, ?, ?) ";
         stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, email);
         stmt.setString(2, name);

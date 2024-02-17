@@ -52,13 +52,13 @@ public class ProductDAOCsv implements ProductDAO {
         List<Product> productList = new ArrayList<>();
 
         try(CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
-            String[] record;
+            String[] recordString;
 
-            while((record = csvReader.readNext()) != null) {
-                String productName = record[INDEX_PRODUCT_NAME];
-                String productID = record[INDEX_PRODUCT_ID];
-                double productPrice = Double.parseDouble(record[INDEX_PRICE]);
-                String productImage = record[INDEX_PROD_IMAGE];
+            while((recordString = csvReader.readNext()) != null) {
+                String productName = recordString[INDEX_PRODUCT_NAME];
+                String productID = recordString[INDEX_PRODUCT_ID];
+                double productPrice = Double.parseDouble(recordString[INDEX_PRICE]);
+                String productImage = recordString[INDEX_PROD_IMAGE];
 
                 Product product = new Product(productName, productID, productPrice, productImage);
 
