@@ -43,7 +43,6 @@ public class SignupGraphicController extends GraphicTool{
             SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
             SignupApplicativeController signup = new SignupApplicativeController();
 
-            // check form field syntax
             if(!emailField.getText().isEmpty()) {
                 int startIndex = emailField.getText().indexOf('@');
                 int endIndex = emailField.getText().indexOf('.', startIndex);
@@ -73,7 +72,7 @@ public class SignupGraphicController extends GraphicTool{
                             navigateTo(HOME);
                             break;
                         case "SELLER":
-                            //navigateTo(mouseEvent, "INBOX");
+                            navigateTo(ORDER);
                             break;
                         default:
                             break;

@@ -3,7 +3,6 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeController;
 import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
-import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
@@ -106,7 +105,7 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public List<ProductStockBean> fetchCartContent() {
-        List< ProductStockBean> productStockBeans = new ArrayList<>();
+        List<ProductStockBean> productStockBeans = new ArrayList<>();
         shop = new ShoppingCartApplicativeController();
 
         try {

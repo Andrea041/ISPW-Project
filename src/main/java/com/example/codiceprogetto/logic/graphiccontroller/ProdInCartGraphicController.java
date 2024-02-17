@@ -36,7 +36,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     private ImageView prodImage;
     private int counter = 0;
     ProdInCartApplicativeController prodBox;
-    String prodID;
+    private String prodID;
     private final List<Observer> observers = new ArrayList<>();
 
     public ProdInCartGraphicController(String prodID) {

@@ -29,6 +29,7 @@ public abstract class GraphicTool {
     protected static final String CHECKOUT = "/com/example/codiceprogetto/FXML/Checkout/Checkout.fxml";
     protected static final String PAY = "/com/example/codiceprogetto/FXML/Payment/Payment.fxml";
     protected static final String PAYSUM = "/com/example/codiceprogetto/FXML/Payment/PaymentSummary.fxml";
+    protected static final String ORDER = "/com/example/codiceprogetto/FXML/IncomingOrder/IncomingOrder.fxml";
 
     protected void navigateTo(String page) {
         try {

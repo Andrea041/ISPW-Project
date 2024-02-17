@@ -44,7 +44,7 @@ public class PaymentApplicativeController {
         String status;
 
         status = transactionStatus.getId();
-        order = new OrderDAO().fetchOrder(email);
+        order = new OrderDAO().fetchOrder(email, OrderStatus.NEW.getId());
 
         new TransactionDAO().insertTransaction(email, status, order.getOrderID(), paymentType);
     }
@@ -52,7 +52,7 @@ public class PaymentApplicativeController {
     public OrderBean fetchTotal(String email, OrderBean orderBean) throws SQLException {
         Order order;
 
-        order = new OrderDAO().fetchOrder(email);
+        order = new OrderDAO().fetchOrder(email, OrderStatus.NEW.getId());
         orderBean.setFinalTotal(order.getTotal());
         orderBean.setOrderID(order.getOrderID());
         orderBean.setOrderStatus(order.getStatus());

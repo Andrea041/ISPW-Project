@@ -9,6 +9,7 @@ import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,11 +25,14 @@ public class SignupApplicativeController {
         if(user == null) {
             if(!userBean.getName().isEmpty() && !userBean.getSurname().isEmpty() && !userBean.getEmail().isEmpty() && !userBean.getPassword().isEmpty()) {
                 result = new UserDAO().insertUser(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
-                switch(userBean.getUserType()) {
-                    case "CUSTOMER":
+
+                UserType userType = UserType.valueOf(userBean.getUserType().toUpperCase());
+
+                switch(userType) {
+                    case CUSTOMER:
                         result = new CustomerDAO().insertCustomer(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
                         break;
-                    case "SELLER":
+                    case SELLER:
                         result = new SellerDAO().insertSeller(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
                         break;
                     default:

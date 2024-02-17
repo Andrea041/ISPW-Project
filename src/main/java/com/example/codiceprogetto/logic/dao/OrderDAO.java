@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 
 public class OrderDAO {
-    public Order generateOrder(ResultSet rs) throws SQLException {
+    protected Order generateOrder(ResultSet rs) throws SQLException {
         Order order;
         DeliveryAddress address;
         List<Product> productList;
@@ -34,6 +34,19 @@ public class OrderDAO {
                           productList);
 
         return order;
+    }
+
+    protected List<Order> newOrderList(ResultSet rs) throws SQLException {
+        List<Order> orderList = new ArrayList<>();
+        Order order;
+
+        do {
+            order = generateOrder(rs);
+
+            orderList.add(order);
+        } while(rs.next());
+
+        return orderList;
     }
 
     public void createOrder(String email, double total, String orderID, DeliveryAddress address, List<Product> productList) throws SQLException {
@@ -67,15 +80,16 @@ public class OrderDAO {
         stmt.close();
     }
 
-    public Order fetchOrder(String email) throws SQLException {
+    public Order fetchOrder(String email, String orderStatus) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
         Order order;
         ResultSet rs;
 
-        String sql = "SELECT * FROM Progetto.Order WHERE email = ? AND status = 'new'";
+        String sql = "SELECT * FROM Progetto.Order WHERE email = ? AND status = ?";
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, email);
+        stmt.setString(2, orderStatus);
 
         rs = stmt.executeQuery();
 
@@ -92,6 +106,57 @@ public class OrderDAO {
         return order;
     }
 
+    public Order fetchOrderByID(String orderID, String orderStatus) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        Order order;
+        ResultSet rs;
+
+        String sql = "SELECT * FROM Progetto.Order WHERE orderID = ? AND status = ?";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, orderID);
+        stmt.setString(2, orderStatus);
+
+        rs = stmt.executeQuery();
+
+        if(!rs.first()) {
+            return null;
+        }
+
+        rs.first();
+
+        order = generateOrder(rs);
+
+        stmt.close();
+
+        return order;
+    }
+
+    public List<Order> fetchAllOrder(String orderStatus) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        List<Order> orderList;
+        ResultSet rs;
+
+        String sql = "SELECT * FROM Progetto.Order WHERE status = ?";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, orderStatus);
+
+        rs = stmt.executeQuery();
+
+        if(!rs.first()) {
+            return null;
+        }
+
+        rs.first();
+
+         orderList = newOrderList(rs);
+
+         stmt.close();
+
+         return orderList;
+    }
+
     public void updateOrderStatus(String email, String orderStatus) throws SQLException {
         PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
@@ -101,6 +166,26 @@ public class OrderDAO {
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         stmt.setString(1, orderStatus);
         stmt.setString(2, email);
+
+        result = stmt.executeUpdate();
+        if(result > 0){
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status updated");
+        } else {
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status update failed");
+        }
+
+        stmt.close();
+    }
+
+    public void updateOrderStatusByID(String orderID, String orderStatus) throws SQLException {
+        PreparedStatement stmt;
+        Connection conn = DBConnectionFactory.getConn();
+        int result;
+
+        String sql = "UPDATE Progetto.Order SET status = ? WHERE orderID = ? AND status = 'confirmed'";
+        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        stmt.setString(1, orderStatus);
+        stmt.setString(2, orderID);
 
         result = stmt.executeUpdate();
         if(result > 0){

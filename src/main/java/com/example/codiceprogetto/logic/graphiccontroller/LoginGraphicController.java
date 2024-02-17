@@ -33,7 +33,7 @@ public class LoginGraphicController extends GraphicTool {
                         navigateTo(HOME);
                         break;
                     case "SELLER":
-                        //navigateTo(mouseEvent, "INBOX");
+                        navigateTo(ORDER);
                         break;
                     default:
                         break;

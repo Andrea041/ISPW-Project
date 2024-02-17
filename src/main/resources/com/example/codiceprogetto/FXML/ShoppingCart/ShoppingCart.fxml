@@ -10,83 +10,83 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.ShoppingCartGraphicController">
-   <children>
-      <SVGPath fx:id="back" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#back" scaleX="0.025" scaleY="0.025" />
-      <Label layoutX="797.0" layoutY="33.0" text="Customer Service">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="952.0" layoutY="33.0" text="Store">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="myAccount" layoutX="1025.0" layoutY="33.0" onMouseClicked="#accountGUI" text="Logout">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
-      <Label fx:id="Cart" layoutX="1118.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="29.0" layoutY="25.0" text="Bubble Shop" textFill="#0071f5">
-         <font>
-            <Font name="Arial" size="24.0" />
-         </font>
-      </Label>
-      <Line endX="1037.0" layoutX="131.0" layoutY="159.0" startX="-100.0" stroke="#bcbcbc" />
-      <Label layoutX="66.0" layoutY="100.0" text="Shopping cart">
-         <font>
-            <Font name="Arial" size="36.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="289.0" layoutX="861.0" layoutY="180.0" stroke="BLACK" strokeType="INSIDE" width="308.0" />
-      <Line endX="160.0" layoutX="986.0" layoutY="224.0" startX="-102.0" />
-      <Label layoutX="883.0" layoutY="195.0" text="Temporary amount to pay">
-         <font>
-            <Font name="Arial Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="883.0" layoutY="243.0" text="Subtotal">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="883.0" layoutY="270.0" text="Tax (22%)">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="883.0" layoutY="383.0" text="Total">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="proceedCheckout" alignment="BASELINE_LEFT" layoutX="884.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#gotoCheckoutGUI" prefHeight="34.0" prefWidth="260.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Continue to checkout" textFill="WHITE">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Button>
-      <Label fx:id="subtotal" layoutX="1094.0" layoutY="243.0" text="0€">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="tax" layoutX="1094.0" layoutY="270.0" text="0€">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="total" layoutX="1094.0" layoutY="383.0" text="0€">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <SVGPath content="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="WHITE" layoutX="1111.0" layoutY="421.0" scaleX="0.85" scaleY="0.85" />
-      <VBox fx:id="productLocation" layoutX="33.0" layoutY="180.0" prefHeight="593.0" prefWidth="720.0" spacing="20"/>
-   </children>
+    <children>
+        <SVGPath fx:id="back" content="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z" layoutX="-475.0" layoutY="-390.0" onMouseClicked="#back" scaleX="0.025" scaleY="0.025" />
+        <Label layoutX="797.0" layoutY="33.0" text="Customer Service">
+            <font>
+                <Font name="Arial" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="952.0" layoutY="33.0" text="Store">
+            <font>
+                <Font name="Arial" size="16.0" />
+            </font>
+        </Label>
+        <Label fx:id="myAccount" layoutX="1025.0" layoutY="33.0" onMouseClicked="#accountGUI" text="Logout">
+            <font>
+                <Font name="Arial" size="16.0" />
+            </font>
+        </Label>
+        <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
+        <Label fx:id="Cart" layoutX="1118.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="29.0" layoutY="25.0" text="Bubble Shop" textFill="#0071f5">
+            <font>
+                <Font name="Arial" size="24.0" />
+            </font>
+        </Label>
+        <Line endX="1037.0" layoutX="131.0" layoutY="159.0" startX="-100.0" stroke="#bcbcbc" />
+        <Label layoutX="66.0" layoutY="100.0" text="Shopping cart">
+            <font>
+                <Font name="Arial" size="36.0" />
+            </font>
+        </Label>
+        <Rectangle arcHeight="16.0" arcWidth="16.0" fill="#d9d9d9" height="289.0" layoutX="861.0" layoutY="180.0" stroke="BLACK" strokeType="INSIDE" width="308.0" />
+        <Line endX="160.0" layoutX="986.0" layoutY="224.0" startX="-102.0" />
+        <Label layoutX="883.0" layoutY="195.0" text="Temporary amount to pay">
+            <font>
+                <Font name="Arial Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="883.0" layoutY="243.0" text="Subtotal">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="883.0" layoutY="270.0" text="Tax (22%)">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="883.0" layoutY="383.0" text="Total">
+            <font>
+                <Font name="Arial Bold" size="14.0" />
+            </font>
+        </Label>
+        <Button fx:id="proceedCheckout" alignment="BASELINE_LEFT" layoutX="884.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#gotoCheckoutGUI" prefHeight="34.0" prefWidth="260.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Continue to checkout" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Button>
+        <Label fx:id="subtotal" layoutX="1094.0" layoutY="243.0" text="0€">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="tax" layoutX="1094.0" layoutY="270.0" text="0€">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="total" layoutX="1094.0" layoutY="383.0" text="0€">
+            <font>
+                <Font name="Arial Bold" size="14.0" />
+            </font>
+        </Label>
+        <SVGPath content="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="WHITE" layoutX="1111.0" layoutY="421.0" scaleX="0.85" scaleY="0.85" />
+        <VBox fx:id="productLocation" layoutX="33.0" layoutY="180.0" prefHeight="593.0" prefWidth="720.0" spacing="20"/>
+    </children>
 </AnchorPane>
