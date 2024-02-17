@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.dao;
 import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
 import com.example.codiceprogetto.logic.entities.Payment;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
@@ -42,7 +43,7 @@ public class CustomerDAO extends AbsUserDAO {
         return customer;
     }
 
-    public int insertCustomer(String email, String password, String userType, String name, String surname) throws SQLException {
+    public int insertCustomer(String email, String password, String userType, String name, String surname) throws DAOException {
         int result;
         String query = "INSERT INTO Customer (email, password, userType, name, surname) VALUES (?, ?, ?, ?, ?)";
 
@@ -57,31 +58,34 @@ public class CustomerDAO extends AbsUserDAO {
         return result;
     }
 
-    public Customer findCustomer(String email) throws SQLException {
+    public Customer findCustomer(String email) throws SQLException, DAOException {
         Connection conn = DBConnectionFactory.getConn();
-        ResultSet rs;
-        Customer customer;
-        PreparedStatement stmt;
+        ResultSet rs = null;
+        Customer customer = null;
 
         String sql = "SELECT Customer.*, Address.*, Payment.* FROM Customer " +
                 "INNER JOIN Address ON Customer.email = Address.email " +
                 "LEFT JOIN Payment ON Customer.email = Payment.email " +
                 "WHERE Customer.email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
 
-        rs = stmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, email);
 
-        if(!rs.first()) {
-            return null;
+            rs = stmt.executeQuery();
+
+            if (!rs.first()) {
+                throw new DAOException("Error fetching customer");
+            }
+
+            rs.first();
+
+            customer = newCustomer(rs);
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        } finally {
+            if (rs != null)
+                rs.close();
         }
-
-        rs.first();
-
-        customer = newCustomer(rs);
-
-        stmt.close();
-        rs.close();
 
         return customer;
     }

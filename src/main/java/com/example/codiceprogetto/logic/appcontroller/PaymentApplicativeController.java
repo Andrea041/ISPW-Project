@@ -26,7 +26,7 @@ public class PaymentApplicativeController {
                                              paymentBean.getZipCode());
     }
 
-    public boolean checkCustomerPayment(String email) throws SQLException {
+    public boolean checkCustomerPayment(String email) throws SQLException, DAOException {
         Customer customer;
         boolean checker = false;
 
@@ -60,7 +60,7 @@ public class PaymentApplicativeController {
         return orderBean;
     }
 
-    public TransactionBean fetchTransaction(OrderBean orderBean) throws SQLException {
+    public TransactionBean fetchTransaction(OrderBean orderBean) throws DAOException {
         Transaction transaction;
         TransactionBean transactionBean = new TransactionBean();
 

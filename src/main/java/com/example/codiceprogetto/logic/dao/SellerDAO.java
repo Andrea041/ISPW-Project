@@ -1,11 +1,13 @@
 package com.example.codiceprogetto.logic.dao;
 
+import com.example.codiceprogetto.logic.exception.DAOException;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SellerDAO extends AbsUserDAO {
-    public int insertSeller(String email, String password, String userType, String name, String surname) throws SQLException {
+    public int insertSeller(String email, String password, String userType, String name, String surname) throws DAOException {
         int result;
         String sql = "INSERT INTO Seller (email, password, userType, name, surname) VALUES (?, ?, ?, ?, ?)";
 

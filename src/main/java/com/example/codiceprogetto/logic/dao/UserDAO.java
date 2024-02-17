@@ -16,7 +16,7 @@ public class UserDAO extends AbsUserDAO {
         return user;
     }
 
-    public int insertUser(String email, String password, String userType, String name, String surname) throws SQLException {
+    public int insertUser(String email, String password, String userType, String name, String surname) throws DAOException {
         int result;
         String query = "INSERT INTO User (email, password, userType, name, surname) VALUES (?, ?, ?, ?, ?)";
 

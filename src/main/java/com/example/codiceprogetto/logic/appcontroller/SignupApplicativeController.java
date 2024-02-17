@@ -44,7 +44,7 @@ public class SignupApplicativeController {
             else
                 throw new EmptyInputException("There are some empty field, please compile the form correctly");
         } else
-            throw new AlreadyExistingUserException("User alredy exist");
+            throw new AlreadyExistingUserException("User already exist");
 
         storeSessionData(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
 

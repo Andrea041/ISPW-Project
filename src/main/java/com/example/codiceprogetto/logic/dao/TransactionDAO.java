@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.dao;
 import com.example.codiceprogetto.logic.entities.Transaction;
 import com.example.codiceprogetto.logic.enumeration.PaymentType;
 import com.example.codiceprogetto.logic.enumeration.TransactionStatus;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
@@ -24,49 +25,51 @@ public class TransactionDAO {
         return transaction;
     }
 
-    public void insertTransaction(String email, String status, String transactionId, String paymentType) throws SQLException {
+    public void insertTransaction(String email, String status, String transactionId, String paymentType) {
         Connection conn = DBConnectionFactory.getConn();
-        PreparedStatement stmt;
-        int result;
-
+        int result = 0;
         String query = "INSERT INTO Transaction (email, status, transactionID, paymentMethod) VALUES (?, ?, ?, ?)";
-        stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-        stmt.setString(2, status);
-        stmt.setString(3, transactionId);
-        stmt.setString(4, paymentType);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, email);
+            stmt.setString(2, status);
+            stmt.setString(3, transactionId);
+            stmt.setString(4, paymentType);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
+
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
         }
-
-        stmt.close();
     }
 
-    public Transaction fetchTransaction(String transactionID) throws SQLException {
-        PreparedStatement stmt;
+    public Transaction fetchTransaction(String transactionID) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
-        Transaction transaction;
+        Transaction transaction = null;
         ResultSet rs;
 
         String sql = "SELECT * FROM Transaction WHERE transactionID = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, transactionID);
 
-        rs = stmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, transactionID);
 
-        if(!rs.first()) {
-            return null;
+            rs = stmt.executeQuery();
+
+            if (!rs.first()) {
+                throw new DAOException("Error in fetching the transaction");
+            }
+
+            rs.first();
+
+            transaction = generateTransaction(rs);
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
-
-        rs.first();
-
-        transaction = generateTransaction(rs);
-
-        stmt.close();
 
         return transaction;
     }

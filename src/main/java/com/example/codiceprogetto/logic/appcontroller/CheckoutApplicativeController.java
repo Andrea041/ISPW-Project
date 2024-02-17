@@ -52,7 +52,7 @@ public class CheckoutApplicativeController {
         return cartContent;
     }
 
-    public boolean checkCustomerAddress(String email) throws SQLException {
+    public boolean checkCustomerAddress(String email) throws SQLException, DAOException {
         Customer customer;
         boolean checker = false;
 
@@ -90,7 +90,7 @@ public class CheckoutApplicativeController {
         new OrderDAO().createOrder(email, finalTotal, orderId, deliveryAddress, cart.getProducts());
     }
 
-    public void insertAddress(AddressBean address, String email) throws SQLException {
+    public void insertAddress(AddressBean address, String email) throws DAOException {
         new AddressDAO().insertAddress(email,
                                         address.getName(),
                                         address.getLastName(),
