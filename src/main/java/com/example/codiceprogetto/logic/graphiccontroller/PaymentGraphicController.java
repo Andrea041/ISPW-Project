@@ -105,11 +105,7 @@ public class PaymentGraphicController extends GraphicTool {
             if(!res) {
                 res = displayConfirmBox("Do you want to save your payment method?", "yes", "no");
                 if(res) {
-                    try {
-                        toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
-                    } catch(SQLException e) {
-                        Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-                    }
+                    toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
                 }
             }
         }

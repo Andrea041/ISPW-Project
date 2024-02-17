@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeController;
 import com.example.codiceprogetto.logic.bean.SignupBean;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.DAOException;
@@ -37,37 +38,26 @@ public class SignupGraphicController extends GraphicTool{
         navigateTo(LOGIN);
     }
     public void signUp() {
-        int ret;
         String errorToDisplay = "Signup error";
+        SignupBean signBean;
 
         if(passTextFieldConfirm.getText().equals(passTextField.getText())){
-            SignupBean signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
+            signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
             SignupApplicativeController signup = new SignupApplicativeController();
-
-            if(!emailField.getText().isEmpty()) {
-                int startIndex = emailField.getText().indexOf('@');
-                int endIndex = emailField.getText().indexOf('.', startIndex);
-                if (startIndex == -1 || endIndex == -1) {
-                    alert("Wrong email format (****@****.com)");
-                    cleanUpField();
-                }
-            }
 
             if(checkBox.isSelected()) {
                 if(keySignUp.getText().equals(KEY))
-                    signBean.setUserType("SELLER");
+                    signBean.setUserType(UserType.SELLER.getId());
                 else {
                     alert("Wrong key");
                     keySignUp.setText("");
                 }
             } else
-                signBean.setUserType("CUSTOMER");
+                signBean.setUserType(UserType.CUSTOMER.getId());
 
             try {
-                ret = signup.signupUser(signBean);
-                if (ret == -1) {
-                    alert(errorToDisplay);
-                } else if (ret == 1){
+                int ret = signup.signupUser(signBean);
+                if (ret != 1){
                     switch(SessionUser.getInstance().getThisUser().getUserType()) {
                         case "CUSTOMER":
                             navigateTo(HOME);
@@ -78,7 +68,6 @@ public class SignupGraphicController extends GraphicTool{
                         default:
                             break;
                     }
-
                 } else {
                     alert(errorToDisplay);
                 }
