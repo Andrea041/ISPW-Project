@@ -87,17 +87,15 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     private void performAction(String action, String successMessage) {
         try {
             int res;
-            switch (action) {
-                case "REMOVE":
-                    res = prodBox.removeProduct(labelID.getText());
-                    if (res == -1) {
-                        Logger.getAnonymousLogger().log(Level.INFO, ERROR);
-                    }
-                    break;
-                case "UPDATE":
-                    updateGUIComponents();
-                    break;
+            if (action.equals("REMOVE")) {
+                res = prodBox.removeProduct(labelID.getText());
+                if (res == -1) {
+                    Logger.getAnonymousLogger().log(Level.INFO, ERROR);
+                }
+            } else if (action.equals("UPDATE")) {
+                updateGUIComponents();
             }
+
             if (successMessage != null) {
                 alert(successMessage);
             }
