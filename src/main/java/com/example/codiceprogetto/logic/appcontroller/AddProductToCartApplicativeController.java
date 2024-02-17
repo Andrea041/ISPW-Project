@@ -2,7 +2,7 @@ package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
-import com.example.codiceprogetto.logic.dao.ProductDAO;
+import com.example.codiceprogetto.logic.dao.ProductDAOJdbc;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
@@ -19,7 +19,7 @@ public class AddProductToCartApplicativeController {
         int ret = -1;
         int res;
 
-        product = new ProductDAO().fetchProduct(prod.getId());
+        product = new ProductDAOJdbc().fetchProduct(prod.getId());
         if(product != null)
             Logger.getAnonymousLogger().log(Level.INFO, "Product retrieved from DB");
         else
@@ -29,12 +29,6 @@ public class AddProductToCartApplicativeController {
         product.setSize(prod.getSize());
 
         ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
-
-        res = new ProductDAO().updateProductStock(product.getId(), product.getSelectedUnits());
-        if(res != 0)
-            Logger.getAnonymousLogger().log(Level.INFO, "Product stock updated");
-        else
-            return res;
 
         updateTotal();
 

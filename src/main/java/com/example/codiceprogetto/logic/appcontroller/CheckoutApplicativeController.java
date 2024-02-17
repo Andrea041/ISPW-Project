@@ -1,15 +1,13 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.AddressBean;
-import com.example.codiceprogetto.logic.bean.ShippingBean;
-import com.example.codiceprogetto.logic.dao.*;
-import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.bean.CouponBean;
+import com.example.codiceprogetto.logic.bean.ShippingBean;
+import com.example.codiceprogetto.logic.dao.*;
 import com.example.codiceprogetto.logic.entities.Cart;
+import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
-import com.example.codiceprogetto.logic.entities.Order;
-import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.AlreadyAppliedCouponException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;

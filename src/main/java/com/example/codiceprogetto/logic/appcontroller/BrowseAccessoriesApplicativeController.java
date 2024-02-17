@@ -1,7 +1,7 @@
 package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
-import com.example.codiceprogetto.logic.dao.ProductDAO;
+import com.example.codiceprogetto.logic.dao.ProductDAOJdbc;
 import com.example.codiceprogetto.logic.entities.Product;
 
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ public class BrowseAccessoriesApplicativeController {
         List<ProductStockBean> productListBean = new ArrayList<>();
         ProductStockBean productStockBeans;
 
-        productList = new ProductDAO().fetchAllProduct();
+        productList = new ProductDAOJdbc().fetchAllProduct();
 
         for(Product prod : productList) {
             productStockBeans = new ProductStockBean(prod.getId(), prod.getImage(), prod.getPrice(), prod.getName());

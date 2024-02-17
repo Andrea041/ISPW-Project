@@ -2,6 +2,7 @@ module com.example.codiceprogetto {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires com.opencsv;
 
     exports com.example.codiceprogetto;
     opens com.example.codiceprogetto;

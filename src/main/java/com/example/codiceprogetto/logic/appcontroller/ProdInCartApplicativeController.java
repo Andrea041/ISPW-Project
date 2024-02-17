@@ -2,7 +2,7 @@ package com.example.codiceprogetto.logic.appcontroller;
 
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.dao.CartDAO;
-import com.example.codiceprogetto.logic.dao.ProductDAO;
+import com.example.codiceprogetto.logic.dao.ProductDAOJdbc;
 import com.example.codiceprogetto.logic.entities.Cart;
 import com.example.codiceprogetto.logic.entities.Product;
 import com.example.codiceprogetto.logic.exception.DAOException;
@@ -17,7 +17,7 @@ public class ProdInCartApplicativeController {
     public ProductStockBean updateUI(String prodID, ProductStockBean cart) throws DAOException, SQLException {
         Product prod;
 
-        prod = new ProductDAO().fetchProduct(prodID);
+        prod = new ProductDAOJdbc().fetchProduct(prodID);
 
         cart.setTotalAmount(prod.getPrice());
         cart.setLabelID(prod.getId());
@@ -80,16 +80,16 @@ public class ProdInCartApplicativeController {
             if(prod.getId().equals(prodID) && op.equals("ADD") && prod.getSelectedUnits() < 10) {
                 prod.setSelectedUnits(1);
                 modifiedProd = prod;
-                res = new ProductDAO().updateProductStock(prod.getId(), prod.getSelectedUnits());
+                /*res = new ProductDAOJdbc().updateProductStock(prod.getId(), prod.getSelectedUnits());
                 if(res == -1)
-                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");
+                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");*/
             }
             else if(prod.getId().equals(prodID) && op.equals("DELETE") && prod.getSelectedUnits() > 1) {
                 prod.setSelectedUnits(-1);
                 modifiedProd = prod;
-                res = new ProductDAO().updateProductStock(prod.getId(), prod.getSelectedUnits());
+                /*res = new ProductDAOJdbc().updateProductStock(prod.getId(), prod.getSelectedUnits());
                 if(res == -1)
-                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");
+                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");*/
             }
             else if(prod.getId().equals(prodID) && (op.equals("ADD") || op.equals("REMOVE")) && (prod.getSelectedUnits() > 10 || prod.getSelectedUnits() < 1))
                 throw new TooManyUnitsExcpetion("Limit units for each customer reached, the new units aren't added in the cart");
