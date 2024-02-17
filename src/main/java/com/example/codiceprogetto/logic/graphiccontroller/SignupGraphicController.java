@@ -43,9 +43,14 @@ public class SignupGraphicController extends GraphicTool{
         String errorToDisplay = "Signup error";
         SignupBean signBean;
 
-        if(passTextFieldConfirm.getText().equals(passTextField.getText())){
+        if (passTextFieldConfirm.getText().equals(passTextField.getText())) {
+            if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
+                alert("Wrong key");
+                keySignUp.clear();
+                return;
+            }
+
             signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
-            SignupApplicativeController signup = new SignupApplicativeController();
 
             signBean.setUserType(
                     checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
@@ -53,16 +58,12 @@ public class SignupGraphicController extends GraphicTool{
                             UserType.CUSTOMER.getId()
             );
 
-            if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
-                alert("Wrong key");
-                keySignUp.clear();
-            }
-
-
             try {
+                SignupApplicativeController signup = new SignupApplicativeController();
                 int ret = signup.signupUser(signBean);
-                if (ret != 1){
-                    switch(SessionUser.getInstance().getThisUser().getUserType()) {
+
+                if (ret != 1) {
+                    switch (SessionUser.getInstance().getThisUser().getUserType()) {
                         case "CUSTOMER":
                             navigateTo(HOME);
                             break;
@@ -72,17 +73,19 @@ public class SignupGraphicController extends GraphicTool{
                         default:
                             break;
                     }
-                } else
+                } else {
                     alert(errorToDisplay);
-            }  catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
+                }
+            } catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
                 alert(e.getMessage());
             }
         } else {
-            alert("Inserted passwords doesn't match");
+            alert("Inserted passwords don't match");
             cleanUpField();
         }
     }
-    public void cleanUpField() {
+
+        public void cleanUpField() {
         emailField.setText("");
         passTextField.setText("");
         passTextFieldConfirm.setText("");
