@@ -75,46 +75,34 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void gotoPaymentGUI() {
-        boolean res;
-        String toDisplay = "There isn't any memorized address!";
-        cOut = new CheckoutApplicativeController();
+        if (memoAddress.isSelected() && !checkAddress()) {
+            alert("There isn't any memorized address!");
+            return;
+        }
 
         AddressBean address = null;
 
-        res = checkAddress();
-
-        if(memoAddress.isSelected() && !res) {
-            alert(toDisplay);
-            return;
-        } else if(!memoAddress.isSelected()) {
+        if (!memoAddress.isSelected()) {
             address = new AddressBean(stateField.getText(),
-                                      cityField.getText(),
-                                      phoneNumberField.getText(),
-                                      nameField.getText(),
-                                      lastNameField.getText(),
-                                      addressField.getText());
+                    cityField.getText(),
+                    phoneNumberField.getText(),
+                    nameField.getText(),
+                    lastNameField.getText(),
+                    addressField.getText());
 
             try {
-                cOut.checkEmptyFieldAddress(address);
-            } catch (EmptyInputException e) {
+                new CheckoutApplicativeController().checkEmptyFieldAddress(address);
+                if (!checkAddress() && displayConfirmBox("Do you want to save your delivery address?", "yes", "no")) {
+                    new CheckoutApplicativeController().insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
+                }
+            } catch (EmptyInputException | DAOException e) {
                 alert(e.getMessage());
                 return;
-            }
-
-            if(!res) {
-                res = displayConfirmBox("Do you want to save your delivery address?", "yes", "no");
-                if(res) {
-                    try {
-                        cOut.insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
-                    } catch(DAOException e) {
-                        alert(e.getMessage());
-                    }
-                }
             }
         }
 
         try {
-            cOut.createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
+            new CheckoutApplicativeController().createOrder(address, SessionUser.getInstance().getThisUser().getEmail());
             navigateTo(PAY);
         } catch (DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
@@ -122,6 +110,7 @@ public class CheckoutGraphicController extends GraphicTool {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
+
 
     public void couponCheck() {
         CouponBean coupon = new CouponBean(couponText.getText());
