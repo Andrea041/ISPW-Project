@@ -35,11 +35,9 @@ public class UserDAO extends AbsUserDAO {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs = null;
         User user = null;
-        PreparedStatement stmt = null;
         String sql = "SELECT * FROM User WHERE " + "email" + " = ?";
 
-        try {
-            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, email);
 
             rs = stmt.executeQuery();
@@ -56,8 +54,6 @@ public class UserDAO extends AbsUserDAO {
         } finally {
             if (rs != null)
                 rs.close();
-            if (stmt != null)
-                stmt.close();
         }
 
         return user;
