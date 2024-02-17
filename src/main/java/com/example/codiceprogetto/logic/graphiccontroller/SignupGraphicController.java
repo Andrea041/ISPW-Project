@@ -43,45 +43,46 @@ public class SignupGraphicController extends GraphicTool{
         String errorToDisplay = "Signup error";
         SignupBean signBean;
 
-        if (passTextFieldConfirm.getText().equals(passTextField.getText())) {
-            if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
-                alert("Wrong key");
-                keySignUp.clear();
-                return;
-            }
-
-            signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
-
-            signBean.setUserType(
-                    checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
-                            UserType.SELLER.getId() :
-                            UserType.CUSTOMER.getId()
-            );
-
-            try {
-                SignupApplicativeController signup = new SignupApplicativeController();
-                int ret = signup.signupUser(signBean);
-
-                if (ret != 1) {
-                    switch (SessionUser.getInstance().getThisUser().getUserType()) {
-                        case "CUSTOMER":
-                            navigateTo(HOME);
-                            break;
-                        case "SELLER":
-                            navigateTo(ORDER);
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    alert(errorToDisplay);
-                }
-            } catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
-                alert(e.getMessage());
-            }
-        } else {
+        if (!passTextFieldConfirm.getText().equals(passTextField.getText())) {
             alert("Inserted passwords don't match");
             cleanUpField();
+            return;
+        }
+
+        if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
+            alert("Wrong key");
+            keySignUp.clear();
+            return;
+        }
+
+        signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
+
+        signBean.setUserType(
+                checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
+                        UserType.SELLER.getId() :
+                        UserType.CUSTOMER.getId()
+        );
+
+        try {
+            SignupApplicativeController signup = new SignupApplicativeController();
+            int ret = signup.signupUser(signBean);
+
+            if (ret != 1) {
+                switch (SessionUser.getInstance().getThisUser().getUserType()) {
+                    case "CUSTOMER":
+                        navigateTo(HOME);
+                        break;
+                    case "SELLER":
+                        navigateTo(ORDER);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                alert(errorToDisplay);
+            }
+        } catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
+            alert(e.getMessage());
         }
     }
 
