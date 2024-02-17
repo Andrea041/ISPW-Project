@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.SVGPath;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,55 +67,50 @@ public class PaymentGraphicController extends GraphicTool {
     }
 
     public void pay(MouseEvent mouseEvent) {
-        boolean res;
         String toDisplay = "There isn't any memorized payment method!";
         PaymentType payment = PaymentType.PAYPAL;
         toPay = new PaymentApplicativeController();
 
         Node source = (Node) mouseEvent.getSource();
-        if(source instanceof Button paymentType) {
-            payment = PaymentType.fromString(paymentType.getId());
-        } else if (source instanceof SVGPath) {
-            payment = PaymentType.fromString(payment.getId());
+        if (source instanceof Button || source instanceof SVGPath) {
+            payment = PaymentType.fromString(source.getId());
         }
 
         PaymentBean payBean;
 
-        res = checkPayment();
-
-        if(paymetCheckbox.isSelected() && Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId()) && !res) {
-            alert(toDisplay);
-            return;
-        } else if(Objects.requireNonNull(payment).getId().equals(PaymentType.CARD.getId())) {
-            payBean = new PaymentBean(nameField.getText(),
-                                      lastNameField.getText(),
-                                      expirationField.getText(),
-                                      cardNumberField.getText(),
-                                      cvvField.getText(),
-                                      zipField.getText());
-
-            try {
-                toPay.checkEmptyFields(payBean);
-            } catch(EmptyInputException e) {
-                alert(e.getMessage());
+        if (payment == PaymentType.CARD) {
+            if (paymetCheckbox.isSelected() && checkPayment()) {
+                alert(toDisplay);
                 return;
             }
 
-            if(!res) {
-                res = displayConfirmBox("Do you want to save your payment method?", "yes", "no");
-                if(res) {
+            payBean = new PaymentBean(nameField.getText(),
+                    lastNameField.getText(),
+                    expirationField.getText(),
+                    cardNumberField.getText(),
+                    cvvField.getText(),
+                    zipField.getText());
+
+            try {
+                toPay.checkEmptyFields(payBean);
+                if (checkPayment() && displayConfirmBox("Do you want to save your payment method?", "yes", "no")) {
                     toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
                 }
+            } catch (EmptyInputException e) {
+                alert(e.getMessage());
+                return;
             }
         }
 
         try {
+            assert payment != null;
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
             navigateTo(PAYSUM);
-        } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO,"DB error");
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }
     }
+
 
     private boolean checkPayment() {
         boolean res = false;
@@ -130,6 +124,6 @@ public class PaymentGraphicController extends GraphicTool {
             alert(e.getMessage());
         }
 
-        return res;
+        return !res;
     }
 }
