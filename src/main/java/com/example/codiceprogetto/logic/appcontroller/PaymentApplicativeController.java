@@ -16,7 +16,7 @@ import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import java.sql.SQLException;
 
 public class PaymentApplicativeController {
-    public void insertPayment(PaymentBean paymentBean, String email) throws SQLException {
+    public void insertPayment(PaymentBean paymentBean, String email) {
         new PaymentDAO().insertPaymentMethod(email,
                                              paymentBean.getName(),
                                              paymentBean.getLastName(),

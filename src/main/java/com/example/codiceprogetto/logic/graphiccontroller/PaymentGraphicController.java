@@ -4,6 +4,7 @@ import com.example.codiceprogetto.logic.appcontroller.PaymentApplicativeControll
 import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.bean.PaymentBean;
 import com.example.codiceprogetto.logic.enumeration.PaymentType;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.GraphicTool;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -129,6 +130,8 @@ public class PaymentGraphicController extends GraphicTool {
             res = toPay.checkCustomerPayment(SessionUser.getInstance().getThisUser().getEmail());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+        } catch (DAOException e) {
+            alert(e.getMessage());
         }
 
         return res;

@@ -79,16 +79,10 @@ public class ProdInCartApplicativeController {
             if(prod.getId().equals(prodID) && op.equals("ADD") && prod.getSelectedUnits() < 10) {
                 prod.setSelectedUnits(1);
                 modifiedProd = prod;
-                /*res = new ProductDAOJdbc().updateProductStock(prod.getId(), prod.getSelectedUnits());
-                if(res == -1)
-                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");*/
             }
             else if(prod.getId().equals(prodID) && op.equals("DELETE") && prod.getSelectedUnits() > 1) {
                 prod.setSelectedUnits(-1);
                 modifiedProd = prod;
-                /*res = new ProductDAOJdbc().updateProductStock(prod.getId(), prod.getSelectedUnits());
-                if(res == -1)
-                    Logger.getAnonymousLogger().log(Level.INFO, "Product stock updating error");*/
             }
             else if(prod.getId().equals(prodID) && (op.equals("ADD") || op.equals("REMOVE")) && (prod.getSelectedUnits() > 10 || prod.getSelectedUnits() < 1))
                 throw new TooManyUnitsExcpetion("Limit units for each customer reached, the new units aren't added in the cart");
