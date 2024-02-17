@@ -221,7 +221,6 @@ public class OrderDAO {
                 address.getSurname() + "," +
                 address.getAddress() + "," +
                 address.getCity() + "," +
-                address.getCountry() + "," +
                 address.getState() + "," +
                 address.getPhoneNumber();
     }
@@ -234,8 +233,7 @@ public class OrderDAO {
                                    elements[2],
                                    elements[3],
                                    elements[4],
-                                   elements[5],
-                                   elements[6]
+                                   elements[5]
         );
     }
 

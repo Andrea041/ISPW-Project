@@ -42,7 +42,7 @@ public class SelectProductGraphicController extends GraphicTool {
     private Label productID;
     @FXML
     private Label prodPrice;
-    private final String ACTION = "textUpdate";
+    protected static final String ACTION = "textUpdate";
     private final ProductStockBean prod;
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
 
@@ -86,11 +86,11 @@ public class SelectProductGraphicController extends GraphicTool {
         int ret;
         String errorToDisplay = "Unknown error";
 
-        ProductBean prod = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
+        ProductBean productBean = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
         AddProductToCartApplicativeController addCobra = new AddProductToCartApplicativeController();
 
         try {
-            ret = addCobra.updateCart(prod);
+            ret = addCobra.updateCart(productBean);
             if(ret == -1)
                 alert(errorToDisplay);
 
@@ -102,8 +102,7 @@ public class SelectProductGraphicController extends GraphicTool {
         } catch (TooManyUnitsExcpetion | DAOException e) {
             alert(e.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
-            // TODO: sistemare
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }
 

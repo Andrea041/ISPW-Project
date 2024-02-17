@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.Product;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
 import java.sql.Connection;
@@ -55,14 +56,14 @@ public class ProductDAOJdbc implements ProductDAO {
             rs = stmt.executeQuery();
 
             if (!rs.first()) {
-                return null;
+                throw new DAOException("Product stock empty!");
             }
 
             rs.first();
 
             product = newProduct(rs);
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Fetch product error");
+        } catch (SQLException | DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } finally {
             if(stmt != null) {
                 try {
@@ -96,14 +97,14 @@ public class ProductDAOJdbc implements ProductDAO {
             rs = stmt.executeQuery();
 
             if(!rs.first()) {
-                return null;
+                throw new DAOException("Product stock empty!");
             }
 
             rs.first();
 
             productList = newProductList(rs);
-        } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Fetch product error");
+        } catch (SQLException | DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } finally {
             if(stmt != null) {
                 try {

@@ -8,12 +8,12 @@ public class PaymentBean {
     private String cvv;
     private String zipCode;
 
-    public PaymentBean(String name, String lastName, String expiration, String cardNumber, String CVV, String zipCode) {
+    public PaymentBean(String name, String lastName, String expiration, String cardNumber, String cvv, String zipCode) {
         this.name = name;
         this.lastName = lastName;
         this.expiration = expiration;
         this.cardNumber = cardNumber;
-        this.cvv = CVV;
+        this.cvv = cvv;
         this.zipCode = zipCode;
     }
 

@@ -22,7 +22,6 @@ public class CustomerDAO extends AbsUserDAO {
                                       rs.getString("addressSurname"),
                                       rs.getString("address"),
                                       rs.getString("city"),
-                                      rs.getString("country"),
                                       rs.getString("state"),
                                       rs.getString("phoneNumber"));
         payment = new Payment(rs.getString("name"),

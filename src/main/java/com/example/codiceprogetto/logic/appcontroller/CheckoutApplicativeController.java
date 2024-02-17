@@ -80,7 +80,6 @@ public class CheckoutApplicativeController {
         } else
             deliveryAddress = new DeliveryAddress(address.getState(),
                     address.getCity(),
-                    address.getCountry(),
                     address.getPhoneNumber(),
                     address.getName(),
                     address.getLastName(),
@@ -97,7 +96,6 @@ public class CheckoutApplicativeController {
                                         address.getLastName(),
                                         address.getAddress(),
                                         address.getCity(),
-                                        address.getCountry(),
                                         address.getState(),
                                         address.getPhoneNumber());
     }
@@ -105,7 +103,6 @@ public class CheckoutApplicativeController {
     public void checkEmptyFieldAddress(AddressBean address) throws EmptyInputException {
         if(address.getState().isEmpty() ||
                 address.getCity().isEmpty() ||
-                address.getCountry().isEmpty() ||
                 address.getPhoneNumber().isEmpty() ||
                 address.getName().isEmpty() ||
                 address.getLastName().isEmpty() ||

@@ -5,15 +5,15 @@ public class Payment {
     private String lastName;
     private String expiration;
     private String cardNumber;
-    private String CVV;
+    private String cvv;
     private String zipCode;
 
-    public Payment(String name, String lastName, String expiration, String cardNumber, String CVV, String zipCode) {
+    public Payment(String name, String lastName, String expiration, String cardNumber, String cvv, String zipCode) {
         this.name = name;
         this.lastName = lastName;
         this.expiration = expiration;
         this.cardNumber = cardNumber;
-        this.CVV = CVV;
+        this.cvv = getCvv();
         this.zipCode = zipCode;
     }
 
@@ -26,8 +26,8 @@ public class Payment {
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
     public void setExpiration(String expiration) {
         this.expiration = expiration;
@@ -44,8 +44,8 @@ public class Payment {
     public String getExpiration() {
         return expiration;
     }
-    public String getCVV() {
-        return CVV;
+    public String getCvv() {
+        return cvv;
     }
     public String getCardNumber() {
         return cardNumber;

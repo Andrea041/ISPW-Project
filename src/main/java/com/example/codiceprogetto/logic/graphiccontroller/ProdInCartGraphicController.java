@@ -140,13 +140,10 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             price.setText(round(cartTotal.getPrice(), 2) + "€");
             prodImage.setImage(image);
             counter = selectedUnits;
-        } catch(DAOException | FileNotFoundException e) {
+        } catch(DAOException | IOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-            // TODO: sistemare
         }
     }
 

@@ -105,23 +105,22 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public List<ProductStockBean> fetchCartContent() {
-        List<ProductStockBean> productStockBeans = new ArrayList<>();
+        List<ProductStockBean> productStockBeanList = new ArrayList<>();
         shop = new ShoppingCartApplicativeController();
 
         try {
-            productStockBeans = shop.retrieveCartProd();
+            productStockBeanList = shop.retrieveCartProd();
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         } catch (DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
-        return productStockBeans;
+        return productStockBeanList;
     }
 
     @Override
     public void update() {
-        updatePriceLabel();
-        updateProductGUI();
+        initialize();
     }
 }

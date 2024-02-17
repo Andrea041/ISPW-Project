@@ -34,8 +34,6 @@ public class CheckoutGraphicController extends GraphicTool {
     @FXML
     private TextField addressField;
     @FXML
-    private TextField countryField;
-    @FXML
     private TextField lastNameField;
     @FXML
     private TextField couponText;
@@ -91,7 +89,6 @@ public class CheckoutGraphicController extends GraphicTool {
         } else if(!memoAddress.isSelected()) {
             address = new AddressBean(stateField.getText(),
                                       cityField.getText(),
-                                      countryField.getText(),
                                       phoneNumberField.getText(),
                                       nameField.getText(),
                                       lastNameField.getText(),
@@ -157,18 +154,18 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void checkShipping() {
-        ShippingBean shipping = new ShippingBean(0);
+        ShippingBean shippingBean = new ShippingBean();
         cOut = new CheckoutApplicativeController();
 
         if(threeRadio.isSelected())
-            shipping.setShippingValue(3);
+            shippingBean.setShippingValue(3);
         else if(fiveRadio.isSelected())
-            shipping.setShippingValue(5);
+            shippingBean.setShippingValue(5);
         else if(freeRadio.isSelected())
-            shipping.setShippingValue(0);
+            shippingBean.setShippingValue(0);
 
         try {
-            cOut.addShipping(shipping);
+            cOut.addShipping(shippingBean);
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         }

@@ -3,16 +3,14 @@ package com.example.codiceprogetto.logic.bean;
 public class AddressBean {
     private String state;
     private String city;
-    private String country;
     private String phoneNumber;
     private String name;
     private String lastName;
     private String address;
 
-    public AddressBean(String state, String city, String country, String phoneNumber, String name, String lastName, String address) {
+    public AddressBean(String state, String city, String phoneNumber, String name, String lastName, String address) {
         this.state = state;
         this.city = city;
-        this.country = country;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.lastName = lastName;
@@ -28,9 +26,6 @@ public class AddressBean {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public void setCountry(String country) {
-        this.country = country;
-    }
     public void setCity(String city) {
         this.city = city;
     }
@@ -42,9 +37,6 @@ public class AddressBean {
     }
     public String getState() {
         return state;
-    }
-    public String getCountry() {
-        return country;
     }
     public String getAddress() {
         return address;

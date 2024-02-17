@@ -5,16 +5,14 @@ public class DeliveryAddress {
     private String surname;
     private String address;
     private String city;
-    private String country;
     private String state;
     private String phoneNumber;
 
-    public DeliveryAddress(String name, String surname, String address, String city, String country, String state, String phoneNumber) {
+    public DeliveryAddress(String name, String surname, String address, String city, String state, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.city = city;
-        this.country = country;
         this.state = state;
         this.phoneNumber =  phoneNumber;
     }
@@ -31,9 +29,6 @@ public class DeliveryAddress {
     public String getCity() {
         return city;
     }
-    public String getCountry() {
-        return country;
-    }
     public String getState() {
         return state;
     }
@@ -48,9 +43,6 @@ public class DeliveryAddress {
     }
     public void setCity(String city) {
         this.city = city;
-    }
-    public void setCountry(String country) {
-        this.country = country;
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;

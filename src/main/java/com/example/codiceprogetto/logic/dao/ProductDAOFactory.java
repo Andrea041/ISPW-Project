@@ -19,8 +19,6 @@ public class ProductDAOFactory {
             properties.load(input);
         } catch (FileNotFoundException e) {
             Logger.getAnonymousLogger().log(Level.INFO, String.format("File db.properties not found, %s", e));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } finally {
             if (input != null) input.close();
         }
