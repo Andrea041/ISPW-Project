@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     ProdInCartApplicativeController prodBox;
     private final String prodID;
     private final List<Observer> observers = new ArrayList<>();
-    private final String error = "Unknown error";
+    private static final String ERROR = "Unknown error";
 
     public ProdInCartGraphicController(String prodID) {
         super();
@@ -66,7 +65,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.changeUnits(labelID.getText(), "DELETE");
             if(res <= 0)
-                Logger.getAnonymousLogger().log(Level.INFO, error);
+                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
         } catch(TooManyUnitsExcpetion e) {
             alert(e.getMessage());
         } catch(SQLException | DAOException e) {
@@ -89,7 +88,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.changeUnits(labelID.getText(), "ADD");
             if(res <= 0)
-                Logger.getAnonymousLogger().log(Level.INFO, error);
+                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
         } catch(TooManyUnitsExcpetion e) {
             alert(e.getMessage());
         } catch(SQLException | DAOException e) {
@@ -107,7 +106,7 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             res = prodBox.removeProduct(labelID.getText());
             if(res == -1)
-                Logger.getAnonymousLogger().log(Level.INFO, error);
+                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
         } catch(DAOException | TooManyUnitsExcpetion | SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
@@ -124,13 +123,13 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         try {
             cartTotal = prodBox.updateUI(prodID, cartTotal);
             if(cartTotal == null) {
-                Logger.getAnonymousLogger().log(Level.INFO, error);
+                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 return;
             }
 
             selectedUnits = prodBox.displaySelectedUnits(prodID);
             if(selectedUnits == -1)
-                Logger.getAnonymousLogger().log(Level.INFO, error);
+                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
             Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
             totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * selectedUnits, 2) + "€");
