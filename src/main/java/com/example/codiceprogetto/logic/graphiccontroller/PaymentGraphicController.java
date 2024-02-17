@@ -49,7 +49,7 @@ public class PaymentGraphicController extends GraphicTool {
         try {
             orderBean = cOut.fetchTotal(SessionUser.getInstance().getThisUser().getEmail(), orderBean);
         } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
         totalAmount.setText(round(orderBean.getFinalTotal(), 2) + "€");
@@ -62,7 +62,7 @@ public class PaymentGraphicController extends GraphicTool {
             toPay.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
             navigateTo(HOME);
         } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }
 
@@ -107,7 +107,7 @@ public class PaymentGraphicController extends GraphicTool {
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
             navigateTo(PAYSUM);
         } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class PaymentGraphicController extends GraphicTool {
         try {
             res = toPay.checkCustomerPayment(SessionUser.getInstance().getThisUser().getEmail());
         } catch (SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch (DAOException e) {
             alert(e.getMessage());
         }
