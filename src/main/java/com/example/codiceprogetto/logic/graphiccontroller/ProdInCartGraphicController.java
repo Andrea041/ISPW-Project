@@ -51,85 +51,77 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     }
 
     public void removeUnits() {
-        int res;
-        prodBox = new ProdInCartApplicativeController();
-
-
-        counter--;
-        if(counter < 1) {
-            removeProd();
-            return;
-        }
-        changeQuantity.setText(Integer.toString(counter));
-
-        try {
-            res = prodBox.changeUnits(labelID.getText(), "DELETE");
-            if(res <= 0)
-                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
-        } catch(TooManyUnitsExcpetion e) {
-            alert(e.getMessage());
-        } catch(SQLException | DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        }
-
-        notifyObserver();
-        updateGUI();
+        changeUnit("DELETE");
     }
 
     public void addUnits() {
-        int res;
-        prodBox = new ProdInCartApplicativeController();
+        changeUnit("ADD");
+    }
 
-        counter++;
-        if(counter > 10)
-            counter = 10;
-        changeQuantity.setText(Integer.toString(counter));
+    public void removeProd() {
+        performAction("REMOVE", "Product removed successfully!");
+    }
 
+    public void updateGUI() {
+        performAction("UPDATE", null);
+    }
+
+    private void changeUnit(String action) {
         try {
-            res = prodBox.changeUnits(labelID.getText(), "ADD");
-            if(res <= 0)
+            int res = prodBox.changeUnits(labelID.getText(), action);
+            if (res <= 0) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
-        } catch(TooManyUnitsExcpetion e) {
-            alert(e.getMessage());
-        } catch(SQLException | DAOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+            } else {
+                counter += (action.equals("ADD")) ? 1 : -1;
+                counter = Math.min(Math.max(counter, 0), 10);
+                changeQuantity.setText(Integer.toString(counter));
+            }
+        } catch (TooManyUnitsExcpetion | SQLException | DAOException e) {
+            handleException(e);
         }
 
         notifyObserver();
         updateGUI();
     }
 
-    public void removeProd() {
-        int res;
-        prodBox = new ProdInCartApplicativeController();
-
+    private void performAction(String action, String successMessage) {
         try {
-            res = prodBox.removeProduct(labelID.getText());
-            if(res == -1)
-                Logger.getAnonymousLogger().log(Level.INFO, ERROR);
-        } catch(DAOException | TooManyUnitsExcpetion | SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+            int res;
+            switch (action) {
+                case "REMOVE":
+                    res = prodBox.removeProduct(labelID.getText());
+                    if (res == -1) {
+                        Logger.getAnonymousLogger().log(Level.INFO, ERROR);
+                    }
+                    break;
+                case "UPDATE":
+                    updateGUIComponents();
+                    break;
+            }
+            if (successMessage != null) {
+                alert(successMessage);
+            }
+        } catch (DAOException | SQLException | TooManyUnitsExcpetion e) {
+            handleException(e);
         }
 
         notifyObserver();
     }
 
-    public void updateGUI() {
-        int selectedUnits;
-
-        ProductStockBean cartTotal = new ProductStockBean();
-        prodBox = new ProdInCartApplicativeController();
-
+    private void updateGUIComponents() {
         try {
-            cartTotal = prodBox.updateUI(prodID, cartTotal);
-            if(cartTotal == null) {
+            ProductStockBean cartTotal = prodBox.updateUI(prodID, new ProductStockBean());
+            if (cartTotal == null) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 return;
             }
 
-            selectedUnits = prodBox.displaySelectedUnits(prodID);
-            if(selectedUnits == -1)
+            int selectedUnits = prodBox.displaySelectedUnits(prodID);
+            if (selectedUnits == -1) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
+                return;
+            }
+
             Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
             totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * selectedUnits, 2) + "€");
@@ -139,9 +131,13 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
             price.setText(round(cartTotal.getPrice(), 2) + "€");
             prodImage.setImage(image);
             counter = selectedUnits;
-        } catch(DAOException | IOException | SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        } catch (DAOException | SQLException | IOException e) {
+            handleException(e);
         }
+    }
+
+    private void handleException(Exception e) {
+        Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
     }
 
     public void attach(Observer o) {
