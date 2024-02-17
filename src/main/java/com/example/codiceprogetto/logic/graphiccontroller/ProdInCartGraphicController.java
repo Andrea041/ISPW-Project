@@ -39,6 +39,10 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
     private final String prodID;
     private final List<Observer> observers = new ArrayList<>();
     private static final String ERROR = "Unknown error";
+    private static final String DELETE = "DELETE";
+    private static final String ADD = "ADD";
+    private static final String REMOVE = "REMOVE";
+    private static final String UPDATE = "UPDATE";
 
     public ProdInCartGraphicController(String prodID) {
         super();
@@ -47,23 +51,28 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
 
     @FXML
     void initialize() {
+        prodBox = new ProdInCartApplicativeController();
         updateGUI();
     }
 
     public void removeUnits() {
-        changeUnit("DELETE");
+        if(Integer.parseInt(changeQuantity.getText()) == 1)
+            performAction(REMOVE);
+        else
+            changeUnit(DELETE);
     }
 
     public void addUnits() {
-        changeUnit("ADD");
+        if(Integer.parseInt(changeQuantity.getText()) != 10)
+            changeUnit(ADD);
     }
 
     public void removeProd() {
-        performAction("REMOVE", "Product removed successfully!");
+        performAction(REMOVE);
     }
 
     public void updateGUI() {
-        performAction("UPDATE", null);
+        performAction(UPDATE);
     }
 
     private void changeUnit(String action) {
@@ -84,26 +93,21 @@ public class ProdInCartGraphicController extends GraphicTool implements Subject 
         updateGUI();
     }
 
-    private void performAction(String action, String successMessage) {
+    private void performAction(String action) {
         try {
             int res;
-            if (action.equals("REMOVE")) {
+            if (action.equals(REMOVE)) {
                 res = prodBox.removeProduct(labelID.getText());
                 if (res == -1) {
                     Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 }
-            } else if (action.equals("UPDATE")) {
+                notifyObserver();
+            } else if (action.equals(UPDATE)) {
                 updateGUIComponents();
-            }
-
-            if (successMessage != null) {
-                alert(successMessage);
             }
         } catch (DAOException | SQLException | TooManyUnitsExcpetion e) {
             handleException(e);
         }
-
-        notifyObserver();
     }
 
     private void updateGUIComponents() {

@@ -72,9 +72,8 @@ public class PaymentGraphicController extends GraphicTool {
         toPay = new PaymentApplicativeController();
 
         Node source = (Node) mouseEvent.getSource();
-        if (source instanceof Button || source instanceof SVGPath) {
+        if (source instanceof Button)
             payment = PaymentType.fromString(source.getId());
-        }
 
         PaymentBean payBean;
 

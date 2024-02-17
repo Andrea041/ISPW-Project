@@ -8,8 +8,6 @@ import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
-import java.sql.SQLException;
-
 public class LoginApplicativeController {
     public int loginUser(LoginBean logUser) throws AlreadyLoggedUserException, EmptyInputException, DAOException {
         User user;
@@ -18,13 +16,9 @@ public class LoginApplicativeController {
         if(logUser.getEmail().isEmpty() || logUser.getPassword().isEmpty())
             throw new EmptyInputException("There are some empty input field");
 
-        try {
-            user = new UserDAO().findUser(logUser.getEmail());
-            if(user == null)
-                throw new DAOException("Not existing user");
-        } catch (SQLException e) {
+        user = new UserDAO().findUser(logUser.getEmail());
+        if(user == null)
             throw new DAOException("Not existing user");
-        }
 
 
         if(!user.getPassword().equals(logUser.getPassword()))

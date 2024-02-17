@@ -48,8 +48,6 @@ public class BrowseAccessoriesGraphicController extends GraphicTool {
                     gridCol++;
                 index++;
             }
-        } catch(SQLException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, "DB error");
         } catch(IOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
