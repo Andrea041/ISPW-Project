@@ -10,7 +10,6 @@ import com.example.codiceprogetto.logic.entities.Transaction;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.enumeration.TransactionStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
-import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 
 import java.sql.SQLException;

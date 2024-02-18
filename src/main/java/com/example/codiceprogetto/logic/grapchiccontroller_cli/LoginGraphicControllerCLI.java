@@ -16,8 +16,9 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public void start() {
-        while(true) {
-            int choice;
+        int choice = -1;
+
+        while (choice == -1) {
             try {
                 choice = showMenu();
                 switch(choice) {
@@ -28,6 +29,7 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
                 }
             } catch (IOException | InvalidFormatException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }
@@ -64,7 +66,7 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
                         new HomeGraphicControllerCLI().start();
                         break;
                     case "SELLER":
-                        //navigateTo(ORDER);
+                        new IncomingOrderGraphicControllerCLI().start();
                         break;
                     default:
                         break;

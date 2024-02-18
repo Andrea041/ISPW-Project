@@ -25,9 +25,9 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
     public void start() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         OrderBean order;
+        int choice = -1;
 
-        while (true) {
-            int choice;
+        while (choice == -1) {
             try {
                 orderBeanList = incOrder.retrieveOrders();
                 printOrder();
@@ -52,6 +52,7 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
                 }
             } catch (InvalidFormatException | IOException | SQLException | DAOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }

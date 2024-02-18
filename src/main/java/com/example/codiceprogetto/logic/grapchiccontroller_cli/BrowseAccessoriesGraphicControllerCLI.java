@@ -17,8 +17,9 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
 
     @Override
     public void start() {
-        int choice = 0;
-        while(choice == 0) {
+        int choice = -1;
+
+        while(choice == -1) {
             try {
                 choice = showMenu();
 
@@ -37,7 +38,7 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
                     throw new InvalidFormatException("Choose a valid product ID");
             } catch (IOException | InvalidFormatException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-                choice = 0;
+                choice = -1;
             }
         }
     }

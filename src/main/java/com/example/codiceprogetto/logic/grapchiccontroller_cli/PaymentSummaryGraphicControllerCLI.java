@@ -21,9 +21,9 @@ public class PaymentSummaryGraphicControllerCLI extends AbsGraphicControllerCLI 
     @Override
     public void start() {
         printPaymentSummary();
-        int choice;
+        int choice = -1;
 
-        while (true) {
+        while (choice == -1) {
             try {
                 choice = showMenu();
                 switch (choice) {
@@ -33,6 +33,7 @@ public class PaymentSummaryGraphicControllerCLI extends AbsGraphicControllerCLI 
                 }
             } catch (InvalidFormatException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }

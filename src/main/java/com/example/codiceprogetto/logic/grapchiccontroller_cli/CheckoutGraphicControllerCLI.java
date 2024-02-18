@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
     SessionUser su = SessionUser.getInstance();
     CheckoutApplicativeController checkApp = new CheckoutApplicativeController();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));;
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
     public void start() {
@@ -87,6 +87,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
                     }
                     case 4 -> checkApp.removeCoupon();
                     case 5 -> new SignUpGraphicControllerCLI().start();
+                    default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException | DAOException | SQLException | AlreadyAppliedCouponException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());

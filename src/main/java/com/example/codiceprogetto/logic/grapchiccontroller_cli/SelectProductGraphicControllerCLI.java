@@ -26,32 +26,27 @@ public class SelectProductGraphicControllerCLI extends AbsGraphicControllerCLI {
     @Override
     public void start() {
         ProductBean productBean;
-        int choice = 0;
+        int choice = -1;
 
-        while(choice == 0) {
+        while(choice == -1) {
             try {
                 choice = showMenu();
-
-                if(choice == 0)
+                if (choice == 0)
                     new BrowseAccessoriesGraphicControllerCLI().start();
-                else if(choice >= 1 && choice <= 10) {
+                else if (choice >= 1 && choice <= 10) {
                     if (prodAdd.checkLogin()) {
-                        try {
-                            productBean = new ProductBean(productStockBean.getProductName(), productStockBean.getLabelID(), choice);
+                        productBean = new ProductBean(productStockBean.getProductName(), productStockBean.getLabelID(), choice);
 
-                            int ret = prodAdd.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
-                            if (ret == -1)
-                                Logger.getAnonymousLogger().log(Level.INFO, "Updating cart error");
+                        int ret = prodAdd.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
+                        if (ret == -1)
+                            Logger.getAnonymousLogger().log(Level.INFO, "Updating cart error");
 
-                            new ShoppingCartGraphicControllerCLI().start();
-                        } catch (DAOException | SQLException | TooManyUnitsExcpetion e) {
-                            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-                        }
+                        new ShoppingCartGraphicControllerCLI().start();
                     }
                 } else
                     throw new InvalidFormatException("Invalid choice");
-            } catch (IOException | InvalidFormatException e) {
-                choice = 0;
+            } catch (IOException | InvalidFormatException | DAOException |SQLException | TooManyUnitsExcpetion e){
+                choice = -1;
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }
         }

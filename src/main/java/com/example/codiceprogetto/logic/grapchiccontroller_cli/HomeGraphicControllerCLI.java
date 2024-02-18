@@ -14,8 +14,9 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public void start() {
-        while (true) {
-            int choice;
+        int choice = -1;
+
+        while (choice == -1) {
             try {
                 choice = showMenu();
                 switch(choice) {
@@ -27,6 +28,7 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
                 }
             } catch (InvalidFormatException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }

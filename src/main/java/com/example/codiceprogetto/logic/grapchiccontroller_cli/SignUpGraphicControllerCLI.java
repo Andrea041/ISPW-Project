@@ -18,8 +18,8 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
     private static final String KEY = "ISPW2324";
     @Override
     public void start() {
-        while(true) {
-            int choice;
+        int choice = -1;
+        while (choice == -1) {
             try {
                 choice = showMenu();
                 switch(choice) {
@@ -30,6 +30,7 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
                 }
             } catch (IOException | InvalidFormatException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }
@@ -89,7 +90,7 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
                         new HomeGraphicControllerCLI().start();
                         break;
                     case "SELLER":
-                        // TODO finire
+                        new IncomingOrderGraphicControllerCLI();
                         break;
                     default:
                         break;

@@ -10,7 +10,6 @@ import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
 import com.example.codiceprogetto.logic.exception.AlreadyAppliedCouponException;
 import com.example.codiceprogetto.logic.exception.DAOException;
-import com.example.codiceprogetto.logic.exception.EmptyInputException;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
