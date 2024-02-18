@@ -19,13 +19,7 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
         while (choice == -1) {
             try {
                 choice = showMenu();
-                switch(choice) {
-                    case 1 -> new LoginGraphicControllerCLI().start();
-                    case 2 -> logout();
-                    case 3 -> new BrowseAccessoriesGraphicControllerCLI().start();
-                    case 4 -> System.exit(0);
-                    default -> throw new InvalidFormatException("Invalid choice");
-                }
+                handleChoice(choice);
             } catch (InvalidFormatException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
                 choice = -1;
@@ -44,6 +38,24 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
         return getMenuChoice(1, 4);
     }
 
+    private void handleChoice(int choice) throws IOException, InvalidFormatException {
+        switch(choice) {
+            case 1:
+                new LoginGraphicControllerCLI().start();
+                break;
+            case 2:
+                logout();
+                break;
+            case 3:
+                new BrowseAccessoriesGraphicControllerCLI().start();
+                break;
+            case 4:
+                System.exit(0);
+            default:
+                throw new InvalidFormatException("Invalid choice");
+        }
+    }
+
     public void logout() {
         try {
             homeApp.logoutUser();
@@ -53,3 +65,4 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
         }
     }
 }
+
