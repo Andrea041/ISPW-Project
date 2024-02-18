@@ -45,7 +45,7 @@ public class PaymentSummaryGraphicControllerCLI extends AbsGraphicControllerCLI 
         return getMenuChoice(0, 1);
     }
 
-    public void printPaymentSummary() {
+    private void printPaymentSummary() {
         PaymentApplicativeController toPay = new PaymentApplicativeController();
         String summaryString;
 

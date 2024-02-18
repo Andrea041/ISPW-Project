@@ -94,7 +94,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         return getMenuChoice(1, 2);
     }
 
-    public boolean askSave() throws IOException {
+    private boolean askSave() throws IOException {
         PrinterCLI.print("Do you want to save your payment method? (y/n)");
         String choose = reader.readLine();
 

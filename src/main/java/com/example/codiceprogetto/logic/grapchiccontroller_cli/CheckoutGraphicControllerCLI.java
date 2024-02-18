@@ -24,7 +24,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));;
 
     @Override
-    public void start() throws IOException {
+    public void start() {
         int choice = -1;
         Scanner input = new Scanner(System.in);
         AddressBean addressBean = null;
@@ -88,7 +88,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
                     case 4 -> checkApp.removeCoupon();
                     case 5 -> new SignUpGraphicControllerCLI().start();
                 }
-            } catch (InvalidFormatException | DAOException | SQLException | AlreadyAppliedCouponException e) {
+            } catch (InvalidFormatException | DAOException | SQLException | AlreadyAppliedCouponException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }
         }
@@ -106,7 +106,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         return getMenuChoice(1, 4);
     }
 
-    public boolean askSave() throws IOException {
+    private boolean askSave() throws IOException {
         PrinterCLI.print("Do you want to save your delivery address? (y/n)");
         String choose = reader.readLine();
 

@@ -3,7 +3,6 @@ package com.example.codiceprogetto.logic.grapchiccontroller_cli;
 import com.example.codiceprogetto.logic.appcontroller.IncomingOrderApplicativeController;
 import com.example.codiceprogetto.logic.appcontroller.OrderSellerApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
-import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.InvalidFormatException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IncomingOrderCLI extends AbsGraphicControllerCLI {
+public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
     IncomingOrderApplicativeController incOrder = new IncomingOrderApplicativeController();
     OrderSellerApplicativeController ordApp = new OrderSellerApplicativeController();
     List<OrderBean> orderBeanList;
@@ -81,7 +80,7 @@ public class IncomingOrderCLI extends AbsGraphicControllerCLI {
         }
     }
 
-    private void logout() {
+    public void logout() {
         try {
             incOrder.logoutUser();
             Logger.getAnonymousLogger().log(Level.INFO, "Logout performed");
