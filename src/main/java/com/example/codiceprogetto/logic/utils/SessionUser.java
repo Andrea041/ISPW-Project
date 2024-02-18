@@ -33,7 +33,7 @@ public class SessionUser {
         if(thisUser.getUserType().equals(UserType.CUSTOMER.getId().toUpperCase())) {
             try {
                 ret = new CartDAO().createCustomerCart(thisUser.getEmail());
-                if (ret == 0)
+                if (ret <= 0)
                     Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
             } catch (DAOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
