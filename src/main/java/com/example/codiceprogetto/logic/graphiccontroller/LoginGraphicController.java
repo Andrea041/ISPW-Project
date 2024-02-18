@@ -27,7 +27,7 @@ public class LoginGraphicController extends Utilities {
             ret = loginApp.loginUser(passLogArg);
             if (ret == -1) {
                 alert(errorToDisplay);
-            } else if (ret == 1){
+            } else {
                 switch(SessionUser.getInstance().getThisUser().getUserType()) {
                     case "CUSTOMER":
                         navigateTo(HOME);
@@ -38,8 +38,7 @@ public class LoginGraphicController extends Utilities {
                     default:
                         break;
                 }
-            } else
-                alert(errorToDisplay);
+            }
         } catch (DAOException e) {
             alert(errorToDisplay);
         } catch (AlreadyLoggedUserException | EmptyInputException e) {

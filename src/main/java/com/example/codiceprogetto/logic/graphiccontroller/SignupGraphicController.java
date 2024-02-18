@@ -3,10 +3,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 import com.example.codiceprogetto.logic.appcontroller.SignupApplicativeController;
 import com.example.codiceprogetto.logic.bean.SignupBean;
 import com.example.codiceprogetto.logic.enumeration.UserType;
-import com.example.codiceprogetto.logic.exception.AlreadyExistingUserException;
-import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
-import com.example.codiceprogetto.logic.exception.DAOException;
-import com.example.codiceprogetto.logic.exception.EmptyInputException;
+import com.example.codiceprogetto.logic.exception.*;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
@@ -37,28 +34,26 @@ public class SignupGraphicController extends Utilities {
     public void signUp() {
         String errorToDisplay = "Signup error";
         SignupBean signBean;
-
-        if (!passTextFieldConfirm.getText().equals(passTextField.getText())) {
-            alert("Inserted passwords don't match");
-            cleanUpField();
-            return;
-        }
-
-        if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
-            alert("Wrong key");
-            keySignUp.clear();
-            return;
-        }
-
-        signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
-
-        signBean.setUserType(checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
-                             UserType.SELLER.getId() :
-                             UserType.CUSTOMER.getId()
-        );
+        SignupApplicativeController signup = new SignupApplicativeController();
 
         try {
-            SignupApplicativeController signup = new SignupApplicativeController();
+            if (!passTextFieldConfirm.getText().equals(passTextField.getText())) {
+                cleanUpField();
+                throw new ControlSquenceException("Inserted passwords don't match");
+            }
+
+            if (checkBox.isSelected() && !keySignUp.getText().equals(KEY)) {
+                keySignUp.clear();
+                throw new ControlSquenceException("Sorry wrong key!");
+            }
+
+            signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
+
+            signBean.setUserType(checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
+                    UserType.SELLER.getId() :
+                    UserType.CUSTOMER.getId()
+            );
+
             int ret = signup.signupUser(signBean);
 
             if (ret != 1) {
@@ -75,7 +70,7 @@ public class SignupGraphicController extends Utilities {
             } else {
                 alert(errorToDisplay);
             }
-        } catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException e) {
+        } catch (EmptyInputException | AlreadyExistingUserException | DAOException | AlreadyLoggedUserException | ControlSquenceException e) {
             alert(e.getMessage());
         }
     }

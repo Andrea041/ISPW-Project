@@ -33,10 +33,9 @@ public class ShoppingCartApplicativeController extends UserTool {
         cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
 
         for(Product prod : cart.getProducts()) {
-            productStockBean = new ProductStockBean(prod.getId(), prod.getImage(), prod.getPrice(), prod.getName());
+            productStockBean = new ProductStockBean(prod.getId(), prod.getImage(), prod.getPrice(), prod.getName(), prod.getSelectedUnits());
             productListBeans.add(productStockBean);
         }
-
 
         return productListBeans;
     }

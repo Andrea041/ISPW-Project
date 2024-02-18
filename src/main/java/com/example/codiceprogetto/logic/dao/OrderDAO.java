@@ -29,7 +29,8 @@ public class OrderDAO extends TypeConverter {
         productList = stringConverter(rs.getString("products"));
         address = convertString(rs.getString("address"));
 
-        order = new Order(address,
+        order = new Order(rs.getString("email"),
+                          address,
                           rs.getDouble("total"),
                           rs.getString("orderID"),
                           orderStatus,

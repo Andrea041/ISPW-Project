@@ -8,18 +8,27 @@ public class OrderBean {
     private String orderID;
     private OrderStatus orderStatus;
     private DeliveryAddress address;
+    private String email;
 
     public OrderBean(String orderID) {
         this.orderID = orderID;
     }
 
-    public OrderBean(double finalTotal, DeliveryAddress address) {
+    public OrderBean(double finalTotal, DeliveryAddress address , String orderID, String email) {
         this.finalTotal = finalTotal;
         this.address = address;
+        this.orderID = orderID;
+        this.email = email;
     }
 
     public OrderBean() {}
 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public double getFinalTotal() {
         return finalTotal;
     }

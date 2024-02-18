@@ -10,15 +10,23 @@ public class Order {
     private String orderID;
     private OrderStatus status;
     private List<Product> productList;
+    private String email;
 
-    public Order(DeliveryAddress address, double total, String orderID, OrderStatus status, List<Product> productList) {
+    public Order(String email, DeliveryAddress address, double total, String orderID, OrderStatus status, List<Product> productList) {
         this.address = address;
         this.total = total;
         this.orderID = orderID;
         this.status = status;
         this.productList = productList;
+        this.email = email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getEmail() {
+        return email;
+    }
     public String getOrderID() {
         return orderID;
     }

@@ -99,14 +99,4 @@ public class CheckoutApplicativeController extends UserTool {
                                         address.getState(),
                                         address.getPhoneNumber());
     }
-
-    public void checkEmptyFieldAddress(AddressBean address) throws EmptyInputException {
-        if(address.getState().isEmpty() ||
-                address.getCity().isEmpty() ||
-                address.getPhoneNumber().isEmpty() ||
-                address.getName().isEmpty() ||
-                address.getLastName().isEmpty() ||
-                address.getAddress().isEmpty())
-            throw new EmptyInputException("There are some empty input fields!");
-    }
 }

@@ -48,8 +48,6 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     }
 
     public void accountGUI() {
-        shop = new ShoppingCartApplicativeController();
-
         try {
             shop.logoutUser();
             navigateTo(HOME);
@@ -63,8 +61,6 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     }
 
     public void gotoCheckoutGUI() {
-        shop = new ShoppingCartApplicativeController();
-
         if(shop.checkLogin()) {
             productStockBeans = fetchCartContent();
 
@@ -78,7 +74,6 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
 
     public void updatePriceLabel() {
         CartBean price = new CartBean();
-        shop = new ShoppingCartApplicativeController();
 
         try {
             price = shop.calculatePrice(price);
@@ -123,7 +118,6 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
 
     public List<ProductStockBean> fetchCartContent() {
         List<ProductStockBean> productStockBeanList = new ArrayList<>();
-        shop = new ShoppingCartApplicativeController();
 
         try {
             productStockBeanList = shop.retrieveCartProd();

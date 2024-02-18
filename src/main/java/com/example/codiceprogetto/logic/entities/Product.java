@@ -14,14 +14,14 @@ public class Product {
         this.image = image;
     }
 
-    public Product(String name, String id, int selectedUnits, String size, double price, String image) {
+    public Product(String name, String id, int selectedUnits, double price, String image) {
         this.name = name;
         this.id = id;
-        this.size = size;
         this.price = price;
         this.image = image;
         this.selectedUnits = selectedUnits;
     }
+
     public String getId() {
         return id;
     }

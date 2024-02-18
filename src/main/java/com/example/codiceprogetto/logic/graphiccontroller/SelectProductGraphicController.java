@@ -98,10 +98,10 @@ public class SelectProductGraphicController extends Utilities {
         int ret;
         String errorToDisplay = "Unknown error";
 
-        ProductBean productBean = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
+        ProductBean productBean = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()));
         addCobra = new AddProductToCartApplicativeController();
 
-        if (!addCobra.checkLogin()) {
+        if (addCobra.checkLogin()) {
             try {
                 ret = addCobra.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
                 if (ret == -1)

@@ -58,6 +58,7 @@ public class CheckoutGraphicController extends Utilities {
 
     @FXML
     void initialize() {
+        cOut = new CheckoutApplicativeController();
         updateLabel();
         shipping.setText(0.0 + "€");
     }
@@ -67,8 +68,6 @@ public class CheckoutGraphicController extends Utilities {
     }
 
     public void accountGUI() {
-        cOut = new CheckoutApplicativeController();
-
         try {
             cOut.logoutUser();
             navigateTo(HOME);
@@ -98,9 +97,16 @@ public class CheckoutGraphicController extends Utilities {
                     addressField.getText());
 
             try {
-                new CheckoutApplicativeController().checkEmptyFieldAddress(address);
+                if(address.getState().isEmpty() ||
+                        address.getCity().isEmpty() ||
+                        address.getPhoneNumber().isEmpty() ||
+                        address.getName().isEmpty() ||
+                        address.getLastName().isEmpty() ||
+                        address.getAddress().isEmpty())
+                    throw new EmptyInputException("There are some empty input fields!");
+
                 if (checkAddress() && displayConfirmBox("Do you want to save your delivery address?", "yes", "no")) {
-                    new CheckoutApplicativeController().insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
+                    cOut.insertAddress(address, SessionUser.getInstance().getThisUser().getEmail());
                 }
             } catch (EmptyInputException | DAOException e) {
                 alert(e.getMessage());
@@ -119,7 +125,6 @@ public class CheckoutGraphicController extends Utilities {
 
     public void couponCheck() {
         CouponBean coupon = new CouponBean(couponText.getText());
-        cOut = new CheckoutApplicativeController();
 
         try {
             cOut.checkCouponCode(coupon);
@@ -134,7 +139,6 @@ public class CheckoutGraphicController extends Utilities {
 
     public void couponDelete() {
         String toDisplay = "Coupon removed!";
-        cOut = new CheckoutApplicativeController();
 
         try {
             cOut.removeCoupon();
@@ -169,7 +173,6 @@ public class CheckoutGraphicController extends Utilities {
 
     private void updateLabel() {
         CartBean cart = new CartBean();
-        cOut = new CheckoutApplicativeController();
 
         try {
             cart = cOut.calculateTotal(cart);

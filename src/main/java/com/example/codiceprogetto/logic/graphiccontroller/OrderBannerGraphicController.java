@@ -70,7 +70,7 @@ public class OrderBannerGraphicController extends Utilities {
 
         state.setText(orderBean.getAddress().getState());
         price.setText(round(orderBean.getFinalTotal(),2) + "€");
-        customerEmail.setText(SessionUser.getInstance().getThisUser().getEmail());
+        customerEmail.setText(orderBean.getEmail());
         labelID.setText(orderID);
     }
 }

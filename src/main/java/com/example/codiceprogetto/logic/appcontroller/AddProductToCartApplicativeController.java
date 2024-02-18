@@ -25,7 +25,6 @@ public class AddProductToCartApplicativeController extends UserTool {
             return ret;
 
         product.setSelectedUnits(prod.getUnitsToOrder());
-        product.setSize(prod.getSize());
 
         ret = new CartDAO().updateCart(product, email, "ADD");
 

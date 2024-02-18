@@ -5,15 +5,12 @@ public class ProductBean {
     private String id;
     private int unitsToOrder;
     private String size;
-    public ProductBean(String name, String id, int unitsToOrder, String size) {
+    public ProductBean(String name, String id, int unitsToOrder) {
         this.name = name;
         this.id = id;
         this.unitsToOrder = unitsToOrder;
-        this.size = size;  // for swimwear
     }
-    public String getSize() {
-        return size;
-    }
+
     public String getName() {
         return name;
     }
@@ -22,9 +19,6 @@ public class ProductBean {
     }
     public int getUnitsToOrder() {
         return unitsToOrder;
-    }
-    public void setSize(String size) {
-        this.size = size;
     }
     public void setName(String name) {
         this.name = name;

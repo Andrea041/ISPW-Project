@@ -6,16 +6,24 @@ public class ProductStockBean {
     private String productName;
     private double price;
     private String prodImage;
+    private int selectedUnits;
 
-    public ProductStockBean(String labelID, String prodImage, double price, String productName) {
+    public ProductStockBean(String labelID, String prodImage, double price, String productName, int selectedUnits) {
         this.productName = productName;
         this.labelID = labelID;
         this.prodImage = prodImage;
         this.price = price;
+        this.selectedUnits = selectedUnits;
     }
 
     public ProductStockBean() {}
 
+    public int getSelectedUnits() {
+        return selectedUnits;
+    }
+    public void setSelectedUnits(int selectedUnits) {
+        this.selectedUnits = selectedUnits;
+    }
     public double getTotalAmount() {
         return totalAmount;
     }

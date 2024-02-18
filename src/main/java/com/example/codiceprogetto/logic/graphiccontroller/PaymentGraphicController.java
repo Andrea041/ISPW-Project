@@ -38,13 +38,14 @@ public class PaymentGraphicController extends Utilities {
     @FXML
     private CheckBox paymetCheckbox;
     PaymentApplicativeController toPay;
-    private int count = 1;
+    int count = 1;
 
 
     @FXML
     void initialize() {
         OrderBean orderBean = new OrderBean();
         PaymentApplicativeController cOut = new PaymentApplicativeController();
+        toPay = new PaymentApplicativeController();
 
         try {
             orderBean = cOut.fetchTotal(SessionUser.getInstance().getThisUser().getEmail(), orderBean);
@@ -56,8 +57,6 @@ public class PaymentGraphicController extends Utilities {
     }
 
     public void homeGUI() {
-        toPay = new PaymentApplicativeController();
-
         try {
             toPay.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
             navigateTo(HOME);
@@ -69,7 +68,6 @@ public class PaymentGraphicController extends Utilities {
     public void pay(MouseEvent mouseEvent) {
         String toDisplay = "There isn't any memorized payment method!";
         PaymentType payment = PaymentType.PAYPAL;
-        toPay = new PaymentApplicativeController();
 
         if(count % 2 == 0) {
             alert("Payment rejected, order deleted!");
@@ -80,7 +78,7 @@ public class PaymentGraphicController extends Utilities {
         if (source instanceof Button)
             payment = PaymentType.fromString(source.getId());
 
-        PaymentBean payBean;
+        PaymentBean paymentBean;
 
         if (payment == PaymentType.CARD) {
             if (paymetCheckbox.isSelected() && checkPayment()) {
@@ -88,7 +86,7 @@ public class PaymentGraphicController extends Utilities {
                 return;
             }
 
-            payBean = new PaymentBean(nameField.getText(),
+            paymentBean = new PaymentBean(nameField.getText(),
                     lastNameField.getText(),
                     expirationField.getText(),
                     cardNumberField.getText(),
@@ -96,9 +94,16 @@ public class PaymentGraphicController extends Utilities {
                     zipField.getText());
 
             try {
-                toPay.checkEmptyFields(payBean);
+                if (paymentBean.getName().isEmpty() ||
+                        paymentBean.getLastName().isEmpty() ||
+                        paymentBean.getExpiration().isEmpty() ||
+                        paymentBean.getCardNumber().isEmpty() ||
+                        paymentBean.getCvv().isEmpty() ||
+                        paymentBean.getZipCode().isEmpty())
+                    throw new EmptyInputException("There are some empty fields!");
+
                 if (checkPayment() && displayConfirmBox("Do you want to save your payment method?", "yes", "no")) {
-                    toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
+                    toPay.insertPayment(paymentBean, SessionUser.getInstance().getThisUser().getEmail());
                 }
             } catch (EmptyInputException e) {
                 count++;
@@ -120,7 +125,6 @@ public class PaymentGraphicController extends Utilities {
 
     private boolean checkPayment() {
         boolean res = false;
-        toPay = new PaymentApplicativeController();
 
         try {
             res = toPay.checkCustomerPayment(SessionUser.getInstance().getThisUser().getEmail());

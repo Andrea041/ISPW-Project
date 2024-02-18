@@ -20,7 +20,7 @@ public class IncomingOrderApplicativeController extends UserTool {
         orderList = new OrderDAO().fetchAllOrder(orderStatus.getId());
 
         for(Order order : orderList) {
-            orderBean = new OrderBean(order.getOrderID());
+            orderBean = new OrderBean(order.getTotal(), order.getAddress(), order.getOrderID(), order.getEmail());
             orderBeanList.add(orderBean);
         }
 

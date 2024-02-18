@@ -85,14 +85,4 @@ public class PaymentApplicativeController {
     public void deleteOrder(String email) throws DAOException {
         new OrderDAO().deleteOrder(email);
     }
-
-    public void checkEmptyFields(PaymentBean paymentBean) throws EmptyInputException {
-        if(paymentBean.getName().isEmpty() ||
-                paymentBean.getLastName().isEmpty() ||
-                paymentBean.getExpiration().isEmpty() ||
-                paymentBean.getCardNumber().isEmpty() ||
-                paymentBean.getCvv().isEmpty() ||
-                paymentBean.getZipCode().isEmpty())
-            throw new EmptyInputException("There are some empty fields!");
-    }
 }

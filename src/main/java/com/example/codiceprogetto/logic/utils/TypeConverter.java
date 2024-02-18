@@ -36,7 +36,7 @@ public abstract class TypeConverter {
 
         for(Product product : list) {
             stringBuilder.append(product.getName()).append(",").append(product.getId()).append(",").append(product.getSelectedUnits()).append(",")
-                    .append(product.getSize()).append(",").append(product.getPrice()).append(",").append(product.getImage()).append(",");
+                    .append(product.getPrice()).append(",").append(product.getImage()).append(",");
         }
         return stringBuilder.toString();
     }
@@ -44,15 +44,14 @@ public abstract class TypeConverter {
         List<Product> listProd = new ArrayList<>();
         String[] elements = list.split(",");
 
-        for(int i = 0; i < elements.length; i += 6) {
+        for(int i = 0; i < elements.length; i += 5) {
             String name = elements[i];
             String id = elements[i + 1];
             int selectedUnits = Integer.parseInt(elements[i + 2]);
-            String size = elements[i + 3];
-            double price = Double.parseDouble(elements[i + 4]);
-            String image = elements[i + 5];
+            double price = Double.parseDouble(elements[i + 3]);
+            String image = elements[i + 4];
 
-            listProd.add(new Product(name, id, selectedUnits, size, price, image));
+            listProd.add(new Product(name, id, selectedUnits, price, image));
         }
         return listProd;
     }
