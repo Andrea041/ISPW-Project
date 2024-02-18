@@ -28,14 +28,9 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
             try {
                 choice = showMenu();
                 switch (choice) {
-                    case 1:
-                        handlePayment();
-                        break;
-                    case 2:
-                        cancelOrderAndReturnHome();
-                        break;
-                    default:
-                        throw new InvalidFormatException("Invalid choice");
+                    case 1 -> handlePayment();
+                    case 2 -> cancelOrderAndReturnHome();
+                    default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (IOException | DAOException | InvalidFormatException | SQLException e) {
                 choice = -1;
@@ -75,19 +70,18 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
     }
 
     private void handleNewCardPayment() throws IOException, SQLException, DAOException {
-        String name, lastName, cardNumber, cvv, expiration, zip;
         PrinterCLI.print("Name: ");
-        name = reader.readLine();
+        String name = reader.readLine();
         PrinterCLI.print("Last name: ");
-        lastName = reader.readLine();
+        String lastName = reader.readLine();
         PrinterCLI.print("Card number: ");
-        cardNumber = reader.readLine();
+        String cardNumber = reader.readLine();
         PrinterCLI.print("Cvv: ");
-        cvv = reader.readLine();
+        String cvv = reader.readLine();
         PrinterCLI.print("Expiration: ");
-        expiration = reader.readLine();
+        String expiration = reader.readLine();
         PrinterCLI.print("Billing zip code: ");
-        zip = reader.readLine();
+        String zip = reader.readLine();
 
         PaymentBean paymentBean = new PaymentBean(name, lastName, expiration, cardNumber, cvv, zip);
 
@@ -99,7 +93,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         new PaymentSummaryGraphicControllerCLI().start();
     }
 
-    private void cancelOrderAndReturnHome() throws SQLException, DAOException {
+    private void cancelOrderAndReturnHome() throws DAOException {
         toPay.deleteOrder(su.getThisUser().getEmail());
         new HomeGraphicControllerCLI().start();
     }
