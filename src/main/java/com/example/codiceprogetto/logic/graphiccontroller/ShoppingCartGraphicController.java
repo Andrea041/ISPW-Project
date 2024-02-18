@@ -4,13 +4,15 @@ import com.example.codiceprogetto.logic.appcontroller.ShoppingCartApplicativeCon
 import com.example.codiceprogetto.logic.bean.CartBean;
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.observer.Observer;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ShoppingCartGraphicController extends GraphicTool implements Observer {
+public class ShoppingCartGraphicController extends Utilities implements Observer {
     @FXML
     private Label subtotal;
     @FXML
@@ -33,8 +35,10 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
 
     @FXML
     void initialize() {
-        updatePriceLabel();
-        updateProductGUI();
+        if(checkLogin()) {
+            updatePriceLabel();
+            updateProductGUI();
+        }
     }
 
     public void back() {
@@ -42,8 +46,12 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void accountGUI() {
-        SessionUser.getInstance().logout();
-        navigateTo(LOGIN);
+        try {
+            logoutUser();
+            navigateTo(HOME);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
     }
 
     public void cartGUI() {
@@ -51,12 +59,15 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
     }
 
     public void gotoCheckoutGUI() {
-        productStockBeans = fetchCartContent();
+        if(checkLogin()) {
+            productStockBeans = fetchCartContent();
 
-        if(productStockBeans.isEmpty()) {
-            alert("Your cart is empty!");
+            if (productStockBeans.isEmpty()) {
+                alert("Your cart is empty!");
+            } else
+                navigateTo(CHECKOUT);
         } else
-            navigateTo(CHECKOUT);
+            alert("To buy items you have to log in or create a new account!");
     }
 
     public void updatePriceLabel() {
@@ -119,8 +130,14 @@ public class ShoppingCartGraphicController extends GraphicTool implements Observ
         return productStockBeanList;
     }
 
+    public void login() {
+        navigateTo(LOGIN);
+    }
+
     @Override
     public void update() {
         initialize();
     }
+
+
 }

@@ -8,7 +8,8 @@ import com.example.codiceprogetto.logic.bean.ShippingBean;
 import com.example.codiceprogetto.logic.exception.AlreadyAppliedCouponException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CheckoutGraphicController extends GraphicTool {
+public class CheckoutGraphicController extends Utilities {
     @FXML
     private TextField stateField;
     @FXML
@@ -66,8 +67,12 @@ public class CheckoutGraphicController extends GraphicTool {
     }
 
     public void accountGUI() {
-        SessionUser.getInstance().logout();
-        navigateTo(LOGIN);
+        try {
+            logoutUser();
+            navigateTo(HOME);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
     }
 
     public void cartGUI() {
@@ -131,7 +136,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
         try {
             cOut.removeCoupon();
-        } catch(SQLException e) {
+        } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 
@@ -153,7 +158,7 @@ public class CheckoutGraphicController extends GraphicTool {
 
         try {
             cOut.addShipping(shippingBean);
-        } catch(SQLException e) {
+        } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 

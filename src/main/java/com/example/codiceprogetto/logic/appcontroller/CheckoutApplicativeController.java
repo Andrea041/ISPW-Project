@@ -30,11 +30,11 @@ public class CheckoutApplicativeController {
         new CartDAO().updateCartCoupon(discount, SessionUser.getInstance().getThisUser().getEmail());
     }
 
-    public void removeCoupon() throws SQLException {
+    public void removeCoupon() throws DAOException {
         new CartDAO().updateCartCoupon(0, SessionUser.getInstance().getThisUser().getEmail());
     }
 
-    public void addShipping(ShippingBean shippingBean) throws SQLException {
+    public void addShipping(ShippingBean shippingBean) throws DAOException {
         new CartDAO().updateCartShipping(shippingBean.getShippingValue(), SessionUser.getInstance().getThisUser().getEmail());
     }
 
@@ -70,6 +70,8 @@ public class CheckoutApplicativeController {
         double finalTotal;
         Customer customer;
         String orderId;
+
+
 
         cart = new CartDAO().retrieveCart(email);
         finalTotal = (cart.getTotal() - (cart.getTotal() * cart.getDiscount())/100) + cart.getShipping();

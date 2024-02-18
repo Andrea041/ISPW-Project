@@ -1,13 +1,15 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-public class HomePageGraphicController extends GraphicTool {
+public class HomePageGraphicController extends Utilities {
     @FXML
     private ImageView manImage;
 
@@ -50,8 +52,12 @@ public class HomePageGraphicController extends GraphicTool {
     }
 
     public void accountGUI(){
-        SessionUser.getInstance().logout();
-        navigateTo(LOGIN);
+        try {
+            logoutUser();
+            navigateTo(HOME);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
     }
 
     public void cartGUI() {
@@ -76,5 +82,9 @@ public class HomePageGraphicController extends GraphicTool {
         transition.setToY(1.0);
 
         transition.playFromStart();
+    }
+
+    public void login() {
+        navigateTo(LOGIN);
     }
 }

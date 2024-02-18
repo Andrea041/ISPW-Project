@@ -27,7 +27,7 @@ public class AddressDAO {
 
             result = stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Unable to insert new address in DB");
+            throw new DAOException("Unable to insert new address");
         }
 
         if(result > 0){

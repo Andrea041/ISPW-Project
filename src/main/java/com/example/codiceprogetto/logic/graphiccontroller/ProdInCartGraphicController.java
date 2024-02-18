@@ -6,7 +6,7 @@ import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.observer.Subject;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProdInCartGraphicController extends GraphicTool implements Subject {
+public class ProdInCartGraphicController extends Utilities implements Subject {
     @FXML
     private Label totalAmountPerProd;
     @FXML

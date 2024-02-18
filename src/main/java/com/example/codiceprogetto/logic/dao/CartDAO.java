@@ -34,25 +34,26 @@ public class CartDAO extends TypeConverter {
         return cart;
     }
 
-    public int createCustomerCart(String email) throws SQLException {
+    public int createCustomerCart(String email) throws DAOException {
         int result;
-        PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
 
         String sql = "INSERT INTO Cart (email, products, total) VALUES (?, ?, ?)";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-        stmt.setString(2, null);
-        stmt.setDouble(3, 0);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)){
+            stmt.setString(1, email);
+            stmt.setString(2, null);
+            stmt.setDouble(3, 0);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Unable to create new cart");
+        }
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
         }
-
-        stmt.close();
 
         return result;
     }
@@ -62,7 +63,6 @@ public class CartDAO extends TypeConverter {
         String listUpdated;
         Cart cart;
 
-        PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
 
         cart = retrieveCart(email);
@@ -79,105 +79,114 @@ public class CartDAO extends TypeConverter {
         listUpdated = listConverter(cart.getProducts());
 
         String sql = "UPDATE Cart SET products = ? WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, listUpdated);
-        stmt.setString(2, email);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, listUpdated);
+            stmt.setString(2, email);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Unable to update cart");
+        }
+
         if(result > 0)
             Logger.getAnonymousLogger().log(Level.INFO, "Cart updated");
         else
             Logger.getAnonymousLogger().log(Level.INFO, "Cart update failed");
 
-        stmt.close();
 
         return result;
     }
 
     public Cart retrieveCart(String email) throws SQLException, DAOException {
         Cart cart;
-
-        PreparedStatement stmt;
-        ResultSet rs;
+        ResultSet rs = null;
         Connection conn = DBConnectionFactory.getConn();
 
         String sql = "SELECT * FROM Cart WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, email);
 
-        rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
-        if(!rs.first())
-            throw new DAOException("Not existing cart");
+            if (!rs.first())
+                throw new DAOException("Not existing cart");
 
-        rs.first();
+            rs.first();
 
-        cart = createCartEntity(rs, email);
-
-        rs.close();
-        stmt.close();
+            cart = createCartEntity(rs, email);
+        } finally {
+            if (rs != null)
+                rs.close();
+        }
 
         return cart;
     }
 
-    public void updateCartCoupon(int coupon, String email) throws SQLException {
-        PreparedStatement stmt;
+    public void updateCartCoupon(int coupon, String email) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
         int result;
 
         String sql = "UPDATE Cart SET appliedDiscount = ? WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setInt(1, coupon);
-        stmt.setString(2, email);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setInt(1, coupon);
+            stmt.setString(2, email);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Cart coupon discount update failed");
+        }
+
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "Discount updated");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Discount update failed");
         }
-
-        stmt.close();
     }
 
-    public void updateCartShipping(int shipping, String email) throws SQLException {
-        PreparedStatement stmt;
+    public void updateCartShipping(int shipping, String email) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
         int result;
 
         String sql = "UPDATE Cart SET shipping = ? WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setInt(1, shipping);
-        stmt.setString(2, email);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setInt(1, shipping);
+            stmt.setString(2, email);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Cart shipping amount update failed");
+        }
+
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "Shipping updated");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Shipping update failed");
         }
-
-        stmt.close();
     }
 
-    public void updateCartTotal(double totalStr, String email) throws SQLException {
-        PreparedStatement stmt;
+    public void updateCartTotal(double totalStr, String email) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
         int result;
 
         String sql = "UPDATE Cart SET total = ? WHERE email = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setDouble(1, totalStr);
-        stmt.setString(2, email);
 
-        result = stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setDouble(1, totalStr);
+            stmt.setString(2, email);
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Cart total update failed");
+        }
+
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "Total amount updated");
         } else {
             Logger.getAnonymousLogger().log(Level.INFO, "Total amount update failed");
         }
-
-        stmt.close();
     }
 
     private boolean countUnits(List<Product> prodList, Product newProd) throws TooManyUnitsExcpetion {

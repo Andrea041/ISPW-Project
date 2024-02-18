@@ -2,7 +2,8 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.IncomingOrderApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IncomingOrderGraphicController extends GraphicTool {
+public class IncomingOrderGraphicController extends Utilities {
     @FXML
     private VBox orderLocation;
 
@@ -57,7 +57,11 @@ public class IncomingOrderGraphicController extends GraphicTool {
     }
 
     public void accountGUI() {
-        SessionUser.getInstance().logout();
-        navigateTo(LOGIN);
+        try {
+            logoutUser();
+            navigateTo(LOGIN);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
     }
 }

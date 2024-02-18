@@ -6,7 +6,7 @@ import com.example.codiceprogetto.logic.bean.PaymentBean;
 import com.example.codiceprogetto.logic.enumeration.PaymentType;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,13 +15,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.SVGPath;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PaymentGraphicController extends GraphicTool {
+public class PaymentGraphicController extends Utilities {
     @FXML
     private TextField cardNumberField;
     @FXML

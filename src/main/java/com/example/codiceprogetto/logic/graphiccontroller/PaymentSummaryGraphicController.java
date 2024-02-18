@@ -6,7 +6,7 @@ import com.example.codiceprogetto.logic.bean.TransactionBean;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PaymentSummaryGraphicController extends GraphicTool {
+public class PaymentSummaryGraphicController extends Utilities {
     @FXML
     private Label totalAmount;
     @FXML

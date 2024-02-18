@@ -4,6 +4,7 @@ import com.example.codiceprogetto.logic.dao.CartDAO;
 import com.example.codiceprogetto.logic.entities.User;
 import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
+import com.example.codiceprogetto.logic.exception.DAOException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class SessionUser {
                 ret = new CartDAO().createCustomerCart(thisUser.getEmail());
                 if (ret == 0)
                     Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
-            } catch (SQLException e) {
-                Logger.getAnonymousLogger().log(Level.INFO, "DB error");
+            } catch (DAOException e) {
+                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }
         }
     }

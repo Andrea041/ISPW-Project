@@ -2,7 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.OrderSellerApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class OrderBannerGraphicController extends GraphicTool {
+public class OrderBannerGraphicController extends Utilities {
     @FXML
     private Label price;
     @FXML

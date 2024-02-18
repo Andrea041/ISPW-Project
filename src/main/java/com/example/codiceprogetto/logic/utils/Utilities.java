@@ -1,5 +1,6 @@
 package com.example.codiceprogetto.logic.utils;
 
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class GraphicTool {
+public abstract class Utilities {
     protected static final String HOME = "/com/example/codiceprogetto/FXML/HomePage/HomePage.fxml";
     protected static final String LOGIN = "/com/example/codiceprogetto/FXML/LoggingForm/LoginForm.fxml";
     protected static final String SIGNUP = "/com/example/codiceprogetto/FXML/LoggingForm/SignUpForm.fxml";
@@ -97,11 +98,26 @@ public abstract class GraphicTool {
         return answer.get();
     }
 
-    public static double round(double value, int places) {
+    public double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public void logoutUser() throws NotLoggedUserException {
+        SessionUser sessionUser = SessionUser.getInstance();
+
+        if(sessionUser.getAllUser().contains(sessionUser.getThisUser()))
+            sessionUser.logout();
+        else
+            throw new NotLoggedUserException("You are not logged in!");
+    }
+
+    public boolean checkLogin() {
+        SessionUser sessionUser = SessionUser.getInstance();
+
+        return sessionUser.getAllUser().contains(sessionUser.getThisUser());
     }
 }

@@ -4,8 +4,9 @@ import com.example.codiceprogetto.logic.appcontroller.AddProductToCartApplicativ
 import com.example.codiceprogetto.logic.bean.ProductBean;
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SelectProductGraphicController extends GraphicTool {
+public class SelectProductGraphicController extends Utilities {
     private int unitsCounter = 1;
     @FXML
     private TextField displayUnits;
@@ -74,7 +75,15 @@ public class SelectProductGraphicController extends GraphicTool {
     }
 
     public void accountGUI() {
-        SessionUser.getInstance().logout();
+        try {
+            logoutUser();
+            navigateTo(HOME);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
+    }
+
+    public void login() {
         navigateTo(LOGIN);
     }
 

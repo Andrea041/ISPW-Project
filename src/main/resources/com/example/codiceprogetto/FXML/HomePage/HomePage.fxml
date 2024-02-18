@@ -15,7 +15,7 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="954.0" layoutY="33.0" text="Store">
+      <Label fx:id="login" layoutX="954.0" layoutY="33.0" text="Login" onMouseClicked="#login">
          <font>
             <Font name="Arial" size="16.0" />
          </font>

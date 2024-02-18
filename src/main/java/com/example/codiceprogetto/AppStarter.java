@@ -13,7 +13,7 @@ import java.util.Objects;
 public class AppStarter extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/codiceprogetto/FXML/LoggingForm/LoginForm.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/codiceprogetto/FXML/HomePage/HomePage.fxml")));
 
         NavigatorSingleton nav = NavigatorSingleton.getInstance(stage);
 

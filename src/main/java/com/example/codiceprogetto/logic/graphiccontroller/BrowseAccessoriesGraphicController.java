@@ -2,20 +2,21 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.BrowseAccessoriesApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
-import com.example.codiceprogetto.logic.utils.GraphicTool;
+import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BrowseAccessoriesGraphicController extends GraphicTool {
+public class BrowseAccessoriesGraphicController extends Utilities {
     @FXML
     private GridPane prodGrid;
 
@@ -58,15 +59,19 @@ public class BrowseAccessoriesGraphicController extends GraphicTool {
     }
 
     public void accountGUI(){
-        SessionUser.getInstance().logout();
-        navigateTo(LOGIN);
+        try {
+            logoutUser();
+            navigateTo(HOME);
+        } catch (NotLoggedUserException e) {
+            alert("You are not logged in!");
+        }
     }
 
     public void cartGUI() {
         navigateTo(CART);
     }
 
-    public void selectProduct() {
-        navigateTo(COBRA);
+    public void login() {
+        navigateTo(LOGIN);
     }
 }
