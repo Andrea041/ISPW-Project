@@ -50,7 +50,7 @@ public class ProductDAOCsv implements ProductDAO {
     private List<Product> getProducts() throws IOException {
         List<Product> productList = new ArrayList<>();
 
-        try(CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
+        try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
             String[] recordString;
 
             while((recordString = csvReader.readNext()) != null) {
