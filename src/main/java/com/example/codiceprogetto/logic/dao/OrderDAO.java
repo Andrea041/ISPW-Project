@@ -185,7 +185,7 @@ public class OrderDAO extends TypeConverter {
         if(result > 0) {
             Logger.getAnonymousLogger().log(Level.INFO, "Order status updated");
         } else {
-            Logger.getAnonymousLogger().log(Level.INFO, "Order status update failed");
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status not updated");
         }
     }
 
@@ -206,7 +206,7 @@ public class OrderDAO extends TypeConverter {
         if(result > 0) {
             Logger.getAnonymousLogger().log(Level.INFO, "Order status updated");
         } else {
-            Logger.getAnonymousLogger().log(Level.INFO, "Order status update failed");
+            Logger.getAnonymousLogger().log(Level.INFO, "Order status not updated");
         }
     }
 
