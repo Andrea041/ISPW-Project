@@ -68,9 +68,9 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
         if(shop.checkLogin()) {
             productStockBeans = fetchCartContent();
 
-            if (productStockBeans.isEmpty()) {
+            if (productStockBeans.isEmpty())
                 alert("Your cart is empty!");
-            } else
+            else
                 navigateTo(CHECKOUT);
         } else
             alert("To buy items you have to log in or create a new account!");

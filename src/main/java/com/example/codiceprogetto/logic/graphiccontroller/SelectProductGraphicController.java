@@ -6,8 +6,8 @@ import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
-import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -102,7 +102,7 @@ public class SelectProductGraphicController extends Utilities {
         addCobra = new AddProductToCartApplicativeController();
 
         try {
-            ret = addCobra.updateCart(productBean);
+            ret = addCobra.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
             if(ret == -1)
                 alert(errorToDisplay);
 

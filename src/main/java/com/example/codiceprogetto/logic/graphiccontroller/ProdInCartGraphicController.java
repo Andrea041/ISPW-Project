@@ -6,6 +6,7 @@ import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import com.example.codiceprogetto.logic.observer.Observer;
 import com.example.codiceprogetto.logic.observer.Subject;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -36,6 +37,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
     private ImageView prodImage;
     private int counter = 0;
     ProdInCartApplicativeController prodBox;
+    SessionUser su;
     private final String prodID;
     private final List<Observer> observers = new ArrayList<>();
     private static final String ERROR = "Unknown error";
@@ -44,6 +46,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
     private static final String REMOVE = "REMOVE";
     private static final String UPDATE = "UPDATE";
 
+
     public ProdInCartGraphicController(String prodID) {
         super();
         this.prodID = prodID;
@@ -51,6 +54,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
 
     @FXML
     void initialize() {
+        su = SessionUser.getInstance();
         prodBox = new ProdInCartApplicativeController();
         updateGUI();
     }
@@ -77,7 +81,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
 
     private void changeUnit(String action) {
         try {
-            int res = prodBox.changeUnits(labelID.getText(), action);
+            int res = prodBox.changeUnits(labelID.getText(), action, su.getThisUser().getEmail());
             if (res <= 0) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
             } else {
@@ -97,7 +101,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
         try {
             int res;
             if (action.equals(REMOVE)) {
-                res = prodBox.removeProduct(labelID.getText());
+                res = prodBox.removeProduct(labelID.getText(), su.getThisUser().getEmail());
                 if (res == -1) {
                     Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 }
@@ -118,7 +122,7 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
                 return;
             }
 
-            int selectedUnits = prodBox.displaySelectedUnits(prodID);
+            int selectedUnits = prodBox.displaySelectedUnits(prodID, su.getThisUser().getEmail());
             if (selectedUnits == -1) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 return;

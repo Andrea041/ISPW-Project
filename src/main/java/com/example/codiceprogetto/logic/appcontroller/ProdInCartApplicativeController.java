@@ -27,11 +27,11 @@ public class ProdInCartApplicativeController {
         return cart;
     }
 
-    public int displaySelectedUnits(String prodID) throws DAOException, SQLException {
+    public int displaySelectedUnits(String prodID, String email) throws DAOException, SQLException {
         Cart cart;
         int res = -1;
 
-        cart = fetchCart();
+        cart = fetchCart(email);
         if(cart.getProducts().isEmpty())
             return res;
 
@@ -43,12 +43,12 @@ public class ProdInCartApplicativeController {
         return res;
     }
 
-    public int removeProduct(String prodID) throws DAOException, SQLException, TooManyUnitsExcpetion {
+    public int removeProduct(String prodID, String email) throws DAOException, SQLException, TooManyUnitsExcpetion {
         Cart cart;
         int res = -1;
         Product toRemove = null;
 
-        cart = fetchCart();
+        cart = fetchCart(email);
         if(cart.getProducts().isEmpty())
             return res;
 
@@ -57,21 +57,21 @@ public class ProdInCartApplicativeController {
                 toRemove = prod;
         }
 
-        res = new CartDAO().updateCart(toRemove, SessionUser.getInstance().getThisUser().getEmail(), "REMOVE");
+        res = new CartDAO().updateCart(toRemove, email, "REMOVE");
 
         assert toRemove != null;
-        new CartDAO().updateCartTotal(cart.getTotal()-(toRemove.getPrice() * toRemove.getSelectedUnits()), SessionUser.getInstance().getThisUser().getEmail());
+        new CartDAO().updateCartTotal(cart.getTotal()-(toRemove.getPrice() * toRemove.getSelectedUnits()), email);
 
         return res;
     }
 
-    public int changeUnits(String prodID, String op) throws DAOException, SQLException, TooManyUnitsExcpetion {
+    public int changeUnits(String prodID, String op, String email) throws DAOException, SQLException, TooManyUnitsExcpetion {
         Cart cart;
         int res = -1;
         Product modifiedProd = null;
         double total = 0;
 
-        cart = fetchCart();
+        cart = fetchCart(email);
         if(cart.getProducts().isEmpty())
             return res;
 
@@ -88,9 +88,9 @@ public class ProdInCartApplicativeController {
                 throw new TooManyUnitsExcpetion("Limit units for each customer reached, the new units aren't added in the cart");
         }
         
-        res = new CartDAO().updateCart(modifiedProd, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
+        res = new CartDAO().updateCart(modifiedProd, email, "ADD");
 
-        cart = fetchCart();
+        cart = fetchCart(email);
         if(cart.getProducts().isEmpty())
             return res;
 
@@ -103,10 +103,10 @@ public class ProdInCartApplicativeController {
         return res;
     }
 
-    public Cart fetchCart() throws DAOException, SQLException {
+    public Cart fetchCart(String email) throws DAOException, SQLException {
         Cart cart;
 
-        cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
+        cart = new CartDAO().retrieveCart(email);
 
         return cart;
     }

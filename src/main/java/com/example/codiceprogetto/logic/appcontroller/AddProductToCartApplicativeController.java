@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddProductToCartApplicativeController extends UserTool {
-    public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion, DAOException, IOException {
+    public int updateCart(ProductBean prod, String email) throws SQLException, TooManyUnitsExcpetion, DAOException, IOException {
         Product product;
         int ret = -1;
 
@@ -28,18 +28,18 @@ public class AddProductToCartApplicativeController extends UserTool {
         product.setSelectedUnits(prod.getUnitsToOrder());
         product.setSize(prod.getSize());
 
-        ret = new CartDAO().updateCart(product, SessionUser.getInstance().getThisUser().getEmail(), "ADD");
+        ret = new CartDAO().updateCart(product, email, "ADD");
 
-        updateTotal();
+        updateTotal(email);
 
         return ret;
     }
 
-    public void updateTotal() throws DAOException, SQLException {
+    public void updateTotal(String email) throws DAOException, SQLException {
         double total = 0;
         Cart cart;
 
-        cart = new CartDAO().retrieveCart(SessionUser.getInstance().getThisUser().getEmail());
+        cart = new CartDAO().retrieveCart(email);
         if(cart.getProducts() == null)
             return;
 
@@ -47,6 +47,6 @@ public class AddProductToCartApplicativeController extends UserTool {
             total += (prod.getPrice() * prod.getSelectedUnits());
         }
 
-        new CartDAO().updateCartTotal(total, SessionUser.getInstance().getThisUser().getEmail());
+        new CartDAO().updateCartTotal(total, email);
     }
 }
