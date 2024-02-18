@@ -52,10 +52,9 @@ public class SignupGraphicController extends Utilities {
 
         signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
 
-        signBean.setUserType(
-                checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
-                        UserType.SELLER.getId() :
-                        UserType.CUSTOMER.getId()
+        signBean.setUserType(checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
+                             UserType.SELLER.getId() :
+                             UserType.CUSTOMER.getId()
         );
 
         try {

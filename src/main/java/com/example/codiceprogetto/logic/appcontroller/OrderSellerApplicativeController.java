@@ -4,6 +4,7 @@ import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.dao.OrderDAO;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
+import com.example.codiceprogetto.logic.exception.DAOException;
 
 import java.sql.SQLException;
 
@@ -19,7 +20,7 @@ public class OrderSellerApplicativeController {
         return orderBean;
     }
 
-    public void acceptOrder(String orderId) throws SQLException {
+    public void acceptOrder(String orderId) throws DAOException {
         OrderStatus orderStatus = OrderStatus.CLOSED;
 
         new OrderDAO().updateOrderStatusByID(orderId, orderStatus.getId());

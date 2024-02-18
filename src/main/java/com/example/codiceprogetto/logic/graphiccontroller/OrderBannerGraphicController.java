@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.OrderSellerApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class OrderBannerGraphicController extends Utilities {
 
         try {
             ordApp.acceptOrder(orderID);
-        } catch(SQLException e) {
+        } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
 

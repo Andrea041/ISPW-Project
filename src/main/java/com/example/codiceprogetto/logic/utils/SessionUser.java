@@ -6,7 +6,6 @@ import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

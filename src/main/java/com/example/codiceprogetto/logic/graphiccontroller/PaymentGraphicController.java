@@ -60,7 +60,7 @@ public class PaymentGraphicController extends Utilities {
         try {
             toPay.deleteOrder(SessionUser.getInstance().getThisUser().getEmail());
             navigateTo(HOME);
-        } catch (SQLException e) {
+        } catch (DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }

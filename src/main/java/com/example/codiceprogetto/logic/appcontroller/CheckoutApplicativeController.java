@@ -71,8 +71,6 @@ public class CheckoutApplicativeController {
         Customer customer;
         String orderId;
 
-
-
         cart = new CartDAO().retrieveCart(email);
         finalTotal = (cart.getTotal() - (cart.getTotal() * cart.getDiscount())/100) + cart.getShipping();
 

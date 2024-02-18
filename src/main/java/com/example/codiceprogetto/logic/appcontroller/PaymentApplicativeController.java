@@ -82,7 +82,7 @@ public class PaymentApplicativeController {
         new CartDAO().updateCartCoupon(0, email);
     }
 
-    public void deleteOrder(String email) throws SQLException {
+    public void deleteOrder(String email) throws DAOException {
         new OrderDAO().deleteOrder(email);
     }
 
