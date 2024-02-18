@@ -101,8 +101,6 @@ public class OrderDAO extends TypeConverter {
                 return null;
             }
 
-            rs.first();
-
             order = generateOrder(rs);
         } finally {
             if (rs != null)
@@ -128,8 +126,6 @@ public class OrderDAO extends TypeConverter {
             if (!rs.first()) {
                 return null;
             }
-
-            rs.first();
 
             order = generateOrder(rs);
         } finally {
