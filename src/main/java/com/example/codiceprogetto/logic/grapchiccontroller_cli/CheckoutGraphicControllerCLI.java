@@ -22,75 +22,25 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
     SessionUser su = SessionUser.getInstance();
     CheckoutApplicativeController checkApp = new CheckoutApplicativeController();
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    String invalid = "Invalid choice";
 
     @Override
     public void start() {
         int choice = -1;
-        Scanner input = new Scanner(System.in);
-        AddressBean addressBean = null;
-
-        while(choice == -1) {
+        while (choice == -1) {
             try {
                 choice = showMenu();
                 switch (choice) {
-                    case 1 -> {
-                        PrinterCLI.print("Do you want to you use your memorized address or use a new one (digit OWN or NEW): ");
-                        String choose = reader.readLine();
-
-                        if (choose.equals("NEW")) {
-                            PrinterCLI.print("Name: ");
-                            String name = reader.readLine();
-                            PrinterCLI.print("Last name: ");
-                            String lastName = reader.readLine();
-                            PrinterCLI.print("Address: ");
-                            String address = reader.readLine();
-                            PrinterCLI.print("State: ");
-                            String state = reader.readLine();
-                            PrinterCLI.print("City: ");
-                            String city = reader.readLine();
-                            PrinterCLI.print("Phone number: ");
-                            String phone = reader.readLine();
-
-                            addressBean = new AddressBean(state, city, phone, name, lastName, address);
-
-                            if (checkApp.checkCustomerAddress(su.getThisUser().getEmail()) && askSave())
-                                checkApp.insertAddress(addressBean, su.getThisUser().getEmail());
-                        } else if (!choose.equals("OWN")) throw new InvalidFormatException("Invalid choice");
-
-                        checkApp.createOrder(addressBean, su.getThisUser().getEmail());
-
-                        new PaymentGraphicControllerCLI().start();
-                    }
-                    case 2 -> {
-                        PrinterCLI.printf("1. FREE - 6 to 8 working days");
-                        PrinterCLI.printf("2. 3.00€ - 4 to 6 working days");
-                        PrinterCLI.printf("3. 5.00€ - 2 to 4 working days");
-                        int ship = input.nextInt();
-                        ShippingBean shippingBean = new ShippingBean();
-                        
-                        if (ship == 1)
-                            shippingBean.setShippingValue(0);
-                        else if (ship == 2) 
-                            shippingBean.setShippingValue(3);
-                        else if (ship == 3)
-                            shippingBean.setShippingValue(5);
-                        else throw new InvalidFormatException("Invalid choice");
-
-                        checkApp.addShipping(shippingBean);
-                    }
-                    case 3 -> {
-                        PrinterCLI.print("Insert your coupon: ");
-                        String coupon = reader.readLine();
-
-                        CouponBean couponBean = new CouponBean(coupon);
-                        checkApp.checkCouponCode(couponBean);
-                    }
+                    case 1 -> handleAddress();
+                    case 2 -> handleShipping();
+                    case 3 -> handleCoupon();
                     case 4 -> checkApp.removeCoupon();
                     case 5 -> new SignUpGraphicControllerCLI().start();
-                    default -> throw new InvalidFormatException("Invalid choice");
+                    default -> throw new InvalidFormatException(invalid);
                 }
             } catch (InvalidFormatException | DAOException | SQLException | AlreadyAppliedCouponException | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                choice = -1;
             }
         }
     }
@@ -104,7 +54,69 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         PrinterCLI.printf("4. Delete active coupon");
         PrinterCLI.printf("5. Back");
 
-        return getMenuChoice(1, 4);
+        return getMenuChoice(1, 5);
+    }
+
+    private void handleAddress() throws IOException, InvalidFormatException, DAOException, SQLException {
+        PrinterCLI.print("Do you want to you use your memorized address or use a new one (digit OWN or NEW): ");
+        String choose = reader.readLine();
+
+        if (choose.equals("NEW")) {
+            createNewAddress();
+        } else if (!choose.equals("OWN")) {
+            throw new InvalidFormatException(invalid);
+        }
+    }
+
+    private void createNewAddress() throws IOException, DAOException, SQLException {
+        PrinterCLI.print("Name: ");
+        String name = reader.readLine();
+        PrinterCLI.print("Last name: ");
+        String lastName = reader.readLine();
+        PrinterCLI.print("Address: ");
+        String address = reader.readLine();
+        PrinterCLI.print("State: ");
+        String state = reader.readLine();
+        PrinterCLI.print("City: ");
+        String city = reader.readLine();
+        PrinterCLI.print("Phone number: ");
+        String phone = reader.readLine();
+
+        AddressBean addressBean = new AddressBean(state, city, phone, name, lastName, address);
+
+        if (checkApp.checkCustomerAddress(su.getThisUser().getEmail()) && askSave()) {
+            checkApp.insertAddress(addressBean, su.getThisUser().getEmail());
+        }
+
+        checkApp.createOrder(addressBean, su.getThisUser().getEmail());
+        new PaymentGraphicControllerCLI().start();
+    }
+
+    private void handleShipping() throws DAOException, InvalidFormatException {
+        Scanner input = new Scanner(System.in);
+
+        PrinterCLI.printf("1. FREE - 6 to 8 working days");
+        PrinterCLI.printf("2. 3.00€ - 4 to 6 working days");
+        PrinterCLI.printf("3. 5.00€ - 2 to 4 working days");
+        int ship = input.nextInt();
+        ShippingBean shippingBean = new ShippingBean();
+
+        switch (ship) {
+            case 1 -> shippingBean.setShippingValue(0);
+            case 2 -> shippingBean.setShippingValue(3);
+            case 3 -> shippingBean.setShippingValue(5);
+            default -> throw new InvalidFormatException(invalid);
+        }
+
+        checkApp.addShipping(shippingBean);
+    }
+
+    private void handleCoupon() throws IOException, DAOException, SQLException, AlreadyAppliedCouponException {
+        PrinterCLI.print("Insert your coupon: ");
+        String coupon = reader.readLine();
+
+        CouponBean couponBean = new CouponBean(coupon);
+        checkApp.checkCouponCode(couponBean);
     }
 
     private boolean askSave() throws IOException {
@@ -114,3 +126,4 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         return choose.equals("y");
     }
 }
+
