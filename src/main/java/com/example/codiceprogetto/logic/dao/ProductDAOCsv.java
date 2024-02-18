@@ -16,8 +16,8 @@ public class ProductDAOCsv implements ProductDAO {
     private static final String CSV_FILE_NAME = "src/main/java/com/example/codiceprogetto/logic/dao/productCSV.csv";
     private static final int INDEX_PRODUCT_NAME = 1;
     private static final int INDEX_PRODUCT_ID = 2;
-    private static final int INDEX_PRICE = 4;
-    private static final int INDEX_PROD_IMAGE = 5;
+    private static final int INDEX_PRICE = 3;
+    private static final int INDEX_PROD_IMAGE = 4;
 
     public ProductDAOCsv() throws IOException {
         this.fd = new File(CSV_FILE_NAME);
