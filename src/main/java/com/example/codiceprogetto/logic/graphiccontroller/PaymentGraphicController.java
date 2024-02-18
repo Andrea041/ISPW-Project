@@ -38,6 +38,7 @@ public class PaymentGraphicController extends Utilities {
     @FXML
     private CheckBox paymetCheckbox;
     PaymentApplicativeController toPay;
+    private int count = 1;
 
 
     @FXML
@@ -70,6 +71,11 @@ public class PaymentGraphicController extends Utilities {
         PaymentType payment = PaymentType.PAYPAL;
         toPay = new PaymentApplicativeController();
 
+        if(count % 2 == 0) {
+            alert("Payment rejected, order deleted!");
+            homeGUI();
+        }
+
         Node source = (Node) mouseEvent.getSource();
         if (source instanceof Button)
             payment = PaymentType.fromString(source.getId());
@@ -95,6 +101,7 @@ public class PaymentGraphicController extends Utilities {
                     toPay.insertPayment(payBean, SessionUser.getInstance().getThisUser().getEmail());
                 }
             } catch (EmptyInputException e) {
+                count++;
                 alert(e.getMessage());
                 return;
             }
@@ -105,6 +112,7 @@ public class PaymentGraphicController extends Utilities {
             toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
             navigateTo(PAYSUM);
         } catch (SQLException e) {
+            count++;
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
     }
