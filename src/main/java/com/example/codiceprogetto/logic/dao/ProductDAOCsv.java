@@ -13,12 +13,11 @@ import java.util.logging.Logger;
 
 public class ProductDAOCsv implements ProductDAO {
     private final File fd;
-    private static final String CSV_FILE_NAME = "ProductCSV.csv";
+    private static final String CSV_FILE_NAME = "productCSV.csv";
     private static final int INDEX_PRODUCT_NAME = 0;
     private static final int INDEX_PRODUCT_ID = 1;
     private static final int INDEX_PRICE = 3;
     private static final int INDEX_PROD_IMAGE = 4;
-
 
     public ProductDAOCsv() throws IOException {
         this.fd = new File(CSV_FILE_NAME);
@@ -40,7 +39,7 @@ public class ProductDAOCsv implements ProductDAO {
     @Override
     public List<Product> fetchAllProduct() {
         try {
-            return getProduct();
+            return getProducts();
         } catch (IOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, "Error in ProductsDAOCsv");
         }
@@ -48,7 +47,7 @@ public class ProductDAOCsv implements ProductDAO {
         return new ArrayList<>();
     }
 
-    private List<Product> getProduct() throws IOException {
+    private List<Product> getProducts() throws IOException {
         List<Product> productList = new ArrayList<>();
 
         try(CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {

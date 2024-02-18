@@ -101,21 +101,24 @@ public class SelectProductGraphicController extends Utilities {
         ProductBean productBean = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
         addCobra = new AddProductToCartApplicativeController();
 
-        try {
-            ret = addCobra.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
-            if(ret == -1)
-                alert(errorToDisplay);
+        if (!addCobra.checkLogin()) {
+            try {
+                ret = addCobra.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
+                if (ret == -1)
+                    alert(errorToDisplay);
 
-            boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
-            if(!choice)
-                navigateTo(CART);
-        } catch (SQLException e) {
-            alert(errorToDisplay);
-        } catch (TooManyUnitsExcpetion | DAOException e) {
-            alert(e.getMessage());
-        } catch (IOException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        }
+                boolean choice = displayConfirmBox("Do you want stay on this page or go to shopping cart?", "Stay on this page", "Go to shopping cart");
+                if (!choice)
+                    navigateTo(CART);
+            } catch (SQLException e) {
+                alert(errorToDisplay);
+            } catch (TooManyUnitsExcpetion | DAOException e) {
+                alert(e.getMessage());
+            } catch (IOException e) {
+                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+            }
+        } else
+            alert("To buy items you have to log in or create a new account!");
     }
 
     public void addProductUnits() {
