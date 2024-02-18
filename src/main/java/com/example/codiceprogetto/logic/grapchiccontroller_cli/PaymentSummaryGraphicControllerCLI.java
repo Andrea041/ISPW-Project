@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class PaymentSummaryGraphicControllerCLI extends AbsGraphicControllerCLI {
     OrderBean orderBean = new OrderBean();
     TransactionBean transactionBean = new TransactionBean();
+
     @Override
     public void start() {
         printPaymentSummary();

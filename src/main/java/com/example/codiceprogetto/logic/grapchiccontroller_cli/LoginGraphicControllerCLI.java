@@ -21,12 +21,7 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
         while (choice == -1) {
             try {
                 choice = showMenu();
-                switch(choice) {
-                    case 1 -> login();
-                    case 2 -> new SignUpGraphicControllerCLI().start();
-                    case 3 -> System.exit(0);
-                    default -> throw new InvalidFormatException("Invalid choice");
-                }
+                handleChoice(choice);
             } catch (IOException | InvalidFormatException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
                 choice = -1;
@@ -42,6 +37,15 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
         PrinterCLI.printf("3. Quit");
 
         return getMenuChoice(1, 3);
+    }
+
+    private void handleChoice(int choice) throws InvalidFormatException {
+        switch(choice) {
+            case 1 -> login();
+            case 2 -> new SignUpGraphicControllerCLI().start();
+            case 3 -> System.exit(0);
+            default -> throw new InvalidFormatException("Invalid choice");
+        }
     }
 
     public void login() {
@@ -77,3 +81,4 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
         }
     }
 }
+
