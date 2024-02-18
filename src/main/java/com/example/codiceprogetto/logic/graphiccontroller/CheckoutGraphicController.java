@@ -67,8 +67,10 @@ public class CheckoutGraphicController extends Utilities {
     }
 
     public void accountGUI() {
+        cOut = new CheckoutApplicativeController();
+
         try {
-            logoutUser();
+            cOut.logoutUser();
             navigateTo(HOME);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");

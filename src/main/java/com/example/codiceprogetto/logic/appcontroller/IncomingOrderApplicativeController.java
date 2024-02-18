@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IncomingOrderApplicativeController {
+public class IncomingOrderApplicativeController extends UserTool {
     public List<OrderBean> retrieveOrders() throws SQLException {
         List<Order> orderList;
         OrderStatus orderStatus = OrderStatus.CONFIRMED;

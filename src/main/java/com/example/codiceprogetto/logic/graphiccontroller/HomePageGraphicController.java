@@ -1,5 +1,6 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
+import com.example.codiceprogetto.logic.appcontroller.HomePageApplicativeController;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -12,6 +13,7 @@ import javafx.util.Duration;
 public class HomePageGraphicController extends Utilities {
     @FXML
     private ImageView manImage;
+    HomePageApplicativeController homeApp;
 
     public void manZoomEnter() {
         zoomIN(manImage);
@@ -52,8 +54,10 @@ public class HomePageGraphicController extends Utilities {
     }
 
     public void accountGUI(){
+        homeApp = new HomePageApplicativeController();
+
         try {
-            logoutUser();
+            homeApp.logoutUser();
             navigateTo(HOME);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");

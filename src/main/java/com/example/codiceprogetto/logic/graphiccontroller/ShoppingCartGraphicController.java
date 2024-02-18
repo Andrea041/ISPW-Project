@@ -35,7 +35,9 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
 
     @FXML
     void initialize() {
-        if(checkLogin()) {
+        shop = new ShoppingCartApplicativeController();
+
+        if(shop.checkLogin()) {
             updatePriceLabel();
             updateProductGUI();
         }
@@ -46,8 +48,10 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     }
 
     public void accountGUI() {
+        shop = new ShoppingCartApplicativeController();
+
         try {
-            logoutUser();
+            shop.logoutUser();
             navigateTo(HOME);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");
@@ -59,7 +63,9 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     }
 
     public void gotoCheckoutGUI() {
-        if(checkLogin()) {
+        shop = new ShoppingCartApplicativeController();
+
+        if(shop.checkLogin()) {
             productStockBeans = fetchCartContent();
 
             if (productStockBeans.isEmpty()) {

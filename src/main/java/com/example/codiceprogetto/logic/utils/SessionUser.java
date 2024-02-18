@@ -28,13 +28,9 @@ public class SessionUser {
     }
 
     public synchronized void cart() {
-        int ret;
-
         if(thisUser.getUserType().equals(UserType.CUSTOMER.getId().toUpperCase())) {
             try {
-                ret = new CartDAO().createCustomerCart(thisUser.getEmail());
-                if (ret <= 0)
-                    Logger.getAnonymousLogger().log(Level.INFO, "Unknown error");
+                new CartDAO().createCustomerCart(thisUser.getEmail());
             } catch (DAOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }

@@ -85,27 +85,29 @@ public class OrderDAO extends TypeConverter {
     }
 
     public Order fetchOrder(String email, String orderStatus) throws SQLException {
-        PreparedStatement stmt;
         Connection conn = DBConnectionFactory.getConn();
         Order order;
-        ResultSet rs;
+        ResultSet rs = null;
 
         String sql = "SELECT * FROM Progetto.Order WHERE email = ? AND status = ?";
-        stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-        stmt.setString(2, orderStatus);
+        
+        try(PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, email);
+            stmt.setString(2, orderStatus);
 
-        rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
-        if(!rs.first()) {
-            return null;
+            if (!rs.first()) {
+                return null;
+            }
+
+            rs.first();
+
+            order = generateOrder(rs);
+        } finally {
+            if (rs != null)
+                rs.close();
         }
-
-        rs.first();
-
-        order = generateOrder(rs);
-
-        stmt.close();
 
         return order;
     }
@@ -198,7 +200,7 @@ public class OrderDAO extends TypeConverter {
 
             result = stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Order status update by ID failed");
+            throw new DAOException("Error in update order status");
         }
 
         if(result > 0) {

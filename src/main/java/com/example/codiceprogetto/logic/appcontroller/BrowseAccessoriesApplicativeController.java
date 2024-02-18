@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowseAccessoriesApplicativeController {
+public class BrowseAccessoriesApplicativeController extends UserTool {
     public List<ProductStockBean> retrieveProduct() throws IOException {
         List<Product> productList;
 

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddProductToCartApplicativeController {
+public class AddProductToCartApplicativeController extends UserTool {
     public int updateCart(ProductBean prod) throws SQLException, TooManyUnitsExcpetion, DAOException, IOException {
         Product product;
         int ret = -1;

@@ -34,13 +34,13 @@ public class CartDAO extends TypeConverter {
         return cart;
     }
 
-    public int createCustomerCart(String email) throws DAOException {
+    public void createCustomerCart(String email) throws DAOException {
         int result;
         Connection conn = DBConnectionFactory.getConn();
 
         String sql = "INSERT INTO Cart (email, products, total) VALUES (?, ?, ?)";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)){
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, email);
             stmt.setString(2, null);
             stmt.setDouble(3, 0);
@@ -49,13 +49,10 @@ public class CartDAO extends TypeConverter {
         } catch (SQLException e) {
             throw new DAOException("Unable to create new cart");
         }
+
         if(result > 0){
             Logger.getAnonymousLogger().log(Level.INFO, "New row in DB");
-        } else {
-            Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
         }
-
-        return result;
     }
 
     public int updateCart(Product product, String email, String op) throws TooManyUnitsExcpetion, DAOException, SQLException {
@@ -91,9 +88,6 @@ public class CartDAO extends TypeConverter {
 
         if(result > 0)
             Logger.getAnonymousLogger().log(Level.INFO, "Cart updated");
-        else
-            Logger.getAnonymousLogger().log(Level.INFO, "Cart update failed");
-
 
         return result;
     }

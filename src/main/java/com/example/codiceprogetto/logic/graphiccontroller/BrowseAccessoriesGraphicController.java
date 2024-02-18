@@ -19,11 +19,12 @@ import java.util.logging.Logger;
 public class BrowseAccessoriesGraphicController extends Utilities {
     @FXML
     private GridPane prodGrid;
+    BrowseAccessoriesApplicativeController broAcc;
 
     @FXML
     void initialize() {
         List<ProductStockBean> productList;
-        BrowseAccessoriesApplicativeController broAcc = new BrowseAccessoriesApplicativeController();
+        broAcc = new BrowseAccessoriesApplicativeController();
         int gridRow = 0;
         int gridCol = 0;
         int index = 1;
@@ -60,7 +61,7 @@ public class BrowseAccessoriesGraphicController extends Utilities {
 
     public void accountGUI(){
         try {
-            logoutUser();
+            broAcc.logoutUser();
             navigateTo(HOME);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");

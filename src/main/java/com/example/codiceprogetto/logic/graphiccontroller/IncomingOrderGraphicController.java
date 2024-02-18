@@ -18,10 +18,11 @@ import java.util.logging.Logger;
 public class IncomingOrderGraphicController extends Utilities {
     @FXML
     private VBox orderLocation;
+    IncomingOrderApplicativeController incOrder;
 
     @FXML
     void initialize() {
-        IncomingOrderApplicativeController incOrder = new IncomingOrderApplicativeController();
+        incOrder = new IncomingOrderApplicativeController();
         List<OrderBean> orderBeanList;
 
         try {
@@ -57,8 +58,10 @@ public class IncomingOrderGraphicController extends Utilities {
     }
 
     public void accountGUI() {
+        incOrder = new IncomingOrderApplicativeController();
+
         try {
-            logoutUser();
+            incOrder.logoutUser();
             navigateTo(LOGIN);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");

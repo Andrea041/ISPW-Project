@@ -43,6 +43,7 @@ public class SelectProductGraphicController extends Utilities {
     private Label productID;
     @FXML
     private Label prodPrice;
+    AddProductToCartApplicativeController addCobra;
     protected static final String ACTION = "textUpdate";
     private final ProductStockBean prod;
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
@@ -75,8 +76,10 @@ public class SelectProductGraphicController extends Utilities {
     }
 
     public void accountGUI() {
+        addCobra = new AddProductToCartApplicativeController();
+
         try {
-            logoutUser();
+            addCobra.logoutUser();
             navigateTo(HOME);
         } catch (NotLoggedUserException e) {
             alert("You are not logged in!");
@@ -96,7 +99,7 @@ public class SelectProductGraphicController extends Utilities {
         String errorToDisplay = "Unknown error";
 
         ProductBean productBean = new ProductBean(productName.getText(), productID.getText(), Integer.parseInt(displayUnits.getText()), myChoiceBox.getValue());
-        AddProductToCartApplicativeController addCobra = new AddProductToCartApplicativeController();
+        addCobra = new AddProductToCartApplicativeController();
 
         try {
             ret = addCobra.updateCart(productBean);

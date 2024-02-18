@@ -105,19 +105,4 @@ public abstract class Utilities {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-
-    public void logoutUser() throws NotLoggedUserException {
-        SessionUser sessionUser = SessionUser.getInstance();
-
-        if(sessionUser.getAllUser().contains(sessionUser.getThisUser()))
-            sessionUser.logout();
-        else
-            throw new NotLoggedUserException("You are not logged in!");
-    }
-
-    public boolean checkLogin() {
-        SessionUser sessionUser = SessionUser.getInstance();
-
-        return sessionUser.getAllUser().contains(sessionUser.getThisUser());
-    }
 }

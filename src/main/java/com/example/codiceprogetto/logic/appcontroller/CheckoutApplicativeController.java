@@ -16,7 +16,7 @@ import com.example.codiceprogetto.logic.utils.SessionUser;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class CheckoutApplicativeController {
+public class CheckoutApplicativeController extends UserTool {
     public void checkCouponCode(CouponBean coupon) throws SQLException, AlreadyAppliedCouponException, DAOException {
         int discount;
         Cart cart;
