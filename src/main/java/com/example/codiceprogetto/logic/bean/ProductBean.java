@@ -9,7 +9,7 @@ public class ProductBean {
         this.name = name;
         this.id = id;
         this.unitsToOrder = unitsToOrder;
-        this.size = size;
+        this.size = size;  // for swimwear
     }
     public String getSize() {
         return size;
