@@ -50,9 +50,10 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         boolean res = false;
 
         if (count % 2 == 0) {
+            count++;
             Logger.getAnonymousLogger().log(Level.INFO, "Payment rejected, order deleted!");
             new HomeGraphicControllerCLI().start();
-            return false;
+            return res;
         }
 
         PrinterCLI.print("Do you want to pay with your credit card or with PayPal? (digit CARD or PAYPAL) ");
