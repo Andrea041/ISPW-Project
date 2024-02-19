@@ -36,7 +36,12 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                 choice = showMenu();
 
                 switch (choice) {
-                    case 1 -> new CheckoutGraphicControllerCLI().start();
+                    case 1 -> {
+                        if (!productList.isEmpty())
+                            new CheckoutGraphicControllerCLI().start();
+                        else
+                            Logger.getAnonymousLogger().log(Level.INFO, "Your cart is empty");
+                    }
                     case 2 -> {
                         PrinterCLI.print("Insert product ID: ");
                         String prodID = reader.readLine();

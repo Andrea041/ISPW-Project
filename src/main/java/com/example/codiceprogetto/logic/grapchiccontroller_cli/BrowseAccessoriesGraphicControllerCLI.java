@@ -28,19 +28,17 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
 
                 if (choice == 0)
                     new HomeGraphicControllerCLI().start();
+                else {
+                    ProductStockBean prodBean = findProductByChoice(choice);
 
-                ProductStockBean prodBean = null;
-                for(ProductStockBean prod : productList)
-                    if(prod.getLabelID().equals(String.valueOf(choice))) prodBean = prod;
-
-                if(prodBean != null && prodAdd.checkLogin())
-                    new SelectProductGraphicControllerCLI(prodBean).start();
-                else if (prodBean != null && !prodAdd.checkLogin()) {
-                    PrinterCLI.printf("Sorry you have to login first. Redirecting to login form...");
-                    new LoginGraphicControllerCLI().start();
+                    if (prodBean != null && prodAdd.checkLogin())
+                        new SelectProductGraphicControllerCLI(prodBean).start();
+                    else if (prodBean != null && !prodAdd.checkLogin()) {
+                        PrinterCLI.printf("Sorry you have to login first. Redirecting to login form...");
+                        new LoginGraphicControllerCLI().start();
+                    } else
+                        throw new InvalidFormatException("Choose a valid product ID");
                 }
-                else
-                    throw new InvalidFormatException("Choose a valid product ID");
             } catch (IOException | InvalidFormatException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
                 choice = -1;
@@ -63,4 +61,14 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
 
         return input.nextInt();
     }
+
+    private ProductStockBean findProductByChoice(int choice) {
+        for (ProductStockBean prod : productList) {
+            if (prod.getLabelID().equals(String.valueOf(choice))) {
+                return prod;
+            }
+        }
+        return null;
+    }
+
 }
