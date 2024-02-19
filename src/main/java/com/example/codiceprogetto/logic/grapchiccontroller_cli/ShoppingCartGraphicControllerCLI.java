@@ -32,41 +32,38 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                 if (shopApp.checkLogin()) {
                     productList = shopApp.retrieveCartProd();
                     printCart();
-                    choice = showMenu();
 
-                    switch (choice) {
-                        case 1 -> {
-                            if(!productList.isEmpty())
-                                new CheckoutGraphicControllerCLI().start();
-                            else {
-                                PrinterCLI.printf("Your cart is empty!");
+                    choice = showMenu();
+                    if (!productList.isEmpty()) {
+                        switch (choice) {
+                            case 1 -> new CheckoutGraphicControllerCLI().start();
+                            case 2 -> {
+                                addRemoveUnits(reader);
                                 choice = -1;
                             }
+                            case 3 -> {
+                                removeProduct(reader);
+                                choice = -1;
+                            }
+                            case 4 -> new HomeGraphicControllerCLI().start();
+                            default -> throw new InvalidFormatException("Invalid choice");
                         }
-                        case 2 -> {
-                            handleAddRemoveUnits(reader);
-                            choice = -1;
-                        }
-                        case 3 -> {
-                            handleRemoveProduct(reader);
-                            choice = -1;
-                        }
-                        case 4 -> new HomeGraphicControllerCLI().start();
-                        default -> throw new InvalidFormatException("Invalid choice");
+                    } else {
+                        PrinterCLI.printf("Your cart is empty!");
+                        choice = -1;
                     }
                 } else {
-                    PrinterCLI.printf("Your cart is empty! Redirecting to home");
+                    PrinterCLI.printf("You have to login to see your cart! Redirecting to home");
                     new HomeGraphicControllerCLI().start();
                 }
             } catch (InvalidFormatException | DAOException | SQLException | TooManyUnitsExcpetion | IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-                // Reset choice to -1 to loop again
                 choice = -1;
             }
         }
     }
 
-    private void handleAddRemoveUnits(BufferedReader reader) throws IOException, InvalidFormatException, DAOException, SQLException, TooManyUnitsExcpetion {
+    private void addRemoveUnits(BufferedReader reader) throws IOException, InvalidFormatException, DAOException, SQLException, TooManyUnitsExcpetion {
         ProductStockBean prod;
         PrinterCLI.print("Insert product ID: ");
         String prodID = reader.readLine();
@@ -81,7 +78,7 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
         prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
     }
 
-    private void handleRemoveProduct(BufferedReader reader) throws IOException, InvalidFormatException, DAOException, SQLException, TooManyUnitsExcpetion {
+    private void removeProduct(BufferedReader reader) throws IOException, InvalidFormatException, DAOException, SQLException, TooManyUnitsExcpetion {
         ProductStockBean prod;
         PrinterCLI.print("Insert product ID: ");
         String prodID = reader.readLine();
