@@ -33,7 +33,7 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public int showMenu() throws IOException {
-        PrinterCLI.printf("--- Bubble Shop ---");
+        PrinterCLI.printf("--- Bubble Shop Home ---");
         PrinterCLI.printf("1. Login");
         PrinterCLI.printf("2. Logout");
         PrinterCLI.printf("3. See our accessories");

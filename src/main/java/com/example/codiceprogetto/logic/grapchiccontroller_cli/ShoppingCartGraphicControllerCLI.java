@@ -28,57 +28,58 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ProductStockBean prod;
 
-        while (choice == -1) {
-            try {
-                productList = shopApp.retrieveCartProd();
-                printCart();
+        if(shopApp.checkLogin()) {
+            while (choice == -1) {
+                try {
+                    productList = shopApp.retrieveCartProd();
+                    printCart();
 
-                choice = showMenu();
+                    choice = showMenu();
 
-                switch (choice) {
-                    case 1 -> {
-                        if (!productList.isEmpty())
-                            new CheckoutGraphicControllerCLI().start();
-                        Logger.getAnonymousLogger().log(Level.INFO, "Your cart is empty");
+                    switch (choice) {
+                        case 1 -> new CheckoutGraphicControllerCLI().start();
+                        case 2 -> {
+                            PrinterCLI.print("Insert product ID: ");
+                            String prodID = reader.readLine();
+
+                            prod = findProductInCartById(prodID);
+                            if (prod == null)
+                                throw new InvalidFormatException("Choose a valid product ID");
+                            PrinterCLI.print("Do you want to add or remove units? (Digit 'ADD' or 'REMOVE') ");
+                            String op = reader.readLine();
+
+                            prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
+
+                            choice = -1;
+                        }
+                        case 3 -> {
+                            PrinterCLI.print("Insert product ID: ");
+                            String prodID = reader.readLine();
+
+                            prod = findProductInCartById(prodID);
+                            if (prod != null)
+                                prodApp.removeProduct(prodID, SessionUser.getInstance().getThisUser().getEmail());
+                            else throw new InvalidFormatException("Choose a valid product ID");
+
+                            choice = -1;
+                        }
+                        case 4 -> new HomeGraphicControllerCLI().start();
+                        default -> throw new InvalidFormatException("Invalid choice");
                     }
-                    case 2 -> {
-                        PrinterCLI.print("Insert product ID: ");
-                        String prodID = reader.readLine();
-
-                        prod = findProductInCartById(prodID);
-                        if (prod == null)
-                            throw new InvalidFormatException("Choose a valid product ID");
-                        PrinterCLI.print("Do you want to add or remove units? (Digit 'ADD' or 'REMOVE') ");
-                        String op = reader.readLine();
-
-                        prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
-
-                        choice = -1;
-                    }
-                    case 3 -> {
-                        PrinterCLI.print("Insert product ID: ");
-                        String prodID = reader.readLine();
-
-                        prod = findProductInCartById(prodID);
-                        if (prod != null)
-                            prodApp.removeProduct(prodID, SessionUser.getInstance().getThisUser().getEmail());
-                        else throw new InvalidFormatException("Choose a valid product ID");
-
-                        choice = -1;
-                    }
-                    case 4 -> new HomeGraphicControllerCLI().start();
-                    default -> throw new InvalidFormatException("Invalid choice");
+                } catch (InvalidFormatException | DAOException | SQLException | TooManyUnitsExcpetion | IOException e) {
+                    Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+                    choice = -1;
                 }
-            } catch(InvalidFormatException | DAOException | SQLException | TooManyUnitsExcpetion | IOException e){
-                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-                choice = -1;
             }
+        } else {
+            PrinterCLI.printf("Your cart is empty! Redirecting to home");
+            new HomeGraphicControllerCLI().start();
         }
     }
 
     @Override
     public int showMenu() throws IOException {
-        PrinterCLI.printf("--- Bubble Shop ---");
+        PrinterCLI.printf("--- Bubble Shop Cart ---");
         PrinterCLI.printf("1. Go to checkout");
         PrinterCLI.printf("2. Change product units");
         PrinterCLI.printf("3. Remove product");

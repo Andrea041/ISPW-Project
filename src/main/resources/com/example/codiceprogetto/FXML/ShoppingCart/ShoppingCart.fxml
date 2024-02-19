@@ -71,17 +71,17 @@
                 <Font name="Arial" size="14.0" />
             </font>
         </Button>
-        <Label fx:id="subtotal" layoutX="1094.0" layoutY="243.0" text="0€">
+        <Label fx:id="subtotal" layoutX="1094.0" layoutY="243.0" text="0.0€">
             <font>
                 <Font name="Arial" size="14.0" />
             </font>
         </Label>
-        <Label fx:id="tax" layoutX="1094.0" layoutY="270.0" text="0€">
+        <Label fx:id="tax" layoutX="1094.0" layoutY="270.0" text="0.0€">
             <font>
                 <Font name="Arial" size="14.0" />
             </font>
         </Label>
-        <Label fx:id="total" layoutX="1094.0" layoutY="383.0" text="0€">
+        <Label fx:id="total" layoutX="1094.0" layoutY="383.0" text="0.0€">
             <font>
                 <Font name="Arial Bold" size="14.0" />
             </font>

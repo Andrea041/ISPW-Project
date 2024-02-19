@@ -12,7 +12,7 @@ import com.example.codiceprogetto.logic.utils.SessionUser;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class ProdInCartApplicativeController {
+public class ProdInCartApplicativeController extends UserTool {
     public ProductStockBean updateUI(String prodID, ProductStockBean cart) throws IOException {
         Product prod;
 

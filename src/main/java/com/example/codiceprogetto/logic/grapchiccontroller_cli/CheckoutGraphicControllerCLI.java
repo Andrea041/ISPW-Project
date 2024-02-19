@@ -62,7 +62,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public int showMenu() {
-        PrinterCLI.printf("--- Bubble Shop ---");
+        PrinterCLI.printf("--- Bubble Shop Checkout form ---");
         PrinterCLI.printf("1. Insert address and go to payment");
         PrinterCLI.printf("2. Choose Shipping (DEFAULT: free shipping)");
         PrinterCLI.printf("3. Insert Coupon (DEFAULT: none)");

@@ -99,7 +99,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public int showMenu() throws IOException {
-        PrinterCLI.printf("--- Bubble Shop ---");
+        PrinterCLI.printf("--- Bubble Shop Payment Form ---");
         PrinterCLI.printf("1. Choose payment method and complete your payment");
         PrinterCLI.printf("2. Back (back to home!)");
 
