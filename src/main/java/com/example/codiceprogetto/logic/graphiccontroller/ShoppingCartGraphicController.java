@@ -42,7 +42,7 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     }
 
     public void back() {
-        navigateTo(HOME);
+        navigateTo(ACC);
     }
 
     public void accountGUI() {
