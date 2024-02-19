@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.grapchiccontroller_cli;
 import com.example.codiceprogetto.logic.appcontroller.IncomingOrderApplicativeController;
 import com.example.codiceprogetto.logic.appcontroller.OrderSellerApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
+import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.InvalidFormatException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
@@ -23,8 +24,6 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public void start() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        OrderBean order;
         int choice = -1;
 
         while (choice == -1) {
@@ -35,20 +34,18 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
                 choice = showMenu();
                 switch(choice) {
                     case 1 -> {
-                        PrinterCLI.print("Insert order ID: ");
-                        String orderID = reader.readLine();
-
-                        order = findOrderInList(orderID);
-                        if(order != null)
-                            ordApp.acceptOrder(orderID);
-                        else throw new InvalidFormatException("Choose a valid order ID");
+                        updateOrder(OrderStatus.CLOSED);
                         choice = -1;
                     }
                     case 2 -> {
+                        updateOrder(OrderStatus.CANCELLED);
+                        choice = -1;
+                    }
+                    case 3 -> {
                         logout();
                         new HomeGraphicControllerCLI().start();
                     }
-                    case 3 -> System.exit(0);
+                    case 4 -> System.exit(0);
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException | IOException | SQLException | DAOException e) {
@@ -61,8 +58,9 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
     @Override
     public int showMenu() throws IOException {
         PrinterCLI.printf("1. Approve an order");
-        PrinterCLI.printf("2. Logout");
-        PrinterCLI.printf("3. Quit");
+        PrinterCLI.printf("2. Reject an order");
+        PrinterCLI.printf("3. Logout");
+        PrinterCLI.printf("4. Quit");
 
         return getMenuChoice(1, 3);
     }
@@ -96,5 +94,20 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
             if(order.getOrderID().equals(id)) return order;
 
         return null;
+    }
+
+    private void updateOrder(OrderStatus orderStatus) throws IOException, InvalidFormatException, DAOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        OrderBean order;
+
+        PrinterCLI.print("Insert order ID: ");
+        String orderID = reader.readLine();
+
+        order = findOrderInList(orderID);
+        if(order != null) {
+            order.setOrderStatus(orderStatus);
+            ordApp.acceptOrder(order);
+        }
+        else throw new InvalidFormatException("Choose a valid order ID");
     }
 }

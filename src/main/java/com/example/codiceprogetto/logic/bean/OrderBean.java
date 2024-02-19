@@ -10,8 +10,9 @@ public class OrderBean {
     private DeliveryAddress address;
     private String email;
 
-    public OrderBean(String orderID) {
+    public OrderBean(String orderID, OrderStatus orderStatus) {
         this.orderID = orderID;
+        this.orderStatus = orderStatus;
     }
 
     public OrderBean(double finalTotal, DeliveryAddress address , String orderID, String email) {
@@ -19,6 +20,10 @@ public class OrderBean {
         this.address = address;
         this.orderID = orderID;
         this.email = email;
+    }
+
+    public OrderBean(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public OrderBean() {}

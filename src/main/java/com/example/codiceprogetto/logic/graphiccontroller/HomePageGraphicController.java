@@ -1,6 +1,10 @@
 package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.HomePageApplicativeController;
+import com.example.codiceprogetto.logic.bean.ApprovedOrderBean;
+import com.example.codiceprogetto.logic.bean.OrderBean;
+import com.example.codiceprogetto.logic.enumeration.OrderStatus;
+import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -12,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +24,34 @@ public class HomePageGraphicController extends Utilities {
     @FXML
     private ImageView manImage;
     HomePageApplicativeController homeApp;
+
+    @FXML
+    void initialize() {
+        homeApp = new HomePageApplicativeController();
+
+        if (homeApp.checkLogin()) {
+            ApprovedOrderBean approvedOrderBean;
+            int approvedOrder = 0;
+            int notApprovedOrder = 0;
+
+            try {
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CLOSED));
+                approvedOrder = approvedOrderBean.getApprovedOrder();
+
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED));
+                notApprovedOrder = approvedOrderBean.getNotApprovedOrder();
+            } catch (SQLException e) {
+                Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+            }
+
+            if (approvedOrder != 0 && notApprovedOrder != 0)
+                alert(String.format("You have %d approved order(s) and %d rejected order(s)!", approvedOrder, notApprovedOrder));
+            else if (approvedOrder != 0)
+                alert(String.format("You have %d approved order(s)!", approvedOrder));
+            else if (notApprovedOrder != 0)
+                alert(String.format("You have %d rejected order(s)!", notApprovedOrder));
+        }
+    }
 
     public void manZoomEnter() {
         zoomIN(manImage);
@@ -56,11 +89,6 @@ public class HomePageGraphicController extends Utilities {
     }
     public void magZoomExit() {
         zoomOUT(magazinePic);
-    }
-
-    @FXML
-    void initialize() {
-        homeApp = new HomePageApplicativeController();
     }
 
     public void accountGUI() {

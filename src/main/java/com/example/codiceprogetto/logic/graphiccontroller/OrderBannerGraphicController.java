@@ -2,6 +2,7 @@ package com.example.codiceprogetto.logic.graphiccontroller;
 
 import com.example.codiceprogetto.logic.appcontroller.OrderSellerApplicativeController;
 import com.example.codiceprogetto.logic.bean.OrderBean;
+import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
@@ -31,11 +32,14 @@ public class OrderBannerGraphicController extends Utilities {
     private Button acceptButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private SVGPath deleteSVG;
     private final String orderID;
     OrderSellerApplicativeController ordApp;
 
     @FXML
     void initialize() {
+        ordApp = new OrderSellerApplicativeController();
         updateGUI();
     }
 
@@ -44,10 +48,10 @@ public class OrderBannerGraphicController extends Utilities {
     }
 
     public void acceptOrder() {
-        ordApp = new OrderSellerApplicativeController();
+        OrderBean orderBean = new OrderBean(orderID, OrderStatus.CLOSED);
 
         try {
-            ordApp.acceptOrder(orderID);
+            ordApp.acceptOrder(orderBean);
         } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
@@ -58,12 +62,25 @@ public class OrderBannerGraphicController extends Utilities {
         cancelButton.setVisible(false);
     }
 
-    public void updateGUI() {
-        ordApp = new OrderSellerApplicativeController();
-        OrderBean orderBean = new OrderBean();
+    public void deleteOrder() {
+        OrderBean orderBean = new OrderBean(orderID, OrderStatus.CANCELLED);
 
         try {
-            orderBean = ordApp.updateUI(orderID, orderBean);
+            ordApp.acceptOrder(orderBean);
+        } catch(DAOException e) {
+            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
+        }
+
+        deleteSVG.setVisible(true);
+        acceptButton.setVisible(false);
+        cancelButton.setVisible(false);
+    }
+
+    public void updateGUI() {
+        OrderBean orderBean = new OrderBean(orderID, OrderStatus.CONFIRMED);
+
+        try {
+            orderBean = ordApp.updateUI(orderBean);
         } catch(SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }

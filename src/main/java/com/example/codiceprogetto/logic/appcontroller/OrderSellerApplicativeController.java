@@ -9,20 +9,19 @@ import com.example.codiceprogetto.logic.exception.DAOException;
 import java.sql.SQLException;
 
 public class OrderSellerApplicativeController {
-    public OrderBean updateUI(String orderId, OrderBean orderBean) throws SQLException {
+    public OrderBean updateUI(OrderBean orderBean) throws SQLException {
         Order order;
 
-        order = new OrderDAO().fetchOrderByID(orderId, OrderStatus.CONFIRMED.getId());
+        order = new OrderDAO().fetchOrderByID(orderBean.getOrderID(), orderBean.getOrderStatus().getId());
 
         orderBean.setFinalTotal(order.getTotal());
         orderBean.setAddress(order.getAddress());
+        orderBean.setEmail(order.getEmail());
 
         return orderBean;
     }
 
-    public void acceptOrder(String orderId) throws DAOException {
-        OrderStatus orderStatus = OrderStatus.CLOSED;
-
-        new OrderDAO().updateOrderStatusByID(orderId, orderStatus.getId());
+    public void acceptOrder(OrderBean orderBean) throws DAOException {
+        new OrderDAO().updateOrderStatusByID(orderBean.getOrderID(), orderBean.getOrderStatus().getId());
     }
 }
