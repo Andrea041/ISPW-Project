@@ -39,8 +39,7 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                     case 1 -> {
                         if (!productList.isEmpty())
                             new CheckoutGraphicControllerCLI().start();
-                        else
-                            Logger.getAnonymousLogger().log(Level.INFO, "Your cart is empty");
+                        Logger.getAnonymousLogger().log(Level.INFO, "Your cart is empty");
                     }
                     case 2 -> {
                         PrinterCLI.print("Insert product ID: ");
