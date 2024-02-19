@@ -74,7 +74,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         if (choose.equals("NEW"))
             handleNewCardPayment();
         else if (choose.equals("OWN") && !toPay.checkCustomerPayment(su.getThisUser().getEmail())) {
-            Logger.getAnonymousLogger().log(Level.INFO, "The isn't any payment method");
+            PrinterCLI.printf("The isn't any memorized payment method");
             return false;
         }
         else

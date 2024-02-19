@@ -79,7 +79,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         if (choose.equals("NEW"))
             addressBean = createNewAddress();
         else if (choose.equals("OWN") && !checkApp.checkCustomerAddress(su.getThisUser().getEmail()))
-            Logger.getAnonymousLogger().log(Level.INFO, "The isn't any address");
+            PrinterCLI.printf("There isn't any memorized address");
         else
             throw new InvalidFormatException(invalid);
 
