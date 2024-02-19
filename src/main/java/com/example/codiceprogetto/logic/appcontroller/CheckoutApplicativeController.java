@@ -57,7 +57,8 @@ public class CheckoutApplicativeController extends UserTool {
 
         customer = new CustomerDAO().findCustomer(email);
 
-        if(customer != null && customer.getAddress() != null)
+        // is not possible that one field is null
+        if(customer.getAddress().getAddress() != null)
             checker = true;
 
         return checker;

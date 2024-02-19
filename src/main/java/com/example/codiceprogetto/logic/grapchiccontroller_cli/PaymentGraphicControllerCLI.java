@@ -23,14 +23,17 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     @Override
     public void start() {
+        boolean res;
         int choice = -1;
+
         while (choice == -1) {
             try {
                 choice = showMenu();
                 switch (choice) {
                     case 1 -> {
-                        handlePayment();
-                        new PaymentSummaryGraphicControllerCLI().start();
+                        res = handlePayment();
+                        if(res)
+                            new PaymentSummaryGraphicControllerCLI().start();
                     }
                     case 2 -> cancelOrderAndReturnHome();
                     default -> throw new InvalidFormatException("Invalid choice");
@@ -42,34 +45,43 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         }
     }
 
-    private void handlePayment() throws IOException, SQLException, InvalidFormatException, DAOException {
+    private boolean handlePayment() throws IOException, SQLException, InvalidFormatException, DAOException {
+        boolean res = false;
+
         if (count % 2 == 0) {
             Logger.getAnonymousLogger().log(Level.INFO, "Payment rejected, order deleted!");
             new HomeGraphicControllerCLI().start();
-            return;
+            return false;
         }
 
         PrinterCLI.print("Do you want to pay with your credit card or with PayPal? (digit CARD or PAYPAL) ");
         String choose = reader.readLine();
 
         if (choose.equals("CARD"))
-            handleCardPayment();
+            res = handleCardPayment();
         else if (choose.equals("PAYPAL"))
             toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.PAYPAL.getId());
         else
             throw new InvalidFormatException("Invalid payment method");
+
+        return res;
     }
 
-    private void handleCardPayment() throws IOException, SQLException, InvalidFormatException, DAOException {
+    private boolean handleCardPayment() throws IOException, SQLException, InvalidFormatException, DAOException {
         PrinterCLI.print("Do you want to use your memorized payment method or use a new one (digit OWN or NEW): ");
         String choose = reader.readLine();
 
         if (choose.equals("NEW"))
             handleNewCardPayment();
-        else if (!choose.equals("OWN"))
+        else if (choose.equals("OWN") && !toPay.checkCustomerPayment(su.getThisUser().getEmail())) {
+            Logger.getAnonymousLogger().log(Level.INFO, "The isn't any payment method");
+            return false;
+        }
+        else
             throw new InvalidFormatException("Invalid choice");
 
         toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD.getId());
+        return true;
     }
 
     private void handleNewCardPayment() throws IOException, SQLException, DAOException {

@@ -64,7 +64,7 @@ public class CustomerDAO extends AbsUserDAO {
         Customer customer = null;
 
         String sql = "SELECT Customer.*, Address.*, Payment.* FROM Customer " +
-                "INNER JOIN Address ON Customer.email = Address.email " +
+                "LEFT JOIN Address ON Customer.email = Address.email " +
                 "LEFT JOIN Payment ON Customer.email = Payment.email " +
                 "WHERE Customer.email = ?";
 

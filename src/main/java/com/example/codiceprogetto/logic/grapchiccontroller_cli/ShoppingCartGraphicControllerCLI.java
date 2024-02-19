@@ -31,10 +31,13 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
             try {
                 if (shopApp.checkLogin()) {
                     productList = shopApp.retrieveCartProd();
+
+                    PrinterCLI.printf("--- Your cart ---");
                     printCart();
 
-                    choice = showMenu();
                     if (!productList.isEmpty()) {
+                        choice = showMenu();
+
                         switch (choice) {
                             case 1 -> new CheckoutGraphicControllerCLI().start();
                             case 2 -> {
@@ -50,7 +53,7 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                         }
                     } else {
                         PrinterCLI.printf("Your cart is empty!");
-                        choice = -1;
+                        new HomeGraphicControllerCLI().start();
                     }
                 } else {
                     PrinterCLI.printf("You have to login to see your cart! Redirecting to home");
@@ -72,7 +75,7 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
         if (prod == null)
             throw new InvalidFormatException("Choose a valid product ID");
 
-        PrinterCLI.print("Do you want to add or remove units? (Digit 'ADD' or 'REMOVE') ");
+        PrinterCLI.print("Do you want to add or remove units? (Digit 'ADD' or 'DELETE') ");
         String op = reader.readLine();
 
         prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
@@ -104,7 +107,6 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
 
     private void printCart() {
         String productString;
-        PrinterCLI.printf("--- Your cart ---");
 
         for(ProductStockBean productStockBean : productList) {
             productString = String.format("Product ID: %s, name: %s, productPrice: %f, quantity: %d", productStockBean.getLabelID(),
