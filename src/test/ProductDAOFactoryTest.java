@@ -1,5 +1,3 @@
-package dao;
-
 import com.example.codiceprogetto.logic.dao.ProductDAO;
 import com.example.codiceprogetto.logic.dao.ProductDAOFactory;
 import org.junit.Test;

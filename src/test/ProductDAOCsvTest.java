@@ -1,5 +1,3 @@
-package dao;
-
 import com.example.codiceprogetto.logic.dao.ProductDAOCsv;
 import com.example.codiceprogetto.logic.entities.Product;
 import org.junit.Test;

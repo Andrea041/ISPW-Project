@@ -13,11 +13,11 @@ import java.util.logging.Logger;
 
 public class ProductDAOCsv implements ProductDAO {
     private final File fd;
-    private static final String CSV_FILE_NAME = "src/main/java/com/example/codiceprogetto/logic/dao/productCSV.csv";
-    private static final int INDEX_PRODUCT_NAME = 1;
-    private static final int INDEX_PRODUCT_ID = 2;
-    private static final int INDEX_PRICE = 3;
-    private static final int INDEX_PROD_IMAGE = 4;
+    private static final String CSV_FILE_NAME = "productCSV.csv";
+    private static final int INDEX_PRODUCT_NAME = 0;
+    private static final int INDEX_PRODUCT_ID = 1;
+    private static final int INDEX_PRICE = 2;
+    private static final int INDEX_PROD_IMAGE = 3;
 
     public ProductDAOCsv() throws IOException {
         this.fd = new File(CSV_FILE_NAME);
