@@ -35,8 +35,11 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
                     case 1 -> {
                         addressBean = handleAddress();
 
-                        checkApp.createOrder(addressBean, su.getThisUser().getEmail());
-                        new PaymentGraphicControllerCLI().start();
+                        if(addressBean != null) {
+                            checkApp.createOrder(addressBean, su.getThisUser().getEmail());
+                            new PaymentGraphicControllerCLI().start();
+                        }
+                        choice = -1;
                     }
                     case 2 -> {
                         handleShipping();

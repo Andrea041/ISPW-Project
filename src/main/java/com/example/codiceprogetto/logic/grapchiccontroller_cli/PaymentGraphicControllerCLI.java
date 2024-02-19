@@ -32,8 +32,9 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
                 switch (choice) {
                     case 1 -> {
                         res = handlePayment();
-                        if(res)
+                        if (res)
                             new PaymentSummaryGraphicControllerCLI().start();
+                        choice = -1;
                     }
                     case 2 -> cancelOrderAndReturnHome();
                     default -> throw new InvalidFormatException("Invalid choice");

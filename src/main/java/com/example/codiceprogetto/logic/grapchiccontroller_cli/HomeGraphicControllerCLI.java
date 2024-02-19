@@ -20,10 +20,10 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
             try {
                 choice = showMenu();
 
+                handleChoice(choice);
+
                 if (choice == 2)
                     choice = -1;
-
-                handleChoice(choice);
             } catch (InvalidFormatException | IOException | NotLoggedUserException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
                 choice = -1;

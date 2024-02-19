@@ -31,7 +31,7 @@ public class PaymentApplicativeController {
 
         customer = new CustomerDAO().findCustomer(email);
 
-        if(customer != null && customer.getPortfolio() != null)
+        if(customer.getPortfolio().getCardNumber() != null)
             checker = true;
 
         return checker;
