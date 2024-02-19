@@ -35,7 +35,14 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                     choice = showMenu();
 
                     switch (choice) {
-                        case 1 -> new CheckoutGraphicControllerCLI().start();
+                        case 1 -> {
+                            if(!productList.isEmpty())
+                                new CheckoutGraphicControllerCLI().start();
+                            else {
+                                PrinterCLI.printf("Your cart is empty!");
+                                choice = -1;
+                            }
+                        }
                         case 2 -> {
                             handleAddRemoveUnits(reader);
                             choice = -1;
