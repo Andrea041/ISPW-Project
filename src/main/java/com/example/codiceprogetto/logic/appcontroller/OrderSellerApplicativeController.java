@@ -3,7 +3,6 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.dao.OrderDAO;
 import com.example.codiceprogetto.logic.entities.Order;
-import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 
 import java.sql.SQLException;

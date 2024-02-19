@@ -17,8 +17,7 @@ public class HomePageApplicativeController extends UserTool {
 
         orderList = new OrderDAO().fetchAllOrder(orderBean.getOrderStatus().getId());
 
-        for(Order ignored : orderList)
-            count++;
+        count = orderList.size();
 
         if (orderBean.getOrderStatus().getId().equals(OrderStatus.CLOSED.getId()))
             approvedOrderBean.setApprovedOrder(count);
