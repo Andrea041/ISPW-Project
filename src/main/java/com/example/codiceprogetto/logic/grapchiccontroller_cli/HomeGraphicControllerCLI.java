@@ -19,8 +19,12 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
         while (choice == -1) {
             try {
                 choice = showMenu();
+
+                if (choice == 2)
+                    choice = -1;
+
                 handleChoice(choice);
-            } catch (InvalidFormatException | IOException e) {
+            } catch (InvalidFormatException | IOException | NotLoggedUserException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
                 choice = -1;
             }
@@ -33,28 +37,20 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
         PrinterCLI.printf("1. Login");
         PrinterCLI.printf("2. Logout");
         PrinterCLI.printf("3. See our accessories");
-        PrinterCLI.printf("4. Quit");
+        PrinterCLI.printf("4. Go to shopping cart");
+        PrinterCLI.printf("5. Quit");
 
-        return getMenuChoice(1, 4);
+        return getMenuChoice(1, 5);
     }
 
-    private void handleChoice(int choice) throws InvalidFormatException {
+    private void handleChoice(int choice) throws InvalidFormatException, NotLoggedUserException {
         switch(choice) {
             case 1 -> new LoginGraphicControllerCLI().start();
-            case 2 -> logout();
+            case 2 -> homeApp.logoutUser();
             case 3 -> new BrowseAccessoriesGraphicControllerCLI().start();
-            case 4 -> System.exit(0);
+            case 4 -> new ShoppingCartGraphicControllerCLI().start();
+            case 5 -> System.exit(0);
             default -> throw new InvalidFormatException("Invalid choice");
         }
     }
-
-    public void logout() {
-        try {
-            homeApp.logoutUser();
-            Logger.getAnonymousLogger().log(Level.INFO, "Logout performed");
-        } catch (NotLoggedUserException e) {
-            Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
-        }
-    }
 }
-

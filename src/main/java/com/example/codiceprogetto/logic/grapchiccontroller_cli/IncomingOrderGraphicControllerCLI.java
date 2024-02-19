@@ -42,6 +42,7 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
                         if(order != null)
                             ordApp.acceptOrder(orderID);
                         else throw new InvalidFormatException("Choose a valid order ID");
+                        choice = -1;
                     }
                     case 2 -> {
                         logout();
@@ -71,11 +72,11 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
         String orderString;
 
         for (OrderBean orderBean : orderBeanList) {
-            orderString = String.format("Order ID: %s, total amount: %f, customer username: %s, State of delivery: %s" ,
+            orderString = String.format("Order ID: %s, total amount: %f, customer email: %s, state of delivery: %s" ,
                     orderBean.getOrderID(),
                     orderBean.getFinalTotal(),
                     orderBean.getEmail(),
-                    orderBean.getAddress());
+                    orderBean.getAddress().getState());
 
             PrinterCLI.printf(orderString);
         }

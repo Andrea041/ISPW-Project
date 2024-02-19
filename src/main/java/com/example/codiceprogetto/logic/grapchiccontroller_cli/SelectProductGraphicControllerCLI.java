@@ -34,15 +34,13 @@ public class SelectProductGraphicControllerCLI extends AbsGraphicControllerCLI {
                 if (choice == 0)
                     new BrowseAccessoriesGraphicControllerCLI().start();
                 else if (choice >= 1 && choice <= 10) {
-                    if (prodAdd.checkLogin()) {
-                        productBean = new ProductBean(productStockBean.getProductName(), productStockBean.getLabelID(), choice);
+                    productBean = new ProductBean(productStockBean.getProductName(), productStockBean.getLabelID(), choice);
 
-                        int ret = prodAdd.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
-                        if (ret == -1)
-                            Logger.getAnonymousLogger().log(Level.INFO, "Updating cart error");
+                    int ret = prodAdd.updateCart(productBean, SessionUser.getInstance().getThisUser().getEmail());
+                    if (ret == -1)
+                        Logger.getAnonymousLogger().log(Level.INFO, "Updating cart error");
 
-                        new ShoppingCartGraphicControllerCLI().start();
-                    }
+                    new ShoppingCartGraphicControllerCLI().start();
                 } else
                     throw new InvalidFormatException("Invalid choice");
             } catch (IOException | InvalidFormatException | DAOException |SQLException | TooManyUnitsExcpetion e){
@@ -57,7 +55,7 @@ public class SelectProductGraphicControllerCLI extends AbsGraphicControllerCLI {
         Scanner input = new Scanner(System.in);
 
         PrinterCLI.printf("--- Bubble Shop Accessories ---");
-        PrinterCLI.print("How many units to buy (min: 1 and max: 10 units per customer) or digit 0 to go back: ");
+        PrinterCLI.print("How many units to buy? (min: 1 and max: 10 units per customer) or digit 0 to go back: ");
 
         return input.nextInt();
     }

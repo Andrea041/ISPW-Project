@@ -41,22 +41,26 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
                         PrinterCLI.print("Insert product ID: ");
                         String prodID = reader.readLine();
 
+                        prod = findProductInCartById(prodID);
+                        if (prod == null)
+                            throw new InvalidFormatException("Choose a valid product ID");
                         PrinterCLI.print("Do you want to add or remove units? (Digit 'ADD' or 'REMOVE') ");
                         String op = reader.readLine();
 
-                        prod = findProductInCartById(prodID);
-                        if (prod != null)
-                            prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
-                        else throw new InvalidFormatException("Choose a valid product ID");
+                        prodApp.changeUnits(prodID, op, SessionUser.getInstance().getThisUser().getEmail());
+
+                        choice = -1;
                     }
                     case 3 -> {
-                        PrinterCLI.printf("Insert product ID: ");
+                        PrinterCLI.print("Insert product ID: ");
                         String prodID = reader.readLine();
 
                         prod = findProductInCartById(prodID);
                         if (prod != null)
                             prodApp.removeProduct(prodID, SessionUser.getInstance().getThisUser().getEmail());
                         else throw new InvalidFormatException("Choose a valid product ID");
+
+                        choice = -1;
                     }
                     case 4 -> new HomeGraphicControllerCLI().start();
                     default -> throw new InvalidFormatException("Invalid choice");
@@ -84,7 +88,7 @@ public class ShoppingCartGraphicControllerCLI extends AbsGraphicControllerCLI {
         PrinterCLI.printf("--- Your cart ---");
 
         for(ProductStockBean productStockBean : productList) {
-            productString = String.format("ProductId: %s, name: %s, productPrice: %f, quantity: %d", productStockBean.getLabelID(),
+            productString = String.format("Product ID: %s, name: %s, productPrice: %f, quantity: %d", productStockBean.getLabelID(),
                     productStockBean.getProductName(),
                     productStockBean.getPrice(),
                     productStockBean.getSelectedUnits());

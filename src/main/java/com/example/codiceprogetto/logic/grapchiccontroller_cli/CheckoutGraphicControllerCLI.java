@@ -23,6 +23,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
     CheckoutApplicativeController checkApp = new CheckoutApplicativeController();
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     String invalid = "Invalid choice";
+    AddressBean addressBean;
 
     @Override
     public void start() {
@@ -31,11 +32,25 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
             try {
                 choice = showMenu();
                 switch (choice) {
-                    case 1 -> handleAddress();
-                    case 2 -> handleShipping();
-                    case 3 -> handleCoupon();
-                    case 4 -> checkApp.removeCoupon();
-                    case 5 -> new SignUpGraphicControllerCLI().start();
+                    case 1 -> {
+                        addressBean = handleAddress();
+
+                        checkApp.createOrder(addressBean, su.getThisUser().getEmail());
+                        new PaymentGraphicControllerCLI().start();
+                    }
+                    case 2 -> {
+                        handleShipping();
+                        choice = -1;
+                    }
+                    case 3 -> {
+                        handleCoupon();
+                        choice = -1;
+                    }
+                    case 4 -> {
+                        checkApp.removeCoupon();
+                        choice = -1;
+                    }
+                    case 5 -> new ShoppingCartGraphicControllerCLI().start();
                     default -> throw new InvalidFormatException(invalid);
                 }
             } catch (InvalidFormatException | DAOException | SQLException | AlreadyAppliedCouponException | IOException e) {
@@ -57,18 +72,19 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         return getMenuChoice(1, 5);
     }
 
-    private void handleAddress() throws IOException, InvalidFormatException, DAOException, SQLException {
+    private AddressBean handleAddress() throws IOException, InvalidFormatException, DAOException, SQLException {
         PrinterCLI.print("Do you want to you use your memorized address or use a new one (digit OWN or NEW): ");
         String choose = reader.readLine();
 
-        if (choose.equals("NEW")) {
-            createNewAddress();
-        } else if (!choose.equals("OWN")) {
+        if (choose.equals("NEW"))
+            addressBean = createNewAddress();
+        else if (!choose.equals("OWN"))
             throw new InvalidFormatException(invalid);
-        }
+
+        return addressBean;
     }
 
-    private void createNewAddress() throws IOException, DAOException, SQLException {
+    private AddressBean createNewAddress() throws IOException, DAOException, SQLException {
         PrinterCLI.print("Name: ");
         String name = reader.readLine();
         PrinterCLI.print("Last name: ");
@@ -82,14 +98,13 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
         PrinterCLI.print("Phone number: ");
         String phone = reader.readLine();
 
-        AddressBean addressBean = new AddressBean(state, city, phone, name, lastName, address);
+        addressBean = new AddressBean(state, city, phone, name, lastName, address);
 
-        if (checkApp.checkCustomerAddress(su.getThisUser().getEmail()) && askSave()) {
+        if (!checkApp.checkCustomerAddress(su.getThisUser().getEmail()) && askSave()) {
             checkApp.insertAddress(addressBean, su.getThisUser().getEmail());
         }
 
-        checkApp.createOrder(addressBean, su.getThisUser().getEmail());
-        new PaymentGraphicControllerCLI().start();
+        return addressBean;
     }
 
     private void handleShipping() throws DAOException, InvalidFormatException {

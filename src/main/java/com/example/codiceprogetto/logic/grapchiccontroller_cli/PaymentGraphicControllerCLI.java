@@ -28,7 +28,10 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
             try {
                 choice = showMenu();
                 switch (choice) {
-                    case 1 -> handlePayment();
+                    case 1 -> {
+                        handlePayment();
+                        new PaymentSummaryGraphicControllerCLI().start();
+                    }
                     case 2 -> cancelOrderAndReturnHome();
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
@@ -46,27 +49,27 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
             return;
         }
 
-        PrinterCLI.print("Do you want to pay with your credit card or with PayPal? (digit CARD or PAYPAL)");
+        PrinterCLI.print("Do you want to pay with your credit card or with PayPal? (digit CARD or PAYPAL) ");
         String choose = reader.readLine();
 
-        if ("CARD".equals(choose)) {
+        if (choose.equals("CARD"))
             handleCardPayment();
-        } else {
+        else if (choose.equals("PAYPAL"))
+            toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.PAYPAL.getId());
+        else
             throw new InvalidFormatException("Invalid payment method");
-        }
     }
 
     private void handleCardPayment() throws IOException, SQLException, InvalidFormatException, DAOException {
         PrinterCLI.print("Do you want to use your memorized payment method or use a new one (digit OWN or NEW): ");
         String choose = reader.readLine();
 
-        if ("NEW".equals(choose)) {
+        if (choose.equals("NEW"))
             handleNewCardPayment();
-        } else if ("OWN".equals(choose)) {
-            throw new InvalidFormatException("Not implemented yet");
-        } else {
+        else if (!choose.equals("OWN"))
             throw new InvalidFormatException("Invalid choice");
-        }
+
+        toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD.getId());
     }
 
     private void handleNewCardPayment() throws IOException, SQLException, DAOException {
@@ -85,12 +88,8 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
         PaymentBean paymentBean = new PaymentBean(name, lastName, expiration, cardNumber, cvv, zip);
 
-        if (toPay.checkCustomerPayment(su.getThisUser().getEmail()) && askSave()) {
+        if (!toPay.checkCustomerPayment(su.getThisUser().getEmail()) && askSave())
             toPay.insertPayment(paymentBean, su.getThisUser().getEmail());
-        }
-
-        toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD.getId());
-        new PaymentSummaryGraphicControllerCLI().start();
     }
 
     private void cancelOrderAndReturnHome() throws DAOException {

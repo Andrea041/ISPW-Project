@@ -40,7 +40,6 @@ public class PaymentGraphicController extends Utilities {
     PaymentApplicativeController toPay;
     int count = 1;
 
-
     @FXML
     void initialize() {
         OrderBean orderBean = new OrderBean();

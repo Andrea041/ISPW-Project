@@ -1,5 +1,6 @@
 package com.example.codiceprogetto.logic.grapchiccontroller_cli;
 
+import com.example.codiceprogetto.logic.appcontroller.AddProductToCartApplicativeController;
 import com.example.codiceprogetto.logic.appcontroller.BrowseAccessoriesApplicativeController;
 import com.example.codiceprogetto.logic.bean.ProductStockBean;
 import com.example.codiceprogetto.logic.exception.InvalidFormatException;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 
 public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerCLI {
     BrowseAccessoriesApplicativeController broAcc = new BrowseAccessoriesApplicativeController();
+    AddProductToCartApplicativeController prodAdd = new AddProductToCartApplicativeController();
     List<ProductStockBean> productList;
 
     @Override
@@ -21,9 +23,8 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
 
         while(choice == -1) {
             try {
-                choice = showMenu();
-
                 productList = broAcc.retrieveProduct();
+                choice = showMenu();
 
                 if (choice == 0)
                     new HomeGraphicControllerCLI().start();
@@ -32,8 +33,12 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
                 for(ProductStockBean prod : productList)
                     if(prod.getLabelID().equals(String.valueOf(choice))) prodBean = prod;
 
-                if(prodBean != null)
+                if(prodBean != null && prodAdd.checkLogin())
                     new SelectProductGraphicControllerCLI(prodBean).start();
+                else if (prodBean != null && !prodAdd.checkLogin()) {
+                    PrinterCLI.printf("Sorry you have to login first. Redirecting to login form...");
+                    new LoginGraphicControllerCLI().start();
+                }
                 else
                     throw new InvalidFormatException("Choose a valid product ID");
             } catch (IOException | InvalidFormatException e) {
@@ -54,7 +59,7 @@ public class BrowseAccessoriesGraphicControllerCLI extends AbsGraphicControllerC
             PrinterCLI.printf(productString);
         }
 
-        PrinterCLI.print("Digit the ID of the order that you want to buy: ");
+        PrinterCLI.print("Digit the ID of the product that you want to buy or digit 0 to go back: ");
 
         return input.nextInt();
     }
