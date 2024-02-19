@@ -40,16 +40,16 @@ public class HomePageGraphicController extends Utilities {
 
                 approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED));
                 notApprovedOrder = approvedOrderBean.getNotApprovedOrder();
+
+                if (approvedOrder != 0 && notApprovedOrder != 0)
+                    alert(String.format("You have %d approved order(s) and %d rejected order(s)!", approvedOrder, notApprovedOrder));
+                else if (approvedOrder != 0)
+                    alert(String.format("You have %d approved order(s)!", approvedOrder));
+                else if (notApprovedOrder != 0)
+                    alert(String.format("You have %d rejected order(s)!", notApprovedOrder));
             } catch (SQLException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }
-
-            if (approvedOrder != 0 && notApprovedOrder != 0)
-                alert(String.format("You have %d approved order(s) and %d rejected order(s)!", approvedOrder, notApprovedOrder));
-            else if (approvedOrder != 0)
-                alert(String.format("You have %d approved order(s)!", approvedOrder));
-            else if (notApprovedOrder != 0)
-                alert(String.format("You have %d rejected order(s)!", notApprovedOrder));
         }
     }
 
