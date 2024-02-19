@@ -40,6 +40,10 @@ public abstract class Utilities {
         }
     }
 
+    protected void navigateToAlternative(Parent root) {
+        NavigatorSingleton.getInstance().goToAlternative(root);
+    }
+
     public void alert(String messageToDisplay) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Warning");

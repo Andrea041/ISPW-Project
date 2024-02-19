@@ -69,7 +69,12 @@ public class BrowseAccessoriesGraphicController extends Utilities {
     }
 
     public void cartGUI() {
-        navigateTo(CART);
+        if(broAcc.checkLogin())
+            navigateTo(CART);
+        else {
+            alert("You have to login to see your cart!");
+            navigateTo(LOGIN);
+        }
     }
 
     public void login() {

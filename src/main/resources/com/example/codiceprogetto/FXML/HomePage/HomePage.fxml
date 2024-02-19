@@ -5,28 +5,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 157, 245, 0.12);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.codiceprogetto.logic.graphiccontroller.HomePageGraphicController">
    <children>
-      <Label layoutX="796.0" layoutY="33.0" text="Customer Service">
+      <Label layoutX="889.0" layoutY="33.0" text="Customer Service">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="login" layoutX="954.0" layoutY="33.0" text="Login" onMouseClicked="#login">
+      <Label fx:id="login" layoutX="1047.0" layoutY="33.0" onMouseClicked="#login" text="Login">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="myAccount" layoutX="1024.0" layoutY="33.0" onMouseClicked="#accountGUI" text="Logout">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="CartRec" arcHeight="16.0" arcWidth="16.0" fill="#0071f5" height="28.0" layoutX="1104.0" layoutY="29.0" onMouseClicked="#cartGUI" strokeType="INSIDE" width="62.0" />
-      <Label fx:id="Cart" layoutX="1118.0" layoutY="30.0" onMouseClicked="#cartGUI" prefHeight="23.0" prefWidth="40.0" text="Cart" textFill="WHITE">
+      <Label fx:id="myAccount" layoutX="1117.0" layoutY="33.0" onMouseClicked="#accountGUI" text="Logout">
          <font>
             <Font name="Arial" size="16.0" />
          </font>

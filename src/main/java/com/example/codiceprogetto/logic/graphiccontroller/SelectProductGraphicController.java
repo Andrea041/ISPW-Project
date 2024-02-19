@@ -91,7 +91,12 @@ public class SelectProductGraphicController extends Utilities {
     }
 
     public void cartGUI() {
-        navigateTo(CART);
+        if(addCobra.checkLogin())
+            navigateTo(CART);
+        else {
+            alert("You have to login to see your cart!");
+            navigateTo(LOGIN);
+        }
     }
 
     public void addProduct() {

@@ -72,15 +72,6 @@ public class HomePageGraphicController extends Utilities {
         }
     }
 
-    public void cartGUI() {
-        if(homeApp.checkLogin())
-            navigateTo(CART);
-        else {
-            alert("You have to login to see your cart!");
-            navigateTo(LOGIN);
-        }
-    }
-
     public void zoomIN(ImageView photo){
         ScaleTransition transition = new ScaleTransition(Duration.millis(500), photo);
         transition.setFromX(1.0);
