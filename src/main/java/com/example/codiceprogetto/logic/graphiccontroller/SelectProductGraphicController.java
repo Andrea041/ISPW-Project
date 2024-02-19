@@ -122,8 +122,10 @@ public class SelectProductGraphicController extends Utilities {
             } catch (IOException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
             }
-        } else
+        } else {
             alert("To buy items you have to log in or create a new account!");
+            navigateTo(LOGIN);
+        }
     }
 
     public void addProductUnits() {
