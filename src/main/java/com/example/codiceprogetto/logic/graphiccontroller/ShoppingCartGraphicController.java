@@ -37,10 +37,8 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
     void initialize() {
         shop = new ShoppingCartApplicativeController();
 
-        if(shop.checkLogin()) {
-            updatePriceLabel();
-            updateProductGUI();
-        }
+        updatePriceLabel();
+        updateProductGUI();
     }
 
     public void back() {

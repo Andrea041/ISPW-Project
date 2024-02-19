@@ -6,9 +6,14 @@ import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HomePageGraphicController extends Utilities {
     @FXML
@@ -53,9 +58,12 @@ public class HomePageGraphicController extends Utilities {
         zoomOUT(magazinePic);
     }
 
-    public void accountGUI(){
+    @FXML
+    void initialize() {
         homeApp = new HomePageApplicativeController();
+    }
 
+    public void accountGUI() {
         try {
             homeApp.logoutUser();
             navigateTo(HOME);
@@ -65,7 +73,12 @@ public class HomePageGraphicController extends Utilities {
     }
 
     public void cartGUI() {
-        navigateTo(CART);
+        if(homeApp.checkLogin())
+            navigateTo(CART);
+        else {
+            alert("You have to login to see your cart!");
+            navigateTo(LOGIN);
+        }
     }
 
     public void zoomIN(ImageView photo){
