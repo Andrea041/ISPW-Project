@@ -10,6 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDAO extends AbsUserDAO {
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String NAME = "name";
+    private static final String SURNAME = "surname";
+
     private User newUser(ResultSet rs) throws SQLException {
         User user;
         UserType userType;
@@ -19,11 +24,11 @@ public class UserDAO extends AbsUserDAO {
         else
             userType = UserType.SELLER;
 
-        user = new User(rs.getString("email"),
-                        rs.getString("password"),
+        user = new User(rs.getString(EMAIL),
+                        rs.getString(PASSWORD),
                         userType,
-                        rs.getString("name"),
-                        rs.getString("surname"));
+                        rs.getString(NAME),
+                        rs.getString(SURNAME));
 
         return user;
     }

@@ -19,20 +19,27 @@ import java.util.logging.Logger;
 
 
 public class OrderDAO extends TypeConverter {
+    private static final String EMAIL = "email";
+    private static final String ORDER_STATUS = "status";
+    private static final String PRODUCTS_LIST = "products";
+    private static final String ORDER_TOTAL = "total";
+    private static final String ORDER_ID = "orderID";
+    private static final String ADDRESS = "address";
+
     protected Order generateOrder(ResultSet rs) throws SQLException {
         Order order;
         DeliveryAddress address;
         List<Product> productList;
         OrderStatus orderStatus;
 
-        orderStatus = OrderStatus.fromString( rs.getString("status"));
-        productList = stringConverter(rs.getString("products"));
-        address = convertString(rs.getString("address"));
+        orderStatus = OrderStatus.fromString( rs.getString(ORDER_STATUS));
+        productList = stringConverter(rs.getString(PRODUCTS_LIST));
+        address = convertString(rs.getString(ADDRESS));
 
-        order = new Order(rs.getString("email"),
+        order = new Order(rs.getString(EMAIL),
                           address,
-                          rs.getDouble("total"),
-                          rs.getString("orderID"),
+                          rs.getDouble(ORDER_TOTAL),
+                          rs.getString(ORDER_ID),
                           orderStatus,
                           productList);
 

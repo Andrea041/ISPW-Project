@@ -14,13 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TransactionDAO {
+    private static final String EMAIL = "email";
+    private static final String TRANSACTION_STATUS = "status";
+    private static final String TRANSACTION_ID = "transactionID";
+    private static final String PAYMENT_METHOD = "paymentMethod";
+
     public Transaction generateTransaction(ResultSet rs) throws SQLException {
         Transaction transaction;
 
-        transaction = new Transaction(rs.getString("email"),
-                                      TransactionStatus.fromString(rs.getString("status")),
-                                      rs.getString("transactionID"),
-                                      PaymentType.fromString(rs.getString("paymentMethod")));
+        transaction = new Transaction(rs.getString(EMAIL),
+                                      TransactionStatus.fromString(rs.getString(TRANSACTION_STATUS)),
+                                      rs.getString(TRANSACTION_ID),
+                                      PaymentType.fromString(rs.getString(PAYMENT_METHOD)));
 
         return transaction;
     }

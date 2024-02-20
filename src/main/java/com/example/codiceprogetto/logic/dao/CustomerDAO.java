@@ -15,29 +15,47 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CustomerDAO extends AbsUserDAO {
+    private static final String NAME_ADDRESS = "addressName";
+    private static final String SURNAME_ADDRESS = "addressSurname";
+    private static final String ADDRESS = "address";
+    private static final String CITY = "city";
+    private static final String STATE = "state";
+    private static final String PHONE_NUMBER = "phoneNumber";
+    private static final String NAME_PAYMENT = "name";
+    private static final String SURNAME_PAYMENT = "lastName";
+    private static final String EXPIRATION = "expiration";
+    private static final String CARD_NUMBER = "cardNumber";
+    private static final String CVV = "cvv";
+    private static final String ZIP_CODE = "zipCode";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String NAME_CUSTOMER = "name";
+    private static final String SURNAME_CUSTOMER = "surname";
+
+
     private Customer newCustomer(ResultSet rs) throws SQLException {
         Customer customer;
         DeliveryAddress address;
         Payment payment;
 
-        address = new DeliveryAddress(rs.getString("addressName"),
-                                      rs.getString("addressSurname"),
-                                      rs.getString("address"),
-                                      rs.getString("city"),
-                                      rs.getString("state"),
-                                      rs.getString("phoneNumber"));
-        payment = new Payment(rs.getString("name"),
-                                        rs.getString("lastName"),
-                                        rs.getString("expiration"),
-                                        rs.getString("cardNumber"),
-                                        rs.getString("cvv"),
-                                        rs.getString("zipCode"));
+        address = new DeliveryAddress(rs.getString(NAME_ADDRESS),
+                                      rs.getString(SURNAME_ADDRESS),
+                                      rs.getString(ADDRESS),
+                                      rs.getString(CITY),
+                                      rs.getString(STATE),
+                                      rs.getString(PHONE_NUMBER));
+        payment = new Payment(rs.getString(NAME_PAYMENT),
+                                        rs.getString(SURNAME_PAYMENT),
+                                        rs.getString(EXPIRATION),
+                                        rs.getString(CARD_NUMBER),
+                                        rs.getString(CVV),
+                                        rs.getString(ZIP_CODE));
 
-        customer = new Customer(rs.getString("email"),
-                                rs.getString("password"),
+        customer = new Customer(rs.getString(EMAIL),
+                                rs.getString(PASSWORD),
                                 UserType.CUSTOMER,
-                                rs.getString("name"),
-                                rs.getString("surname"),
+                                rs.getString(NAME_CUSTOMER),
+                                rs.getString(SURNAME_CUSTOMER),
                                 address,
                                 payment);
 

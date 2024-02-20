@@ -14,11 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductDAOJdbc implements ProductDAO {
-    protected Product newProduct(ResultSet rs) throws SQLException {
-        return new Product(rs.getString("name"), rs.getString("ID"), rs.getDouble("price"), rs.getString("prodImage"));
+    private static final String PRODUCT_NAME = "name";
+    private static final String PRODUCT_ID = "ID";
+    private static final String PRODUCT_PRICE = "price";
+    private static final String PRODUCT_IMAGE = "prodImage";
+
+    private Product newProduct(ResultSet rs) throws SQLException {
+        return new Product(rs.getString(PRODUCT_NAME), rs.getString(PRODUCT_ID), rs.getDouble(PRODUCT_PRICE), rs.getString(PRODUCT_IMAGE));
     }
 
-    protected List<Product> newProductList(ResultSet rs) throws SQLException {
+    private List<Product> newProductList(ResultSet rs) throws SQLException {
         List<Product> productList = new ArrayList<>();
         do {
             productList.add(newProduct(rs));

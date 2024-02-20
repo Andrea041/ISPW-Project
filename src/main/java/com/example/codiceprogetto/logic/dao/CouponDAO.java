@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CouponDAO {
+    private static final String COUPON_DISCOUNT = "discount";
+
     public int checkCode(String code) throws SQLException, DAOException {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs = null;
@@ -29,7 +31,7 @@ public class CouponDAO {
 
             rs.first();
 
-            discount = rs.getInt("discount");
+            discount = rs.getInt(COUPON_DISCOUNT);
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } finally {

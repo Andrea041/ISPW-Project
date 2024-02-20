@@ -17,19 +17,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CartDAO extends TypeConverter {
+    private static final String PRODUCTS = "products";
+    private static final String TOTAL_CART = "total";
+    private static final String APPLIED_DISCOUNT = "appliedDiscount";
+    private static final String SHIP = "shipping";
+
     public Cart createCartEntity(ResultSet rs, String email) throws SQLException {
         Cart cart;
         List<Product> productList;
         String prodList;
 
-        prodList = rs.getString("products");
+        prodList = rs.getString(PRODUCTS);
 
         if(prodList != null && !prodList.isEmpty())
             productList = stringConverter(prodList);
         else
             productList = new ArrayList<>();
 
-        cart = new Cart(email, productList, rs.getDouble("total"), rs.getInt("appliedDiscount"), rs.getInt("shipping"));
+        cart = new Cart(email, productList, rs.getDouble(TOTAL_CART), rs.getInt(APPLIED_DISCOUNT), rs.getInt(SHIP));
 
         return cart;
     }
