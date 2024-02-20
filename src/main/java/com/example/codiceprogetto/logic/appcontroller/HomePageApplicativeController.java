@@ -5,7 +5,6 @@ import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.dao.OrderDAO;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
-import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
 import java.util.List;
