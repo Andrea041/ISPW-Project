@@ -37,7 +37,7 @@ public class IncomingOrderGraphicController extends Utilities {
         }
     }
 
-    public void appendToDashboard(String orderID) {
+    private void appendToDashboard(String orderID) {
         Parent root = null;
 
         OrderBannerGraphicController orderBanner = new OrderBannerGraphicController(orderID);

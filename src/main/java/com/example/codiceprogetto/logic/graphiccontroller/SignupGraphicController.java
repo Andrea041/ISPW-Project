@@ -75,13 +75,13 @@ public class SignupGraphicController extends Utilities {
         }
     }
 
-        public void cleanUpField() {
+    private void cleanUpField() {
         emailField.setText("");
         passTextField.setText("");
         passTextFieldConfirm.setText("");
     }
 
-    public void changeVisibility() {
+    private void changeVisibility() {
         keySignUp.setVisible(checkBox.isSelected());
     }
 }

@@ -114,7 +114,7 @@ public class ShoppingCartGraphicController extends Utilities implements Observer
         productLocation.getChildren().add(root);
     }
 
-    public List<ProductStockBean> fetchCartContent() {
+    private List<ProductStockBean> fetchCartContent() {
         List<ProductStockBean> productStockBeanList = new ArrayList<>();
 
         try {

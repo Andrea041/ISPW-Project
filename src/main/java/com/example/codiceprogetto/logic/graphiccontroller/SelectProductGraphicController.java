@@ -48,7 +48,7 @@ public class SelectProductGraphicController extends Utilities {
     private final ProductStockBean prod;
     Timeline pause = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {alert.setText("");}));
 
-    protected SelectProductGraphicController(ProductStockBean prod) {
+    public SelectProductGraphicController(ProductStockBean prod) {
         this.prod = prod;
     }
 
@@ -70,7 +70,7 @@ public class SelectProductGraphicController extends Utilities {
         }
     }
 
-    public void setChoiceBox() {
+    private void setChoiceBox() {
         String selected = myChoiceBox.getValue();
         selectionSize.setText(selected);
     }
@@ -98,7 +98,6 @@ public class SelectProductGraphicController extends Utilities {
             navigateTo(LOGIN);
         }
     }
-
     public void addProduct() {
         int ret;
         String errorToDisplay = "Unknown error";
@@ -150,7 +149,7 @@ public class SelectProductGraphicController extends Utilities {
         navigateTo(ACC);
     }
 
-    public void textFieldHandler(String toDo){
+    private void textFieldHandler(String toDo){
         if(toDo.equals(ACTION))
             displayUnits.setText(Integer.toString(unitsCounter));
         else if(toDo.equals("alert")){

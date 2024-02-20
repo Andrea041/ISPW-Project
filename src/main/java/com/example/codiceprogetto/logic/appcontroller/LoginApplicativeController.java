@@ -28,7 +28,8 @@ public class LoginApplicativeController {
 
         return 1;
     }
-    public void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
+
+    private void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
         SessionUser su = SessionUser.getInstance();
         User thisUser = new User(email, password, userType, name, surname);
         try {

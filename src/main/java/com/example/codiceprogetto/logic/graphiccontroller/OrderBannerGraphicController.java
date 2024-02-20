@@ -43,7 +43,7 @@ public class OrderBannerGraphicController extends Utilities {
         updateGUI();
     }
 
-    protected OrderBannerGraphicController(String orderID) {
+    public OrderBannerGraphicController(String orderID) {
         this.orderID = orderID;
     }
 
@@ -76,7 +76,7 @@ public class OrderBannerGraphicController extends Utilities {
         cancelButton.setVisible(false);
     }
 
-    public void updateGUI() {
+    private void updateGUI() {
         OrderBean orderBean = new OrderBean(orderID, OrderStatus.CONFIRMED);
 
         try {

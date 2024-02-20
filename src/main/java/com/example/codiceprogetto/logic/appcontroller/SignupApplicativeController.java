@@ -51,7 +51,7 @@ public class SignupApplicativeController {
         return result;
     }
 
-    public void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
+    private void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
         User thisUser = new User(email, password, userType, name, surname);
 
         SessionUser.getInstance().login(thisUser);

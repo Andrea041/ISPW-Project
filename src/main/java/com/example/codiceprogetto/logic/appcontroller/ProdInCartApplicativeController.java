@@ -103,7 +103,7 @@ public class ProdInCartApplicativeController extends UserTool {
         return res;
     }
 
-    public Cart fetchCart(String email) throws DAOException, SQLException {
+    private Cart fetchCart(String email) throws DAOException, SQLException {
         Cart cart;
 
         cart = new CartDAO().retrieveCart(email);
