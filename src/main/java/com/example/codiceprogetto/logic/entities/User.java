@@ -1,12 +1,14 @@
 package com.example.codiceprogetto.logic.entities;
 
+import com.example.codiceprogetto.logic.enumeration.UserType;
+
 public class User {
     private String name;
     private String surname;
     private String email;
     private String password;
-    private String userType;
-    public User(String email, String password, String userType, String name, String surname) {
+    private UserType userType;
+    public User(String email, String password, UserType userType, String name, String surname) {
         this.email = email;
         this.password = password;
         this.userType = userType;
@@ -25,10 +27,10 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setUserType(String userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
-    public String getUserType() {
+    public UserType getUserType() {
         return userType;
     }
     public String getSurname() {

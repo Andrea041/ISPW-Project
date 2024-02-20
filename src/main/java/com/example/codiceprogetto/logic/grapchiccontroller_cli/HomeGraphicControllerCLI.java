@@ -7,6 +7,7 @@ import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.InvalidFormatException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.utils.PrinterCLI;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,10 +27,10 @@ public class HomeGraphicControllerCLI extends AbsGraphicControllerCLI {
             int notApprovedOrder = 0;
 
             try {
-                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CLOSED));
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CLOSED, SessionUser.getInstance().getThisUser().getEmail()));
                 approvedOrder = approvedOrderBean.getApprovedOrder();
 
-                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED));
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED, SessionUser.getInstance().getThisUser().getEmail()));
                 notApprovedOrder = approvedOrderBean.getNotApprovedOrder();
             } catch (SQLException e) {
                 Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());

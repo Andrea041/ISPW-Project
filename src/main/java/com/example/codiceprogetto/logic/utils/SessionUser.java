@@ -28,7 +28,7 @@ public class SessionUser {
     }
 
     public synchronized void cart() {
-        if(thisUser.getUserType().equals(UserType.CUSTOMER.getId().toUpperCase())) {
+        if(thisUser.getUserType().equals(UserType.CUSTOMER)) {
             try {
                 new CartDAO().createCustomerCart(thisUser.getEmail());
             } catch (DAOException e) {

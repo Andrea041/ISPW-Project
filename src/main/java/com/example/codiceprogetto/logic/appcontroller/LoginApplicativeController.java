@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.appcontroller;
 import com.example.codiceprogetto.logic.bean.LoginBean;
 import com.example.codiceprogetto.logic.dao.UserDAO;
 import com.example.codiceprogetto.logic.entities.User;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.AlreadyLoggedUserException;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.EmptyInputException;
@@ -29,7 +30,7 @@ public class LoginApplicativeController {
         return 1;
     }
 
-    private void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
+    private void storeSessionData(String email, String password, UserType userType, String name, String surname) throws AlreadyLoggedUserException {
         SessionUser su = SessionUser.getInstance();
         User thisUser = new User(email, password, userType, name, surname);
         try {

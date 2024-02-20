@@ -25,14 +25,15 @@ public class LoginGraphicController extends Utilities {
 
         try {
             ret = loginApp.loginUser(passLogArg);
-            if (ret == -1) {
+
+            if (ret <= 0) {
                 alert(errorToDisplay);
             } else {
                 switch(SessionUser.getInstance().getThisUser().getUserType()) {
-                    case "CUSTOMER":
+                    case CUSTOMER:
                         navigateTo(HOME);
                         break;
-                    case "SELLER":
+                    case SELLER:
                         navigateTo(ORDER);
                         break;
                     default:

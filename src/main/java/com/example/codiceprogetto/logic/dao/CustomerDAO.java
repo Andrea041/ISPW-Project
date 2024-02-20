@@ -3,6 +3,7 @@ package com.example.codiceprogetto.logic.dao;
 import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.DeliveryAddress;
 import com.example.codiceprogetto.logic.entities.Payment;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
@@ -34,7 +35,7 @@ public class CustomerDAO extends AbsUserDAO {
 
         customer = new Customer(rs.getString("email"),
                                 rs.getString("password"),
-                                rs.getString("userType"),
+                                UserType.CUSTOMER,
                                 rs.getString("name"),
                                 rs.getString("surname"),
                                 address,

@@ -1,9 +1,11 @@
 package com.example.codiceprogetto.logic.bean;
 
+import com.example.codiceprogetto.logic.enumeration.UserType;
+
 public class SignupBean {
     private String email;
     private String password;
-    private String userType;
+    private UserType userType;
     private String name;
     private String surname;
     public SignupBean(String mail, String pass, String name, String surname){
@@ -24,10 +26,10 @@ public class SignupBean {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getUserType() {
+    public UserType getUserType() {
         return userType;
     }
-    public void setUserType(String userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
     public String getName() {

@@ -68,7 +68,7 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
                 throw new ControlSquenceException("Inserted passwords don't match!");
 
             signBean = new SignupBean(email, password, name, surname);
-            signBean.setUserType(UserType.CUSTOMER.getId());
+            signBean.setUserType(UserType.CUSTOMER);
 
             String sellerKey;
             if(sellerChoice.equals("y")) {
@@ -78,7 +78,7 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
                 if(!sellerKey.equals(KEY))
                     throw new ControlSquenceException("Sorry wrong key!");
 
-                signBean.setUserType(UserType.SELLER.getId());
+                signBean.setUserType(UserType.SELLER);
             } else
                 throw new InvalidFormatException("Invalid choice: digit 'y' or 'n'");
 
@@ -86,10 +86,10 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
 
             if (ret != 1) {
                 switch (SessionUser.getInstance().getThisUser().getUserType()) {
-                    case "CUSTOMER":
+                    case CUSTOMER:
                         new HomeGraphicControllerCLI().start();
                         break;
-                    case "SELLER":
+                    case SELLER:
                         new IncomingOrderGraphicControllerCLI();
                         break;
                     default:

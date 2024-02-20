@@ -35,10 +35,10 @@ public class HomePageGraphicController extends Utilities {
             int notApprovedOrder = 0;
 
             try {
-                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CLOSED));
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CLOSED, SessionUser.getInstance().getThisUser().getEmail()));
                 approvedOrder = approvedOrderBean.getApprovedOrder();
 
-                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED));
+                approvedOrderBean = homeApp.fetchAllOrders(new OrderBean(OrderStatus.CANCELLED, SessionUser.getInstance().getThisUser().getEmail()));
                 notApprovedOrder = approvedOrderBean.getNotApprovedOrder();
 
                 if (approvedOrder != 0 && notApprovedOrder != 0)

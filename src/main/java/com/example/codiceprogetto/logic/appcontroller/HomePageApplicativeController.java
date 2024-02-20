@@ -5,6 +5,7 @@ import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.dao.OrderDAO;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
+import com.example.codiceprogetto.logic.utils.SessionUser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +16,7 @@ public class HomePageApplicativeController extends UserTool {
         ApprovedOrderBean approvedOrderBean = new ApprovedOrderBean();
         int count = 0;
 
-        orderList = new OrderDAO().fetchAllOrder(orderBean.getOrderStatus().getId());
+        orderList = new OrderDAO().fetchAllOrderByEmail(orderBean.getOrderStatus().getId(), orderBean.getEmail());
 
         count = orderList.size();
 

@@ -66,10 +66,10 @@ public class LoginGraphicControllerCLI extends AbsGraphicControllerCLI {
                 Logger.getAnonymousLogger().log(Level.INFO, "Login error");
             } else {
                 switch(SessionUser.getInstance().getThisUser().getUserType()) {
-                    case "CUSTOMER":
+                    case CUSTOMER:
                         new HomeGraphicControllerCLI().start();
                         break;
-                    case "SELLER":
+                    case SELLER:
                         new IncomingOrderGraphicControllerCLI().start();
                         break;
                     default:

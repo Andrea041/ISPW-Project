@@ -70,7 +70,7 @@ public class SelectProductGraphicController extends Utilities {
         }
     }
 
-    private void setChoiceBox() {
+    public void setChoiceBox() {
         String selected = myChoiceBox.getValue();
         selectionSize.setText(selected);
     }

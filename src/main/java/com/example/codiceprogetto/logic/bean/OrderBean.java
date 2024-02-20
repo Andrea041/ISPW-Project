@@ -22,8 +22,9 @@ public class OrderBean {
         this.email = email;
     }
 
-    public OrderBean(OrderStatus orderStatus) {
+    public OrderBean(OrderStatus orderStatus, String email) {
         this.orderStatus = orderStatus;
+        this.email = email;
     }
 
     public OrderBean() {}

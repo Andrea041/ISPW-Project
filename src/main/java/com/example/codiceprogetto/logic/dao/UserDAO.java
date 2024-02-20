@@ -1,6 +1,7 @@
 package com.example.codiceprogetto.logic.dao;
 
 import com.example.codiceprogetto.logic.entities.User;
+import com.example.codiceprogetto.logic.enumeration.UserType;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.DBConnectionFactory;
 
@@ -11,7 +12,18 @@ import java.util.logging.Logger;
 public class UserDAO extends AbsUserDAO {
     private User newUser(ResultSet rs) throws SQLException {
         User user;
-        user = new User(rs.getString("email"), rs.getString("password"), rs.getString("userType"), rs.getString("name"), rs.getString("surname"));
+        UserType userType;
+
+        if (rs.getString("userType").equals("customer"))
+            userType = UserType.CUSTOMER;
+        else
+            userType = UserType.SELLER;
+
+        user = new User(rs.getString("email"),
+                        rs.getString("password"),
+                        userType,
+                        rs.getString("name"),
+                        rs.getString("surname"));
 
         return user;
     }
@@ -31,7 +43,7 @@ public class UserDAO extends AbsUserDAO {
         return result;
     }
 
-    public User findUser(String email) throws DAOException {
+    public User findUser(String email) {
         Connection conn = DBConnectionFactory.getConn();
         ResultSet rs = null;
         User user = null;
@@ -43,7 +55,7 @@ public class UserDAO extends AbsUserDAO {
             rs = stmt.executeQuery();
 
             if (!rs.first()) {
-                throw new DAOException("Not existing user!");
+                return null;
             }
 
             rs.first();

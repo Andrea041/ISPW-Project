@@ -22,18 +22,16 @@ public class SignupApplicativeController {
 
         user = new UserDAO().findUser(userBean.getEmail());
 
-        if(user == null) {
+        if (user == null) {
             if(!userBean.getName().isEmpty() && !userBean.getSurname().isEmpty() && !userBean.getEmail().isEmpty() && !userBean.getPassword().isEmpty()) {
-                result = new UserDAO().insertUser(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
+                result = new UserDAO().insertUser(userBean.getEmail(), userBean.getPassword(), userBean.getUserType().getId(), userBean.getName(), userBean.getSurname());
 
-                UserType userType = UserType.valueOf(userBean.getUserType().toUpperCase());
-
-                switch(userType) {
+                switch(userBean.getUserType()) {
                     case CUSTOMER:
-                        result = new CustomerDAO().insertCustomer(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
+                        result = new CustomerDAO().insertCustomer(userBean.getEmail(), userBean.getPassword(), userBean.getUserType().getId(), userBean.getName(), userBean.getSurname());
                         break;
                     case SELLER:
-                        result = new SellerDAO().insertSeller(userBean.getEmail(), userBean.getPassword(), userBean.getUserType(), userBean.getName(), userBean.getSurname());
+                        result = new SellerDAO().insertSeller(userBean.getEmail(), userBean.getPassword(), userBean.getUserType().getId(), userBean.getName(), userBean.getSurname());
                         break;
                     default:
                         Logger.getAnonymousLogger().log(Level.INFO, "Insertion failed");
@@ -51,7 +49,7 @@ public class SignupApplicativeController {
         return result;
     }
 
-    private void storeSessionData(String email, String password, String userType, String name, String surname) throws AlreadyLoggedUserException {
+    public void storeSessionData(String email, String password, UserType userType, String name, String surname) throws AlreadyLoggedUserException {
         User thisUser = new User(email, password, userType, name, surname);
 
         SessionUser.getInstance().login(thisUser);

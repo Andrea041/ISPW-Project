@@ -164,6 +164,34 @@ public class OrderDAO extends TypeConverter {
         return orderList;
     }
 
+    public List<Order> fetchAllOrderByEmail(String orderStatus, String email) throws SQLException {
+        Connection conn = DBConnectionFactory.getConn();
+        List<Order> orderList = new ArrayList<>();
+        ResultSet rs = null;
+
+        String sql = "SELECT * FROM Progetto.Order WHERE status = ? AND email = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, orderStatus);
+            stmt.setString(2, email);
+
+            rs = stmt.executeQuery();
+
+            if (!rs.first()) {
+                return orderList;
+            }
+
+            rs.first();
+
+            orderList = newOrderList(rs);
+        } finally {
+            if (rs != null)
+                rs.close();
+        }
+
+        return orderList;
+    }
+
     public void updateOrderStatus(String email, String orderStatus) throws DAOException {
         Connection conn = DBConnectionFactory.getConn();
         int result;

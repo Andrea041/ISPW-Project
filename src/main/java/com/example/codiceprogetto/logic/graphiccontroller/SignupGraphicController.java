@@ -50,18 +50,20 @@ public class SignupGraphicController extends Utilities {
             signBean = new SignupBean(emailField.getText(), passTextField.getText(), name.getText(), surname.getText());
 
             signBean.setUserType(checkBox.isSelected() && keySignUp.getText().equals(KEY) ?
-                    UserType.SELLER.getId() :
-                    UserType.CUSTOMER.getId()
+                    UserType.SELLER :
+                    UserType.CUSTOMER
             );
+
+
 
             int ret = signup.signupUser(signBean);
 
-            if (ret != 1) {
+            if (ret > 0) {
                 switch (SessionUser.getInstance().getThisUser().getUserType()) {
-                    case "CUSTOMER":
+                    case CUSTOMER:
                         navigateTo(HOME);
                         break;
-                    case "SELLER":
+                    case SELLER:
                         navigateTo(ORDER);
                         break;
                     default:
@@ -81,7 +83,7 @@ public class SignupGraphicController extends Utilities {
         passTextFieldConfirm.setText("");
     }
 
-    private void changeVisibility() {
+    public void changeVisibility() {
         keySignUp.setVisible(checkBox.isSelected());
     }
 }
