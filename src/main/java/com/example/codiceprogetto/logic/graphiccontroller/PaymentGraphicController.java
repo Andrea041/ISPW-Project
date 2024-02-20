@@ -68,6 +68,11 @@ public class PaymentGraphicController extends Utilities {
         String toDisplay = "There isn't any memorized payment method!";
         PaymentType payment = PaymentType.PAYPAL;
 
+        if (paymetCheckbox.isSelected() && checkPayment()) {
+            alert(toDisplay);
+            return;
+        }
+
         if(count % 2 == 0) {
             alert("Payment rejected, order deleted!");
             homeGUI();
@@ -79,12 +84,7 @@ public class PaymentGraphicController extends Utilities {
 
         PaymentBean paymentBean;
 
-        if (payment == PaymentType.CARD) {
-            if (paymetCheckbox.isSelected() && checkPayment()) {
-                alert(toDisplay);
-                return;
-            }
-
+        if (payment == PaymentType.CARD && !paymetCheckbox.isSelected()) {
             paymentBean = new PaymentBean(nameField.getText(),
                     lastNameField.getText(),
                     expirationField.getText(),
