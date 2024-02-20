@@ -79,7 +79,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
             PrinterCLI.printf("The isn't any memorized payment method");
             return false;
         }
-        else
+        else if (!choose.equals("OWN"))
             throw new InvalidFormatException("Invalid choice");
 
         toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD.getId());

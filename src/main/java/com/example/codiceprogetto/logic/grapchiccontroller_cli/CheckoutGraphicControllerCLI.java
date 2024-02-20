@@ -24,6 +24,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     String invalid = "Invalid choice";
     AddressBean addressBean;
+    boolean own = false;
 
     @Override
     public void start() {
@@ -35,7 +36,7 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
                     case 1 -> {
                         addressBean = handleAddress();
 
-                        if(addressBean != null) {
+                        if(addressBean != null || own) {
                             checkApp.createOrder(addressBean, su.getThisUser().getEmail());
                             new PaymentGraphicControllerCLI().start();
                         }
@@ -83,8 +84,10 @@ public class CheckoutGraphicControllerCLI extends AbsGraphicControllerCLI {
             addressBean = createNewAddress();
         else if (choose.equals("OWN") && !checkApp.checkCustomerAddress(su.getThisUser().getEmail()))
             PrinterCLI.printf("There isn't any memorized address");
-        else
+        else if (!choose.equals("OWN"))
             throw new InvalidFormatException(invalid);
+        else
+            own = true;
 
         return addressBean;
     }

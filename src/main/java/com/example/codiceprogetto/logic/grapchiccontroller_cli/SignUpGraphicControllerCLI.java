@@ -79,12 +79,12 @@ public class SignUpGraphicControllerCLI extends AbsGraphicControllerCLI {
                     throw new ControlSquenceException("Sorry wrong key!");
 
                 signBean.setUserType(UserType.SELLER);
-            } else
+            } else if (!sellerChoice.equals("n"))
                 throw new InvalidFormatException("Invalid choice: digit 'y' or 'n'");
 
             int ret = signup.signupUser(signBean);
 
-            if (ret != 1) {
+            if (ret > 0) {
                 switch (SessionUser.getInstance().getThisUser().getUserType()) {
                     case CUSTOMER:
                         new HomeGraphicControllerCLI().start();
