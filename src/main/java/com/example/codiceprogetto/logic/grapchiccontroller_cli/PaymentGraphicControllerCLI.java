@@ -61,9 +61,10 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
         if (choose.equals("CARD"))
             res = handleCardPayment();
-        else if (choose.equals("PAYPAL"))
+        else if (choose.equals("PAYPAL")) {
             toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.PAYPAL.getId());
-        else
+            res = true;
+        } else
             throw new InvalidFormatException("Invalid payment method");
 
         return res;
