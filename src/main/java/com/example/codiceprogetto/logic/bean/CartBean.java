@@ -1,16 +1,11 @@
 package com.example.codiceprogetto.logic.bean;
 
-import com.example.codiceprogetto.logic.entities.Product;
-
-import java.util.List;
-
 public class CartBean {
     private double total;
     private double tax;
     private double subtotal;
     private double discount;
     private int shipping;
-    private List<Product> productList;
 
     public double getSubtotal() {
         return subtotal;
@@ -35,12 +30,6 @@ public class CartBean {
     }
     public void setDiscount(double discount) {
         this.discount = discount;
-    }
-    public List<Product> getProductList() {
-        return productList;
-    }
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
     }
     public void setShipping(int shipping) {
         this.shipping = shipping;

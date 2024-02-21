@@ -22,7 +22,7 @@ public class CartDAO extends TypeConverter {
     private static final String APPLIED_DISCOUNT = "appliedDiscount";
     private static final String SHIP = "shipping";
 
-    public Cart createCartEntity(ResultSet rs, String email) throws SQLException {
+    private Cart createCartEntity(ResultSet rs, String email) throws SQLException {
         Cart cart;
         List<Product> productList;
         String prodList;

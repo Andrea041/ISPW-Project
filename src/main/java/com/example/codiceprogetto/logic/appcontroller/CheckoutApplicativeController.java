@@ -87,7 +87,7 @@ public class CheckoutApplicativeController extends UserTool {
 
         orderId = UUID.randomUUID().toString();
 
-        new OrderDAO().createOrder(email, finalTotal, orderId, deliveryAddress, cart.getProducts());
+        new OrderDAO().insertOrder(email, finalTotal, orderId, deliveryAddress, cart.getProducts());
     }
 
     public void insertAddress(AddressBean address, String email) throws DAOException {

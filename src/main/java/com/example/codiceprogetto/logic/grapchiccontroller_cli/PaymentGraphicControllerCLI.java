@@ -62,7 +62,7 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
         if (choose.equals("CARD"))
             res = handleCardPayment();
         else if (choose.equals("PAYPAL")) {
-            toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.PAYPAL.getId());
+            toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.PAYPAL);
             res = true;
         } else
             throw new InvalidFormatException("Invalid payment method");
@@ -76,14 +76,14 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
         if (choose.equals("NEW"))
             handleNewCardPayment();
-        else if (choose.equals("OWN") && !toPay.checkCustomerPayment(su.getThisUser().getEmail())) {
+        else if (choose.equals("OWN") && !toPay.checkCustomerPaymentMethod(su.getThisUser().getEmail())) {
             PrinterCLI.printf("The isn't any memorized payment method");
             return false;
         }
         else if (!choose.equals("OWN"))
             throw new InvalidFormatException("Invalid choice");
 
-        toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD.getId());
+        toPay.createTransaction(su.getThisUser().getEmail(), PaymentType.CARD);
         return true;
     }
 
@@ -103,8 +103,8 @@ public class PaymentGraphicControllerCLI extends AbsGraphicControllerCLI {
 
         PaymentBean paymentBean = new PaymentBean(name, lastName, expiration, cardNumber, cvv, zip);
 
-        if (!toPay.checkCustomerPayment(su.getThisUser().getEmail()) && askSave())
-            toPay.insertPayment(paymentBean, su.getThisUser().getEmail());
+        if (!toPay.checkCustomerPaymentMethod(su.getThisUser().getEmail()) && askSave())
+            toPay.insertPaymentMethod(paymentBean, su.getThisUser().getEmail());
     }
 
     private void cancelOrderAndReturnHome() throws DAOException {

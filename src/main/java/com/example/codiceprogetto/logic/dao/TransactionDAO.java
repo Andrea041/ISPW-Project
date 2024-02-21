@@ -19,7 +19,7 @@ public class TransactionDAO {
     private static final String TRANSACTION_ID = "transactionID";
     private static final String PAYMENT_METHOD = "paymentMethod";
 
-    public Transaction generateTransaction(ResultSet rs) throws SQLException {
+    private Transaction generateTransaction(ResultSet rs) throws SQLException {
         Transaction transaction;
 
         transaction = new Transaction(rs.getString(EMAIL),
@@ -30,7 +30,7 @@ public class TransactionDAO {
         return transaction;
     }
 
-    public void insertTransaction(String email, String status, String transactionId, String paymentType) {
+    public void insertTransaction(String email, String status, String transactionID, String paymentType) {
         Connection conn = DBConnectionFactory.getConn();
         int result = 0;
         String query = "INSERT INTO Transaction (email, status, transactionID, paymentMethod) VALUES (?, ?, ?, ?)";
@@ -38,7 +38,7 @@ public class TransactionDAO {
         try (PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, email);
             stmt.setString(2, status);
-            stmt.setString(3, transactionId);
+            stmt.setString(3, transactionID);
             stmt.setString(4, paymentType);
 
             result = stmt.executeUpdate();

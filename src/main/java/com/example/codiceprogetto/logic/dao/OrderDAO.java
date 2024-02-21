@@ -26,7 +26,7 @@ public class OrderDAO extends TypeConverter {
     private static final String ORDER_ID = "orderID";
     private static final String ADDRESS = "address";
 
-    protected Order generateOrder(ResultSet rs) throws SQLException {
+    private Order generateOrder(ResultSet rs) throws SQLException {
         Order order;
         DeliveryAddress address;
         List<Product> productList;
@@ -46,7 +46,7 @@ public class OrderDAO extends TypeConverter {
         return order;
     }
 
-    protected List<Order> newOrderList(ResultSet rs) throws SQLException {
+    private List<Order> newOrderList(ResultSet rs) throws SQLException {
         List<Order> orderList = new ArrayList<>();
         Order order;
 
@@ -59,7 +59,7 @@ public class OrderDAO extends TypeConverter {
         return orderList;
     }
 
-    public void createOrder(String email, double total, String orderID, DeliveryAddress address, List<Product> productList) throws DAOException {
+    public void insertOrder(String email, double total, String orderID, DeliveryAddress address, List<Product> productList) throws DAOException {
         int result;
         OrderStatus orderStatus = OrderStatus.NEW;
         String deliveryAddress;

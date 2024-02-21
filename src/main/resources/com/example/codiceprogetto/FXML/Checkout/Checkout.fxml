@@ -68,7 +68,7 @@
             <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="proceedPayment" alignment="BASELINE_LEFT" layoutX="884.0" layoutY="675.0" mnemonicParsing="false" onMouseClicked="#gotoPaymentGUI" prefHeight="34.0" prefWidth="260.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Proceed to payment" textFill="WHITE">
+      <Button fx:id="proceedPayment" alignment="BASELINE_LEFT" layoutX="884.0" layoutY="675.0" mnemonicParsing="false" onMouseClicked="#completeCheckout" prefHeight="34.0" prefWidth="260.0" style="-fx-background-color: #0071f5; -fx-background-radius: 16;" text="Proceed to payment" textFill="WHITE">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

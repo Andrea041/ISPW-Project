@@ -102,7 +102,7 @@ public class PaymentGraphicController extends Utilities {
                     throw new EmptyInputException("There are some empty fields!");
 
                 if (checkPayment() && displayConfirmBox("Do you want to save your payment method?", "yes", "no")) {
-                    toPay.insertPayment(paymentBean, SessionUser.getInstance().getThisUser().getEmail());
+                    toPay.insertPaymentMethod(paymentBean, SessionUser.getInstance().getThisUser().getEmail());
                 }
             } catch (EmptyInputException e) {
                 count++;
@@ -113,7 +113,7 @@ public class PaymentGraphicController extends Utilities {
 
         try {
             assert payment != null;
-            toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment.getId());
+            toPay.createTransaction(SessionUser.getInstance().getThisUser().getEmail(), payment);
             navigateTo(PAYSUM);
         } catch (SQLException e) {
             count++;
@@ -126,7 +126,7 @@ public class PaymentGraphicController extends Utilities {
         boolean res = false;
 
         try {
-            res = toPay.checkCustomerPayment(SessionUser.getInstance().getThisUser().getEmail());
+            res = toPay.checkCustomerPaymentMethod(SessionUser.getInstance().getThisUser().getEmail());
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         } catch (DAOException e) {

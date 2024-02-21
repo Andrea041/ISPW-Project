@@ -8,6 +8,7 @@ import com.example.codiceprogetto.logic.entities.Customer;
 import com.example.codiceprogetto.logic.entities.Order;
 import com.example.codiceprogetto.logic.entities.Transaction;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
+import com.example.codiceprogetto.logic.enumeration.PaymentType;
 import com.example.codiceprogetto.logic.enumeration.TransactionStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
@@ -15,7 +16,7 @@ import com.example.codiceprogetto.logic.exception.TooManyUnitsExcpetion;
 import java.sql.SQLException;
 
 public class PaymentApplicativeController {
-    public void insertPayment(PaymentBean paymentBean, String email) {
+    public void insertPaymentMethod(PaymentBean paymentBean, String email) {
         new PaymentDAO().insertPaymentMethod(email,
                                              paymentBean.getName(),
                                              paymentBean.getLastName(),
@@ -25,7 +26,7 @@ public class PaymentApplicativeController {
                                              paymentBean.getZipCode());
     }
 
-    public boolean checkCustomerPayment(String email) throws SQLException, DAOException {
+    public boolean checkCustomerPaymentMethod(String email) throws SQLException, DAOException {
         Customer customer;
         boolean checker = false;
 
@@ -37,7 +38,7 @@ public class PaymentApplicativeController {
         return checker;
     }
 
-    public void createTransaction(String email, String paymentType) throws SQLException {
+    public void createTransaction(String email, PaymentType paymentType) throws SQLException {
         Order order;
         TransactionStatus transactionStatus = TransactionStatus.NEW;
         String status;
@@ -45,7 +46,7 @@ public class PaymentApplicativeController {
         status = transactionStatus.getId();
         order = new OrderDAO().fetchOrder(email, OrderStatus.NEW.getId());
 
-        new TransactionDAO().insertTransaction(email, status, order.getOrderID(), paymentType);
+        new TransactionDAO().insertTransaction(email, status, order.getOrderID(), paymentType.getId());
     }
 
     public OrderBean fetchTotal(String email, OrderBean orderBean) throws SQLException {

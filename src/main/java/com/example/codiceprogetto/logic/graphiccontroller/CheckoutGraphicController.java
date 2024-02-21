@@ -80,7 +80,7 @@ public class CheckoutGraphicController extends Utilities {
         navigateTo(CART);
     }
 
-    public void gotoPaymentGUI() {
+    public void completeCheckout() {
         if (memoAddress.isSelected() && checkAddress()) {
             alert("There isn't any memorized address!");
             return;
