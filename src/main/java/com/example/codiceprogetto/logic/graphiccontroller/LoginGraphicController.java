@@ -16,6 +16,7 @@ public class LoginGraphicController extends Utilities {
     private TextField emailField;
     @FXML
     private PasswordField passTextField;
+
     public void redirectGUI() {
         int ret;
         String errorToDisplay = "Login error";
