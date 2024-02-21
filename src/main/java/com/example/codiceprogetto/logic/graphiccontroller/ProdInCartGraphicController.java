@@ -122,21 +122,21 @@ public class ProdInCartGraphicController extends Utilities implements Subject {
                 return;
             }
 
-            int selectedUnits = prodBox.displaySelectedUnits(prodID, su.getThisUser().getEmail());
-            if (selectedUnits == -1) {
+            ProductStockBean productStockBean = prodBox.displaySelectedUnits(prodID, su.getThisUser().getEmail());
+            if (productStockBean.getSelectedUnits() == -1) {
                 Logger.getAnonymousLogger().log(Level.INFO, ERROR);
                 return;
             }
 
             Image image = new Image(new FileInputStream(cartTotal.getProdImage()));
 
-            totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * selectedUnits, 2) + "€");
-            changeQuantity.setText(String.valueOf(selectedUnits));
+            totalAmountPerProd.setText(round(cartTotal.getTotalAmount() * productStockBean.getSelectedUnits(), 2) + "€");
+            changeQuantity.setText(String.valueOf(productStockBean.getSelectedUnits()));
             labelID.setText(cartTotal.getLabelID());
             productName.setText(cartTotal.getProductName());
             price.setText(round(cartTotal.getPrice(), 2) + "€");
             prodImage.setImage(image);
-            counter = selectedUnits;
+            counter = productStockBean.getSelectedUnits();
         } catch (DAOException | SQLException | IOException e) {
             handleException(e);
         }

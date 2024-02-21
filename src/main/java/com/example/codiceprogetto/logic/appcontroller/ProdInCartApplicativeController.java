@@ -27,20 +27,23 @@ public class ProdInCartApplicativeController extends UserTool {
         return cart;
     }
 
-    public int displaySelectedUnits(String prodID, String email) throws DAOException, SQLException {
+    public ProductStockBean displaySelectedUnits(String prodID, String email) throws DAOException, SQLException {
         Cart cart;
-        int res = -1;
+        ProductStockBean productStockBean = new ProductStockBean();
 
         cart = fetchCart(email);
-        if(cart.getProducts().isEmpty())
-            return res;
-
-        for(Product prod : cart.getProducts()) {
-            if(prod.getId().equals(prodID))
-                return prod.getSelectedUnits();
+        if(cart.getProducts().isEmpty()) {
+            productStockBean.setSelectedUnits(-1);
+            return productStockBean;
         }
 
-        return res;
+        for(Product prod : cart.getProducts()) {
+            if(prod.getId().equals(prodID)) {
+                productStockBean.setSelectedUnits(prod.getSelectedUnits());
+            }
+        }
+
+        return productStockBean;
     }
 
     public int removeProduct(String prodID, String email) throws DAOException, SQLException, TooManyUnitsExcpetion {
