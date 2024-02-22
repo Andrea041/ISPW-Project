@@ -78,12 +78,12 @@ public class CheckoutApplicativeController extends UserTool {
             customer = new CustomerDAO().findCustomer(email);
             deliveryAddress = customer.getAddress();
         } else
-            deliveryAddress = new DeliveryAddress(address.getState(),
-                    address.getCity(),
-                    address.getPhoneNumber(),
-                    address.getName(),
-                    address.getLastName(),
-                    address.getAddress());
+            deliveryAddress = new DeliveryAddress(address.getName(),
+                                                  address.getLastName(),
+                                                  address.getAddress(),
+                                                  address.getCity(),
+                                                  address.getState(),
+                                                  address.getPhoneNumber());
 
         orderId = UUID.randomUUID().toString();
 
