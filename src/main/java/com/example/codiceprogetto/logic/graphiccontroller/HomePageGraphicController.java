@@ -4,16 +4,12 @@ import com.example.codiceprogetto.logic.appcontroller.HomePageApplicativeControl
 import com.example.codiceprogetto.logic.bean.ApprovedOrderBean;
 import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
-import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
-import com.example.codiceprogetto.logic.utils.Utilities;
 import com.example.codiceprogetto.logic.utils.SessionUser;
+import com.example.codiceprogetto.logic.utils.Utilities;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.sql.SQLException;
