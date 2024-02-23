@@ -1,1 +1,1 @@
-# Sample of an e-commerce application for Software Engineering course
+# Prototype of an e-commerce application for Software Engineering course
