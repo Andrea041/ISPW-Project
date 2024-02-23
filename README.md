@@ -1,1 +1,1 @@
-# Developing sample of an e-commerce for Software Engineering course
+# Sample of an e-commerce application for Software Engineering course
