@@ -5,7 +5,6 @@ import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.enumeration.OrderStatus;
 import com.example.codiceprogetto.logic.exception.DAOException;
 import com.example.codiceprogetto.logic.utils.Utilities;
-import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -51,7 +50,7 @@ public class OrderBannerGraphicController extends Utilities {
         OrderBean orderBean = new OrderBean(orderID, OrderStatus.CLOSED);
 
         try {
-            ordApp.acceptOrder(orderBean);
+            ordApp.reviewOrder(orderBean);
         } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
@@ -66,7 +65,7 @@ public class OrderBannerGraphicController extends Utilities {
         OrderBean orderBean = new OrderBean(orderID, OrderStatus.CANCELLED);
 
         try {
-            ordApp.acceptOrder(orderBean);
+            ordApp.reviewOrder(orderBean);
         } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }

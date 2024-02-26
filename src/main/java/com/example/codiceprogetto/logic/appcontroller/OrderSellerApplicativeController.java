@@ -20,7 +20,8 @@ public class OrderSellerApplicativeController {
         return orderBean;
     }
 
-    public void acceptOrder(OrderBean orderBean) throws DAOException {
+    public void reviewOrder(OrderBean orderBean) throws DAOException {
         new OrderDAO().updateOrderStatusByID(orderBean.getOrderID(), orderBean.getOrderStatus().getId());
     }
 }
+
