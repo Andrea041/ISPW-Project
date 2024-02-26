@@ -4,7 +4,6 @@ import com.example.codiceprogetto.logic.appcontroller.IncomingOrderApplicativeCo
 import com.example.codiceprogetto.logic.bean.OrderBean;
 import com.example.codiceprogetto.logic.exception.NotLoggedUserException;
 import com.example.codiceprogetto.logic.utils.Utilities;
-import com.example.codiceprogetto.logic.utils.SessionUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
