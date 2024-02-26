@@ -50,7 +50,7 @@ public class OrderBannerGraphicController extends Utilities {
         OrderBean orderBean = new OrderBean(orderID, OrderStatus.CLOSED);
 
         try {
-            ordApp.reviewOrder(orderBean);
+            ordApp.acceptOrder(orderBean);
         } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }
@@ -65,7 +65,7 @@ public class OrderBannerGraphicController extends Utilities {
         OrderBean orderBean = new OrderBean(orderID, OrderStatus.CANCELLED);
 
         try {
-            ordApp.reviewOrder(orderBean);
+            ordApp.acceptOrder(orderBean);
         } catch(DAOException e) {
             Logger.getAnonymousLogger().log(Level.INFO, e.getMessage());
         }

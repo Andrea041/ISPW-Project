@@ -106,7 +106,7 @@ public class IncomingOrderGraphicControllerCLI extends AbsGraphicControllerCLI {
         order = findOrderInList(orderID);
         if(order != null) {
             order.setOrderStatus(orderStatus);
-            ordApp.reviewOrder(order);
+            ordApp.acceptOrder(order);
         }
         else throw new InvalidFormatException("Choose a valid order ID");
     }
