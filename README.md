@@ -1,4 +1,5 @@
 # Prototype of an e-commerce application for Software Engineering course
+
 The application is an e-commerce platform designed for retailers of swimming sports articles who wish to expand their customer base by leveraging the capabilities offered by
 internet technology. A customer can browse and select products of interest, adding them to the cart after choosing the desired size and quantity. In the cart, they can preview the total 
 price of the items, modify the quantity, or remove unwanted products. Proceeding to the checkout process, the customer enters a shipping address or uses one already saved in the system. The 
