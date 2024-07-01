@@ -1,4 +1,4 @@
-# Prototype of an e-commerce application for Software Engineering course
+# Prototype of an e-commerce application
 
 The application is an e-commerce platform designed for retailers of swimming sports articles who wish to expand their customer base by leveraging the capabilities offered by
 internet technology. A customer can browse and select products of interest, adding them to the cart after choosing the desired size and quantity. In the cart, they can preview the total 
